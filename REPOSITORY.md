@@ -33,6 +33,8 @@ GitHub redirects the repository's former name, `bitcoin-node-tests`, to
 this one. Read back on 2026-10-31:
 
 ```shell
+gh api repos/btclib-org/bitcoin-node-tests --jq .full_name
+# btclib-org/btclib-functional-tests
 gh api repos/btclib-org/btclib-functional-tests --jq '{name, description}'
 # {"description":"Bitcoin Core's functional tests rewritten on btclib,
 #  with bitcoind as the oracle","name":"btclib-functional-tests"}
@@ -490,11 +492,17 @@ answered by no public endpoint; it was not checked here.
 **`full_version` is not the interpreter a build runs the project's own
 code under.** Read the Docs' `build.tools.python: "latest"` resolves to
 CPython 3.14.6 (`config.build.tools.python.full_version` of the build
-above) — but that interpreter only runs `build.commands` itself,
-starting with `pip install uv`; `uv sync --locked` takes no `--python`
-there, so it resolves `.python-version` and fetches CPython 3.15 on its
-own, the same way a local `uv sync` does. Nothing here waits on Read the
-Docs reaching a newer `"latest"`.
+above); `.readthedocs.yaml`'s comment on that key says why it decides
+nothing. The same build's log names the interpreter that
+`.python-version` does:
+
+```shell
+curl -s https://app.readthedocs.org/api/v2/build/35547358/ \
+  | jq -r '.commands[].output' | grep 'Using CPython'
+# Using CPython 3.12.3 interpreter at: /usr/bin/python3.12
+```
+
+Nothing here waits on Read the Docs reaching a newer `"latest"`.
 
 ## Security settings
 
