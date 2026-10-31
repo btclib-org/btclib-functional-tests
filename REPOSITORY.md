@@ -14,12 +14,11 @@ for one of those answers alongside it. That is this file's scope, and
 *What this file passes over* at the foot says what falls outside it.
 
 The topics and `.homepage` have a second form in the tree —
-`pyproject.toml`'s `keywords` and its `[project.urls] homepage` — so each
-is read back here for comparison rather than as the only place the
+`pyproject.toml`'s `keywords` and its `[project.urls] homepage` — so
+each is read back here for comparison rather than as the only place the
 answer lives, which is what *Topics* and *What this file passes over*
 say of them. This tree publishes nothing: *Publishing* below says what
-is absent. A Read the Docs project exists, and builds — *Read the Docs*
-below records it.
+is absent. *Read the Docs* below records the project the docs build on.
 
 Each section carries the command that sets its setting and the command
 that reads it back, and the `#` lines under a read-back are what it
@@ -30,9 +29,8 @@ differs today is a change made since that date.
 
 ## Creating the repository
 
-The repository was created as `bitcoin-node-tests` and renamed on
-2026-10-31, as ISS btclib-org/btclib-functional-tests#543 decided; GitHub
-redirects the old URLs. Read back on 2026-10-31:
+GitHub redirects the repository's former name, `bitcoin-node-tests`, to
+this one. Read back on 2026-10-31:
 
 ```shell
 gh api repos/btclib-org/btclib-functional-tests --jq '{name, description}'
@@ -451,22 +449,36 @@ job naming it.
 
 **Imported, and it builds.** The project is on
 [readthedocs.org](https://app.readthedocs.org/) under the slug
-`bitcoin-node-tests`, the repository's former name, connected through
-the organization-wide `read-the-docs-community` GitHub App rather than a
-per-repository webhook, matching `btclib-wallet`'s `REPOSITORY.md`
-section of the same name:
+`btclib-functional-tests`. The repository has no webhook; whether the
+organization-wide `read-the-docs-community` GitHub App connects the
+project is answered by no public endpoint, and was not checked. Read
+back on 2026-10-31:
 
 ```shell
-p=https://app.readthedocs.org/api/v3/projects/bitcoin-node-tests
+p=https://app.readthedocs.org/api/v3/projects/btclib-functional-tests
 curl -s "$p/" | jq -c '{default_branch, default_version, repository: .repository.url}'
 # {"default_branch":"main","default_version":"latest",
 #  "repository":"https://github.com/btclib-org/btclib-functional-tests.git"}
-# (Read on 2026-10-31, after the rename.)
 curl -s "$p/versions/?active=true" \
   | jq -c '.results[] | [.slug, .type, .identifier]'
 # ["latest","branch","main"]
+curl -s "$p/builds/?limit=1&expand=config" \
+  | jq -c '.results[] | {commit, success, python: .config.build.tools.python}'
+# {"commit":"d6def10b5f97133d460a2ceb4bb04e0dc9e4ea7f","success":true,
+#  "python":{"full_version":"3.14.6","version":"latest"}}
 gh api repos/btclib-org/btclib-functional-tests/hooks --jq length
 # 0
+```
+
+The former slug, `bitcoin-node-tests`, redirects its pages to this
+project's. Read back on 2026-10-31:
+
+```shell
+curl -sI https://bitcoin-node-tests.readthedocs.io/en/latest/index.html \
+  | grep -i -E '^(HTTP|location|x-rtd-redirect)'
+# HTTP/2 301
+# location: https://btclib-functional-tests.readthedocs.io/en/latest/index.html
+# x-rtd-redirect: user
 ```
 
 `stable` is absent from the active versions for the reason
@@ -475,34 +487,14 @@ having published nothing (*Publishing*, above). Whether an automation
 rule is set for a tag it may gain is Admin-only and
 answered by no public endpoint; it was not checked here.
 
-**One build failed, and it was this tree's own bug, already fixed.**
-Read the Docs' `build.tools.python: "latest"` resolves to CPython 3.14.6
-(`config.build.tools.python.full_version` on every build measured so
-far, passing or not) — but that interpreter only runs `build.commands`
-itself, starting with `pip install uv`; `uv sync --locked` takes no
-`--python` there, so it resolves `.python-version` and fetches CPython
-3.15 on its own, the same way a local `uv sync` does. `full_version`
-being 3.14.6 is not what a build runs the project's own code under:
-
-```shell
-for b in 34753845 34753322 34754072; do
-  curl -s "$p/builds/$b/?expand=config" \
-    | jq -c '{commit, success, python: .config.build.tools.python}'
-done
-# {"commit":"302e93250b784bd69b31ae1a8bd62af390844599","success":false,
-#  "python":{"full_version":"3.14.6","version":"latest"}}
-# {"commit":"6f9f87287d5c1b9824c856af9e53cafed931fb7c","success":true,
-#  "python":{"full_version":"3.14.6","version":"latest"}}
-# {"commit":"59d605eb31c55cf525e7990c05d1115eeed11832","success":true,
-#  "python":{"full_version":"3.14.6","version":"latest"}}
-```
-
-The only failing commit, `302e9325`, is the one whose `src/` still
-imported `pytest` directly — the same import `sphinx-build`'s `autodoc`
-failed on in CI's own `docs` job (see `capability.py`'s docstring). Once
-that import was gone, the build succeeded under the identical
-`tools.python`, both on `main` and on this branch. Nothing here waits on
-Read the Docs reaching a newer `"latest"`.
+**`full_version` is not the interpreter a build runs the project's own
+code under.** Read the Docs' `build.tools.python: "latest"` resolves to
+CPython 3.14.6 (`config.build.tools.python.full_version` of the build
+above) — but that interpreter only runs `build.commands` itself,
+starting with `pip install uv`; `uv sync --locked` takes no `--python`
+there, so it resolves `.python-version` and fetches CPython 3.15 on its
+own, the same way a local `uv sync` does. Nothing here waits on Read the
+Docs reaching a newer `"latest"`.
 
 ## Security settings
 
