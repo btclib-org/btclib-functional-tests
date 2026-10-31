@@ -51,7 +51,7 @@ concurrency:
 
 jobs:
   vectors:
-    uses: btclib-org/.github/.github/workflows/reusable-vendored-vectors.yml@72e0222ef466daf096e3ac8d07e2ba59c0544b1a # v2026.10.28
+    uses: btclib-org/.github/.github/workflows/reusable-vendored-vectors.yml@ed616d71c43cd4c8bded40d1182befccd99e6ee7 # v2026.10.29
     permissions:
       contents: read
       issues: write # gh issue create/edit/close, in the called workflow
