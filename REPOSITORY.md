@@ -30,7 +30,8 @@ differs today is a change made since that date.
 ## Creating the repository
 
 GitHub redirects the repository's former name, `bitcoin-node-tests`, to
-this one. Read back on 2026-10-31:
+this one, and a read-back below dated before 2026-10-31 ran under that
+name. Read back on 2026-10-31:
 
 ```shell
 gh api repos/btclib-org/bitcoin-node-tests --jq .full_name
@@ -464,8 +465,8 @@ curl -s "$p/" | jq -c '{default_branch, default_version, repository: .repository
 curl -s "$p/versions/?active=true" \
   | jq -c '.results[] | [.slug, .type, .identifier]'
 # ["latest","branch","main"]
-curl -s "$p/builds/?limit=1&expand=config" \
-  | jq -c '.results[] | {commit, success, python: .config.build.tools.python}'
+curl -s "$p/builds/35547358/?expand=config" \
+  | jq -c '{commit, success, python: .config.build.tools.python}'
 # {"commit":"d6def10b5f97133d460a2ceb4bb04e0dc9e4ea7f","success":true,
 #  "python":{"full_version":"3.14.6","version":"latest"}}
 gh api repos/btclib-org/btclib-functional-tests/hooks --jq length
@@ -493,8 +494,8 @@ answered by no public endpoint; it was not checked here.
 code under.** Read the Docs' `build.tools.python: "latest"` resolves to
 CPython 3.14.6 (`config.build.tools.python.full_version` of the build
 above); `.readthedocs.yaml`'s comment on that key says why it decides
-nothing. The same build's log names the interpreter that
-`.python-version` does:
+nothing. The same build's log, read back on 2026-10-31, names the
+interpreter that `.python-version` does:
 
 ```shell
 curl -s https://app.readthedocs.org/api/v2/build/35547358/ \

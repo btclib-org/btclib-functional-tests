@@ -32,10 +32,11 @@ version: 2
 # "latest" rather than naming `.python-version`'s own value: whichever
 # interpreter this key names only runs build.commands below, starting
 # with "pip install uv" -- "uv sync --locked" takes no --python there,
-# so it resolves .python-version and fetches that interpreter itself,
-# same as a local uv sync. build.tools.python is not what builds the
-# project, so naming it here would be one more place to keep in step
-# with .python-version for no build this key actually decides.
+# so it resolves .python-version and uses an interpreter matching it,
+# the image's own or one it fetches, same as a local uv sync.
+# build.tools.python is not what builds the project, so naming it here
+# would be one more place to keep in step with .python-version for no
+# build this key actually decides.
 #
 # Read back now that Read the Docs is subscribed (REPOSITORY.md's own
 # section): "latest" resolved to CPython 3.14.6 while `.python-version`
