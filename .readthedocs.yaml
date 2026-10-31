@@ -5,7 +5,7 @@
 # The dotted name is the canonical one; readthedocs.yml is honored too,
 # but documented as deprecated.
 #
-# The build has to install bitcoin-node-tests itself, not sphinx alone: every
+# The build has to install btclib-functional-tests itself, not sphinx alone: every
 # autodoc directive in docs/source imports its module, a failed import is
 # a sphinx warning rather than an error, and a "requirements:
 # docs/requirements.txt" install would publish a bare module title in
@@ -32,22 +32,18 @@ version: 2
 # "latest" rather than naming `.python-version`'s own value: whichever
 # interpreter this key names only runs build.commands below, starting
 # with "pip install uv" -- "uv sync --locked" takes no --python there,
-# so it resolves .python-version and fetches that interpreter itself,
-# same as a local uv sync. build.tools.python is not what builds the
-# project, so naming it here would be one more place to keep in step
-# with .python-version for no build this key actually decides.
-#
-# Read back now that Read the Docs is subscribed (REPOSITORY.md's own
-# section): "latest" resolved to CPython 3.14.6 while `.python-version`
-# named 3.15, confirming the paragraph above -- the two disagreeing and
-# the build succeeding regardless is the proof that this key is inert.
+# so it resolves .python-version and uses an interpreter matching it,
+# the image's own or one it fetches, same as a local uv sync.
+# build.tools.python is not what builds the project, so naming it here
+# would be one more place to keep in step with .python-version for no
+# build this key actually decides.
 build:
   os: ubuntu-24.04
   tools:
     python: "latest"
   # build.commands rather than the sphinx: and python: keys, which cannot
   # express this and are rejected when it is present.
-  # autodoc has to import bitcoin_node_tests, so the project has to be
+  # autodoc has to import btclib_functional_tests, so the project has to be
   # installed, and what read the docs can express natively is "pip install
   # ." plus a requirements file. uv installs the docs dependency group
   # instead, from uv.lock, which is why there is no docs/requirements.txt:
