@@ -28,8 +28,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from bip32_descriptors.descriptors.descriptors import add_checksum
 from btclib.b32 import address_from_witness
-from btclib_wallet.descriptors.descriptors import add_checksum
 
 from btclib_functional_tests.capability import Capability, require
 

@@ -67,12 +67,12 @@ import secrets
 from typing import TYPE_CHECKING
 
 import pytest
+from bip32_descriptors.descriptors.descriptors import add_checksum
 from bitcoin_core_rpc import RpcError
 from btclib.key import PubKeyData
 from btclib.script.script_pub_key import ScriptPubKey
 from btclib.tx import OutPoint, Tx, TxIn, TxOut
 from btclib.tx.limits import COINBASE_MATURITY
-from btclib_wallet.descriptors.descriptors import add_checksum
 from ecc.curves.curve import mult
 from ecc.curves.sec_point import bytes_from_point
 
