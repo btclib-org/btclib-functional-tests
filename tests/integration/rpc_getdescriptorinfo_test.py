@@ -55,9 +55,9 @@ import secrets
 from typing import TYPE_CHECKING
 
 import pytest
+from bip32_descriptors.descriptors.descriptors import add_checksum
 from bitcoin_core_rpc import RpcError
 from btclib.b58 import wif_from_prv_key
-from btclib_wallet.descriptors.descriptors import add_checksum
 from ecc.curves import secp256k1
 
 from btclib_functional_tests.capability import Capability, require

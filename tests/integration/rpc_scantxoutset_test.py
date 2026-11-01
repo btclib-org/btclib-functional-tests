@@ -41,11 +41,11 @@ from decimal import Decimal
 from typing import TYPE_CHECKING, Any
 
 import pytest
+from bip32_descriptors.descriptors import descriptors
 from bitcoin_core_rpc import RpcError
 from btclib.key import PrvKeyData
 from btclib.script.script_pub_key import ScriptPubKey
 from btclib.tx.limits import COINBASE_MATURITY
-from btclib_wallet.descriptors import descriptors
 from ecc.curves import secp256k1
 
 from btclib_functional_tests.capability import Capability, require
