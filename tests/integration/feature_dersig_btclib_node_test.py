@@ -6,12 +6,9 @@ r"""Core's `feature_dersig`, rewritten on this harness: btclib-node.
 
 `feature_dersig_test.py` beside this module holds each body, run here
 against the target rather than the oracle (rule 3 of issue
-btclib-org/btclib#2220). `Capability.TEST_ACTIVATION_HEIGHT` is not
-declared: measured against `cli.py`'s registered options, `_build_parser`
-on the released build and `_OPTIONS` on `main` (`btclib_node.py`'s own
-docstring has the same measurement for `-uacomment`),
-`-testactivationheight` is not one of its registered flags -- a counted
-skip on that capability alone, before the node is restarted with it.
+btclib-org/btclib#2220). `Capability.TEST_ACTIVATION_HEIGHT` is
+declared per build (`btclib_node.py`'s own docstring says which); the
+log body also asks for `Capability.DEBUG_LOG`, bitcoind's alone.
 
     export TF2_INTEGRATION=1 TF2_BTCLIB_NODE_PYTHON=<python>
     uv run pytest \

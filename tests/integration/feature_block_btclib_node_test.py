@@ -6,9 +6,9 @@
 
 `feature_block_test.py` beside this module is the body, run here against
 the target rather than the oracle (rule 3 of issue
-btclib-org/btclib#2220). Each test is a counted skip on every build, on
-`Capability.TEST_ACTIVATION_HEIGHT`, which no build declares
-(`feature_dersig_btclib_node_test.py` has the measurement).
+btclib-org/btclib#2220). Each test is a counted skip on every build: no
+build declares `Capability.PEER_TIMEOUT` (`btclib_node.py`'s own
+docstring has the measurement).
 
     export TF2_INTEGRATION=1 TF2_BTCLIB_NODE_PYTHON=<python>
     uv run pytest tests/integration/feature_block_btclib_node_test.py

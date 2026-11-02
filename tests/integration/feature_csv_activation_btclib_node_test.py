@@ -6,9 +6,9 @@ r"""Core's `feature_csv_activation`, rewritten on this harness: btclib-node.
 
 `feature_csv_activation_test.py` beside this module holds the bodies, run
 here against the target rather than the oracle (rule 3 of issue
-btclib-org/btclib#2220). `Capability.TEST_ACTIVATION_HEIGHT` is not
-declared (`feature_dersig_btclib_node_test.py` has the measurement), and
-every body asks for it, so each is a counted skip.
+btclib-org/btclib#2220). Every body asks for
+`Capability.TEST_ACTIVATION_HEIGHT`, declared per build
+(`btclib_node.py`'s own docstring says which).
 
     export TF2_INTEGRATION=1 TF2_BTCLIB_NODE_PYTHON=<python>
     uv run pytest \
@@ -39,7 +39,7 @@ def test_csv_activates_one_block_before_the_configured_height(
     btclib_node_cluster: Callable[[int], list[BtclibNodeAdapter]],
     skip_counts: SkipCounts,
 ) -> None:
-    """The target: skipped on `Capability.TEST_ACTIVATION_HEIGHT`."""
+    """The target: the body this module's docstring names, over btclib-node."""
     csv_activates_one_block_before_the_configured_height(
         btclib_node_cluster, skip_counts
     )
@@ -49,5 +49,5 @@ def test_csv_rules_are_enforced_from_the_configured_height(
     btclib_node_cluster: Callable[[int], list[BtclibNodeAdapter]],
     skip_counts: SkipCounts,
 ) -> None:
-    """The target: skipped on `Capability.TEST_ACTIVATION_HEIGHT`."""
+    """The target: the body this module's docstring names, over btclib-node."""
     csv_rules_are_enforced_from_the_configured_height(btclib_node_cluster, skip_counts)

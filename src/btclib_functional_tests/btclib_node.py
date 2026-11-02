@@ -124,6 +124,17 @@ for v2, and btclib-node refuses v1 under `-v1transport=0`
 A build without the flag, such as the PyPI `2026.9.24`, gets no
 `-v1transport`.
 
+`Capability.TEST_ACTIVATION_HEIGHT` is declared per instance too, by
+`_moves_activation_heights`'s own probe: a build whose `cli.build_config`
+reads `-testactivationheight=segwit@5` into its own chain's
+`segwit_height` -- the released `2026.11.2` (`a51c9490`), and `main` from
+btclib-node PR 2173 (`cb346057`) on, the option
+[ISS btclib-node#2155](https://github.com/btclib-org/btclib-node/issues/2155)
+asked for. The released `2026.10.30` (`30e95735`) refuses the argument as
+an "Invalid parameter", so an instance built against it does not gain the
+capability. A build with the option refuses it on mainnet, so an instance
+on chain `main` does not gain the capability either.
+
 `Capability.INBOUND_EVICTION` is declared per instance too, by
 `_evicts_inbound`'s own probe: a build carrying
 `btclib_node.p2p.eviction`, a port of Core's `SelectNodeToEvict`
@@ -709,6 +720,31 @@ def _accepts_v1transport(executable: str) -> bool:
     return _config_probe_passes(executable, _V1_PROBE)
 
 
+# exits 0 only where `-testactivationheight=segwit@5` moves
+# `Config.chain.consensus.segwit_height` off regtest's own 0; a build
+# registering no such flag refuses it and exits nonzero. `-noconf` keeps any
+# `bitcoin.conf` out of it
+_ACTIVATION_HEIGHT_PROBE = """\
+from btclib_node.cli import build_config
+config = build_config(["-regtest", "-noconf", "-testactivationheight=segwit@5"])
+raise SystemExit(0 if config.chain.consensus.segwit_height == 5 else 1)
+"""
+
+
+@lru_cache
+def _moves_activation_heights(executable: str) -> bool:
+    """Return whether `executable`'s btclib-node reads `-testactivationheight`.
+
+    Asks the build's own `cli.build_config`, as `_speaks_v2` above does,
+    to read the flag, and answers whether the resulting config's chain
+    activates segwit at the height it names: `_ACTIVATION_HEIGHT_PROBE`
+    above. No node started, no port bound, and cached per executable.
+
+    :param executable: the interpreter `btclib-node` is installed into.
+    """
+    return _config_probe_passes(executable, _ACTIVATION_HEIGHT_PROBE)
+
+
 # exits 0 only where the dispatch table holds `Capability.CHAIN_TIPS`'s RPC
 _CHAIN_TIPS_PROBE = """\
 from btclib_node.rpc.callbacks import callbacks
@@ -1138,12 +1174,15 @@ class BtclibNodeAdapter(NodeAdapter):
         `_reads_includeconf` answers `Capability.INCLUDE_CONF`,
         `_serves_setmocktime` answers `Capability.CLOCK`,
         `_serves_generate` answers `Capability.GENERATE`,
-        `_speaks_v2` answers `Capability.V2TRANSPORT`, and
+        `_speaks_v2` answers `Capability.V2TRANSPORT`,
+        `_moves_activation_heights` answers
+        `Capability.TEST_ACTIVATION_HEIGHT`, and
         `_served_rpcs` answers each capability `_RPC_CAPABILITIES` names.
         The class-level `capabilities` -- `_EVERY_BUILD` -- is left
         untouched where every probe answers `False`. A `chain` other than
         regtest drops `_REGTEST_ONLY`'s capabilities whatever their probes
-        answer.
+        answer, and chain `main` drops `Capability.TEST_ACTIVATION_HEIGHT`
+        too: `cli.py` refuses `-testactivationheight` on mainnet alone.
         """
         super().__init__(
             executable,
@@ -1176,6 +1215,7 @@ class BtclibNodeAdapter(NodeAdapter):
                 (_serves_setmocktime, Capability.CLOCK),
                 (_serves_generate, Capability.GENERATE),
                 (_speaks_v2, Capability.V2TRANSPORT),
+                (_moves_activation_heights, Capability.TEST_ACTIVATION_HEIGHT),
                 (_connects_alone, Capability.MINE),
             )
             if probe(executable)
@@ -1188,6 +1228,8 @@ class BtclibNodeAdapter(NodeAdapter):
         }
         if chain != "regtest":
             probed -= _REGTEST_ONLY
+        if chain == "main":
+            probed.discard(Capability.TEST_ACTIVATION_HEIGHT)
         if probed:
             self.capabilities = type(self).capabilities | probed
 
