@@ -25,7 +25,7 @@ this peer's own `verack` completes, and one sent by a peer that never
 got as far as offering the version `FEATURE` needs at all.
 
 Second, to a fact read from the running build rather than assumed for
-the whole class ([ISS 35](https://github.com/btclib-org/btclib-functional-tests/issues/35),
+the whole class ([ISS 35](https://github.com/btclib-org/functional-tests/issues/35),
 `capability.py`'s own module docstring): every test below reads
 `getnetworkinfo`'s own `protocolversion` and asserts whichever of the
 two shapes the running build actually carries, `feature_torcontrol`'s

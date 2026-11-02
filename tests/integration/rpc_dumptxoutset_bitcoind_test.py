@@ -10,7 +10,7 @@ against bitcoind, which declares every capability it asks for. Whether
 that body expects a dump at a height a fork also reaches, or `31.1`'s
 refusal of it, is read from the running build's own `getnetworkinfo`
 `version`
-([ISS 35](https://github.com/btclib-org/btclib-functional-tests/issues/35)),
+([ISS 35](https://github.com/btclib-org/functional-tests/issues/35)),
 `_ROLLS_BACK_PAST_A_FORK_VERSION` below having why.
 
     TF2_INTEGRATION=1 uv run pytest tests/integration

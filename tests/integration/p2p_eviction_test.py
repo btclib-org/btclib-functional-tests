@@ -6,7 +6,7 @@
 
 Read from Core's `test/functional/p2p_eviction.py` (`fa9a9657506d`,
 2026-10-15), the option and MiniWallet families together
-([ISS btclib-functional-tests#14](https://github.com/btclib-org/btclib-functional-tests/issues/14)):
+([ISS functional-tests#14](https://github.com/btclib-org/functional-tests/issues/14)):
 once `-maxconnections` leaves no inbound slot for a new peer, the node
 evicts an existing inbound one (`Capability.INBOUND_EVICTION`), and never
 one of those its eviction logic protects -- here the peers that sent it

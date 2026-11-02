@@ -16,7 +16,7 @@ exists for is taken in a subprocess started from `tests/`.
 `stop_all`, `stash_or_report` and `fold_worker_tally` below need neither
 a subprocess nor a real xdist session: each takes a plain sequence or
 mapping rather than the pytest or xdist object it is read off of, so a
-test drives it directly (issue btclib-functional-tests#101). `AdapterFactory`
+test drives it directly (issue functional-tests#101). `AdapterFactory`
 needs no node either: an adapter it constructs is never started.
 """
 

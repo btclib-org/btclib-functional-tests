@@ -6,7 +6,7 @@
 
 Read from Core's `test/functional/feature_fastprune.py` (`fa5f29774872`,
 2025-12-16), the option and MiniWallet families together
-([ISS btclib-functional-tests#14](https://github.com/btclib-org/btclib-functional-tests/issues/14)):
+([ISS functional-tests#14](https://github.com/btclib-org/functional-tests/issues/14)):
 `-fastprune` (`Capability.FASTPRUNE`) shrinks bitcoind's block files to
 64 KiB (`BlockManager::FindNextBlockPos`, `src/node/blockstorage.cpp`),
 and a block larger than that must still be stored and connected rather

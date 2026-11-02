@@ -12,7 +12,7 @@ error and the `error_locations` its row names, and every address of
 `VALID_DATA` answers `isvalid` true with the `scriptPubKey` its row
 names and neither the error nor its locations. `NodeAdapter`'s own
 `chain="main"` (`node.py`) is what starts the node there
-([ISS 63](https://github.com/btclib-org/btclib-functional-tests/issues/63)),
+([ISS 63](https://github.com/btclib-org/functional-tests/issues/63)),
 under Core's own `-prune=899`. `Capability.VALIDATE_ADDRESS` gates each
 test.
 

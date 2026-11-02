@@ -12,7 +12,7 @@ starts no node wallet, so no `wallets/` directory of the node's own ever
 exists to check the permissions of. Kept whole: the node's own chain
 directory and its own log file are owner-only, `0700` and `0600`, disk
 family alone (
-[ISS 7](https://github.com/btclib-org/btclib-functional-tests/issues/7)).
+[ISS 7](https://github.com/btclib-org/functional-tests/issues/7)).
 
 The log file is `debug.log` for bitcoind (`BitcoindAdapter.debug_log_path`)
 `history.log` for btclib-node (`BtclibNodeAdapter.log_path`) and

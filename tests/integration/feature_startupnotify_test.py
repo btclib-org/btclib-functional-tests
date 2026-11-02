@@ -6,7 +6,7 @@
 
 Read from Core's `test/functional/feature_startupnotify.py`
 (`fa71c15f8610`, 2025-11-26), the option and disk families together
-([ISS 14](https://github.com/btclib-org/btclib-functional-tests/issues/14)):
+([ISS 14](https://github.com/btclib-org/functional-tests/issues/14)):
 a node started without `-startupnotify` writes no file, and restarted
 with it (`Capability.STARTUP_NOTIFY`) runs the command once, which
 appends a line to a file inside its data directory, and answers RPC.

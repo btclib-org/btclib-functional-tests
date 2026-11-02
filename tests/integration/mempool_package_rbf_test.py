@@ -42,7 +42,7 @@ What differs from Core's file:
   averaging Core's `INBOUND_INVENTORY_BROADCAST_INTERVAL`
   (`src/net_processing.cpp`), so the peer can trail by more than
   `sync_all`'s default wait, half of what Core's `sync_mempools` waits
-  ([ISS 469](https://github.com/btclib-org/btclib-functional-tests/issues/469));
+  ([ISS 469](https://github.com/btclib-org/functional-tests/issues/469));
 - Core's `MiniWallet` mines its coins once, for every subtest; here each
   body's own mines, to maturity, the coins that body spends;
 - a block Core's node mines from its own mempool is built here

@@ -6,7 +6,7 @@
 
 Read from Core's `test/functional/feature_settings.py` (`0654511e1b93`,
 2026-06-17), an option and the disk
-([ISS 14](https://github.com/btclib-org/btclib-functional-tests/issues/14)):
+([ISS 14](https://github.com/btclib-org/functional-tests/issues/14)):
 the settings file a node keeps in its chain's data directory
 (`Capability.SETTINGS_FILE`). A node writes it at its first start,
 holding only Core's `_warning_`. The values in it are logged at the next

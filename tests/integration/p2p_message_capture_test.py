@@ -6,7 +6,7 @@
 
 Read from Core's `test/functional/p2p_message_capture.py`
 (`fa5f29774872`, 2025-12-16), the option and disk families together
-([ISS 14](https://github.com/btclib-org/btclib-functional-tests/issues/14)):
+([ISS 14](https://github.com/btclib-org/functional-tests/issues/14)):
 a node started with `-capturemessages` (`Capability.CAPTURE_MESSAGES`)
 writes what it exchanges with a peer to `msgs_recv.dat` and
 `msgs_sent.dat`, under its chain directory's `message_capture/`, and each

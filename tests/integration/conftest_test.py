@@ -4,7 +4,7 @@
 
 """The printed skip tally is the sum over the whole run, xdist or not.
 
-Issue btclib-org/btclib-functional-tests#16: `SkipCounts` is one instance per
+Issue btclib-org/functional-tests#16: `SkipCounts` is one instance per
 process, and `-n auto` starts several -- a controller that runs no test
 of its own (`xdist.dsession.DSession.pytest_collection` refuses
 collection there) and one worker per `-n` slot, each with its own empty
@@ -117,7 +117,7 @@ def test_the_tally_is_unchanged_with_no_worker_split(
 # here rather than restated: a nested session that never spawns a real node
 # still exercises the option's registration and, for `--timeout-factor`,
 # that `pytest_configure` actually sets `timeout_factor`'s own multiplier
-# -- issue btclib-functional-tests#36
+# -- issue functional-tests#36
 _OPTION_CONFTEST = """
     from tests.integration.conftest import pytest_addoption, pytest_configure
 """
@@ -425,7 +425,7 @@ def test_a_failure_report_prints_no_line_past_the_bound(
     """A long message prints as lines of at most 2300, its end kept.
 
     A GitHub runner stalls on a line of some megabytes (issue
-    btclib-org/btclib-functional-tests#442). `CI` is set because pytest then
+    btclib-org/functional-tests#442). `CI` is set because pytest then
     prints the one-line summary's message whole.
     """
     monkeypatch.setenv("PYTHONPATH", str(_ROOT))

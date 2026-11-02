@@ -6,7 +6,7 @@
 
 Read from Core's `test/functional/feature_cltv.py` (`fa6f7e36a8c2`,
 2026-10-23), on the option and MiniWallet families together
-([ISS btclib-functional-tests#14](https://github.com/btclib-org/btclib-functional-tests/issues/14)):
+([ISS functional-tests#14](https://github.com/btclib-org/functional-tests/issues/14)):
 `-testactivationheight=cltv@N` (`Capability.TEST_ACTIVATION_HEIGHT`)
 holds BIP65 inactive until a chosen height, and blocks built and
 submitted here (`Capability.MINE`) reach it.
@@ -23,7 +23,7 @@ only once the configured height is reached, and Core's own file checks
 exactly this version.
 
 BIP65's failure reasons are kept too
-([ISS 167](https://github.com/btclib-org/btclib-functional-tests/issues/167)).
+([ISS 167](https://github.com/btclib-org/functional-tests/issues/167)).
 They need no signature: Core's coins are its `RAW_OP_TRUE` ones,
 coinbases paying a bare `OP_TRUE` and spent with a scriptSig of
 `OP_NOP`s alone, and `_cltv_invalidate` prepends to that scriptSig what

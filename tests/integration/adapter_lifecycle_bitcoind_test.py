@@ -9,10 +9,10 @@ against bitcoind, the oracle. The scenarios about bitcoind and its adapter
 stay here:
 `mine` after a `restart` and over a datadir an earlier adapter left,
 both about the wallet `BitcoindAdapter.mine` pays to
-([ISS 86](https://github.com/btclib-org/btclib-functional-tests/issues/86)),
+([ISS 86](https://github.com/btclib-org/functional-tests/issues/86)),
 and a kept RPC connection still open after idling past bitcoind's default
 `-rpcservertimeout`
-([ISS 336](https://github.com/btclib-org/btclib-functional-tests/issues/336)).
+([ISS 336](https://github.com/btclib-org/functional-tests/issues/336)).
 
     TF2_INTEGRATION=1 uv run pytest tests/integration
 """

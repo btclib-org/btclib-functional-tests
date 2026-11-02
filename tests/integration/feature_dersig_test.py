@@ -6,13 +6,13 @@
 
 Read from Core's `test/functional/feature_dersig.py` (`fa6f7e36a8c2`,
 2026-10-23), on the option and MiniWallet families together
-([ISS btclib-functional-tests#14](https://github.com/btclib-org/btclib-functional-tests/issues/14)):
+([ISS functional-tests#14](https://github.com/btclib-org/functional-tests/issues/14)):
 `-testactivationheight=dersig@N` (`Capability.TEST_ACTIVATION_HEIGHT`)
 holds BIP66 inactive until a chosen height, and `MiniWallet.generate`
 (`Capability.MINE`) mines to it with no node wallet.
 
 Core's own closing checks are kept too, in a body of their own
-([ISS 167](https://github.com/btclib-org/btclib-functional-tests/issues/167)):
+([ISS 167](https://github.com/btclib-org/functional-tests/issues/167)):
 a spend whose signature is not strict DER is mined in the block before
 BIP66 activates, and from the configured height on is refused by
 `testmempoolaccept` and `submitblock`, each in Core's own wording, while

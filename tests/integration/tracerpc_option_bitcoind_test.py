@@ -4,7 +4,7 @@
 
 """Core's `--tracerpc`, restated as a pytest option: bitcoind, over a real RPC.
 
-Issue [btclib-functional-tests#36](https://github.com/btclib-org/btclib-functional-tests/issues/36):
+Issue [functional-tests#36](https://github.com/btclib-org/functional-tests/issues/36):
 `tests/node_test.py`'s own tests prove `node.traced_transport` in
 isolation, a fake transport standing in for the real one; this is the
 same wrapper reaching an actual node's own RPC, `BitcoindAdapter`'s own

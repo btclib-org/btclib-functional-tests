@@ -87,7 +87,7 @@ in `v32.0` and later, from
 bitcoin/bitcoin@1278a5970d5ada0979052a5bad899e896b8ab40b, which
 `v32.0rc1` is the first tag to carry: a bitcoind whose `getnetworkinfo`
 `version` reads older than that
-([ISS 35](https://github.com/btclib-org/btclib-functional-tests/issues/35))
+([ISS 35](https://github.com/btclib-org/functional-tests/issues/35))
 processes each entry, which is asserted there instead. A `master` build
 between that change's merge and the version's move to `32.99` reads
 older and processes each once all the same, the constant's own comment
@@ -583,7 +583,7 @@ def _deduplicates_inv(node: NodeAdapter) -> bool:
     Core's own claim for every node, bitcoind before
     `_DEDUPLICATES_INV_VERSION` excepted: that build processes each entry,
     read off its own `getnetworkinfo` `version`
-    ([ISS 35](https://github.com/btclib-org/btclib-functional-tests/issues/35)).
+    ([ISS 35](https://github.com/btclib-org/functional-tests/issues/35)).
     """
     if not isinstance(node, BitcoindAdapter):
         return True

@@ -114,7 +114,7 @@ An orphan is taken into the mempool once a block confirms its parent in
 bitcoin/bitcoin@9cc7dc50bdc9867d079ab7a111d39487a4566767, which
 `v32.0rc1` is the first tag to carry: a bitcoind whose `getnetworkinfo`
 `version` reads older than that
-([ISS 35](https://github.com/btclib-org/btclib-functional-tests/issues/35))
+([ISS 35](https://github.com/btclib-org/functional-tests/issues/35))
 keeps the orphan, which is asserted there instead. A `master` build
 between that change's merge and the version's move to `32.99` reads
 older and takes it in all the same, the constant's own comment having
@@ -379,7 +379,7 @@ def _reconsiders_on_block(node: NodeAdapter) -> bool:
     Core's own claim for every node, bitcoind before
     `_RECONSIDERS_ON_BLOCK_VERSION` excepted: that build keeps the orphan,
     read off its own `getnetworkinfo` `version`
-    ([ISS 35](https://github.com/btclib-org/btclib-functional-tests/issues/35)).
+    ([ISS 35](https://github.com/btclib-org/functional-tests/issues/35)).
     """
     if not isinstance(node, BitcoindAdapter):
         return True

@@ -6,7 +6,7 @@
 
 Read from Core's `test/functional/p2p_getaddr_caching.py`
 (`fa5f29774872`, 2025-12-16), an option and the clock together
-([ISS 14](https://github.com/btclib-org/btclib-functional-tests/issues/14)):
+([ISS 14](https://github.com/btclib-org/functional-tests/issues/14)):
 a node listening on a loopback address and on two onion binds
 (`Capability.LISTEN_ADDRESS`), its address table filled over
 `addpeeraddress` (`Capability.KNOWN_ADDRESSES`), answers every `getaddr`

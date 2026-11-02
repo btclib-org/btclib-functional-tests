@@ -4,7 +4,7 @@
 
 """Core's `--v2transport`, restated through the adapter, over each node.
 
-Issue [btclib-functional-tests#36](https://github.com/btclib-org/btclib-functional-tests/issues/36):
+Issue [functional-tests#36](https://github.com/btclib-org/functional-tests/issues/36):
 this suite has no central test-framework object for Core's own
 `--v2transport`/`--v1transport` to set a default on, so the equivalent is
 Core's own `-v2transport` flag, node by node, here through

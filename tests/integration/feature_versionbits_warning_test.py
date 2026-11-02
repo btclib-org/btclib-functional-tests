@@ -6,7 +6,7 @@
 
 Read from Core's `test/functional/feature_versionbits_warning.py`
 (`5bd990a3ddb1`, 2026-06-03), the option and the disk families together
-([ISS 14](https://github.com/btclib-org/btclib-functional-tests/issues/14)):
+([ISS 14](https://github.com/btclib-org/functional-tests/issues/14)):
 a node started with `-alertnotify` (`Capability.ALERT_NOTIFY`) is sent
 blocks from a peer that signal a version bit no deployment uses. It
 raises no warning after a period in which fewer blocks than the threshold

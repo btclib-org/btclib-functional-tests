@@ -22,7 +22,7 @@ authors = [{ name = "The btclib developers", email = "devs@btclib.org" }]
 # Departs from section 1's application rule (`.python-version` the
 # newest a dependency allows) and from btclib-org/.github#1324 (every
 # tree moves to 3.15 ahead of its release), by the maintainer's own
-# decision on issue btclib-functional-tests#36: a Core developer runs this
+# decision on issue functional-tests#36: a Core developer runs this
 # suite with whatever Python they already have, and a release candidate
 # is one more interpreter to install for no dependency's sake. Measured
 # against this tree's own code and every dependency `uv.lock` resolves:
@@ -84,10 +84,10 @@ classifiers = [
 # `repository` below already carries this repository's own page, which a
 # reader following the *About* link is already looking at
 homepage = "https://btclib.org"
-download = "https://github.com/btclib-org/btclib-functional-tests/releases"
-repository = "https://github.com/btclib-org/btclib-functional-tests"
-issues = "https://github.com/btclib-org/btclib-functional-tests/issues"
-pull_requests = "https://github.com/btclib-org/btclib-functional-tests/pulls"
+download = "https://github.com/btclib-org/functional-tests/releases"
+repository = "https://github.com/btclib-org/functional-tests"
+issues = "https://github.com/btclib-org/functional-tests/issues"
+pull_requests = "https://github.com/btclib-org/functional-tests/pulls"
 
 [dependency-groups]
 harness = [

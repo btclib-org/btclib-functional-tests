@@ -24,8 +24,8 @@ repeated, one over the bound where Core's own count is ten over it.
 The rest of Core's file is not ported here: it moves the node's clock
 with `setmocktime`, dials out of the node (Core's
 `add_outbound_p2p_connection`), or both -- [ISS
-14](https://github.com/btclib-org/btclib-functional-tests/issues/14) and [ISS
-44](https://github.com/btclib-org/btclib-functional-tests/issues/44). Each
+14](https://github.com/btclib-org/functional-tests/issues/14) and [ISS
+44](https://github.com/btclib-org/functional-tests/issues/44). Each
 `p2p_addr_relay_<node>_test.py` module beside this one runs it,
 `tests/integration/conftest.py`'s own module docstring having how.
 """

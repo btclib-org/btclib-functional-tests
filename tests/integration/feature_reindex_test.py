@@ -6,7 +6,7 @@
 
 Read from Core's `test/functional/feature_reindex.py` (`9e6546c517cd`,
 2026-06-21), the option, disk and log families together
-([ISS 14](https://github.com/btclib-org/btclib-functional-tests/issues/14)):
+([ISS 14](https://github.com/btclib-org/functional-tests/issues/14)):
 a node restarted with `-reindex` or `-reindex-chainstate`
 (`Capability.REINDEX`) comes back at the height it had; one whose block
 file holds a block ahead of its parent reindexes them all the same,

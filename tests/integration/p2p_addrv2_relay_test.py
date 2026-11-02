@@ -19,7 +19,7 @@ that `SENDADDRV2` branch never reads, so it is dropped.
 The rest of Core's file is not ported here: its relay check moves the
 node's clock with `setmocktime`, and its oversized-`addrv2` check runs
 on the node after that, the clock still set -- [ISS
-14](https://github.com/btclib-org/btclib-functional-tests/issues/14). Each
+14](https://github.com/btclib-org/functional-tests/issues/14). Each
 `p2p_addrv2_relay_<node>_test.py` module beside this one runs it,
 `tests/integration/conftest.py`'s own module docstring having how.
 """

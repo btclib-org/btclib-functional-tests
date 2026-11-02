@@ -6,7 +6,7 @@
 
 Read from Core's `test/functional/rpc_echo_payload.py` (`fa7bc26d1276`,
 2026-08-06), an option-family row
-([ISS btclib-functional-tests#3](https://github.com/btclib-org/btclib-functional-tests/issues/3)):
+([ISS functional-tests#3](https://github.com/btclib-org/functional-tests/issues/3)):
 a node restarted with `-rpcworkqueue=2` and `-rpcthreads=2`
 (`Capability.RPC_WORK_QUEUE`) takes payloads of random length, large
 ones included, from more concurrent callers than its threads and its

@@ -6,7 +6,7 @@
 
 Read from Core's `test/functional/p2p_permissions.py` (`fa5f29774872`,
 2025-12-16), an option and the wire
-([ISS 14](https://github.com/btclib-org/btclib-functional-tests/issues/14)):
+([ISS 14](https://github.com/btclib-org/functional-tests/issues/14)):
 the permissions `-whitelist` and `-whitebind` grant, read off `getpeerinfo`
 (`Capability.PEER_PERMISSIONS`). Each of Core's checks is kept, in its
 order:

@@ -6,7 +6,7 @@
 
 Read from Core's `test/functional/p2p_ping.py` (`fa5f29774872`,
 2025-12-16), the option, clock and log families together
-([ISS 14](https://github.com/btclib-org/btclib-functional-tests/issues/14)):
+([ISS 14](https://github.com/btclib-org/functional-tests/issues/14)):
 a peer that never answers the node's own `ping` is pinged once
 connected, a `pong` cancels that ping or not according to its payload,
 `getpeerinfo`'s `pingtime`, `minping` and `pingwait` report what the

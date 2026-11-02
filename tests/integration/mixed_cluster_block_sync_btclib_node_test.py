@@ -4,7 +4,7 @@
 
 r"""A block mined on bitcoind reaches btclib-node, over a real connection.
 
-[ISS 43](https://github.com/btclib-org/btclib-functional-tests/issues/43)'s
+[ISS 43](https://github.com/btclib-org/functional-tests/issues/43)'s
 own "most valuable case": bitcoind mines, and btclib-node -- never
 asked to mine anything itself -- receives the block from a real peer
 rather than from `submitblock` on its own behalf. Nothing here asks

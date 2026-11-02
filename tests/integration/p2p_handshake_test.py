@@ -16,7 +16,7 @@ a `ping` after the second `verack`; the log half is bitcoind's own
 wording, gated on `Capability.DEBUG_LOG`.
 
 The rest of Core's file has the node dial the test
-([ISS 44](https://github.com/btclib-org/btclib-functional-tests/issues/44)),
+([ISS 44](https://github.com/btclib-org/functional-tests/issues/44)),
 each check split the same way and each body over a fresh node:
 
 - an outbound peer offering less than `NODE_NETWORK | NODE_WITNESS` is

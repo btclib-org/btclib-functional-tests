@@ -6,7 +6,7 @@
 
 Read from Core's `test/functional/rpc_dumptxoutset.py` (`58eeab790d98`,
 2026-05-13), the clock and disk families together
-([ISS 14](https://github.com/btclib-org/btclib-functional-tests/issues/14)):
+([ISS 14](https://github.com/btclib-org/functional-tests/issues/14)):
 a node whose clock is set to just past its genesis block
 (`Capability.CLOCK`) mines `COINBASE_MATURITY` blocks
 (`Capability.GENERATE`) and writes its UTXO set to a file in its chain

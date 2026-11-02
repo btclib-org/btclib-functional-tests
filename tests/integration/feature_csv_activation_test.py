@@ -6,7 +6,7 @@
 
 Read from Core's `test/functional/feature_csv_activation.py`
 (`fa6f7e36a8c2`, 2026-10-23), on the option and MiniWallet families together
-([ISS btclib-functional-tests#14](https://github.com/btclib-org/btclib-functional-tests/issues/14)):
+([ISS functional-tests#14](https://github.com/btclib-org/functional-tests/issues/14)):
 `-testactivationheight=csv@N` (`Capability.TEST_ACTIVATION_HEIGHT`)
 holds BIP68, BIP112 and BIP113 -- one deployment, `csv` -- inactive until
 a chosen height, and blocks built and submitted here (`Capability.MINE`)
@@ -21,7 +21,7 @@ unlike its two siblings, this file has no version-floor refusal to
 observe on the wire or in the log.
 
 Core's own body is kept too, step by step and at Core's own heights
-([ISS 167](https://github.com/btclib-org/btclib-functional-tests/issues/167)).
+([ISS 167](https://github.com/btclib-org/functional-tests/issues/167)).
 Coinbases pay `mini_wallet.py`'s `RAW_P2PK_SCRIPT_PUB_KEY`, Core's
 `RAW_P2PK` output, and `raw_p2pk_script_sig` signs every spend; a
 BIP112 spend then has `OP_CHECKSEQUENCEVERIFY`, and the argument it

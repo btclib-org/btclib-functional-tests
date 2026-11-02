@@ -17,7 +17,7 @@ are what `tests/integration/conftest.py`'s own hooks and fixtures call:
 `[tool.coverage.run]`'s `omit` excludes that whole module, so their
 bodies live here, in the one other file the "python tests naming" hook
 lets sit beside `*_test.py` files without being one itself, and are
-measured by an ordinary run (issue btclib-functional-tests#101).
+measured by an ordinary run (issue functional-tests#101).
 """
 
 import os

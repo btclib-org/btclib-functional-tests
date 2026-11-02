@@ -6,7 +6,7 @@
 
 Read from Core's `test/functional/feature_includeconf.py` (`fa71c15f8610`,
 2025-11-26), the option and disk families together
-([ISS 14](https://github.com/btclib-org/btclib-functional-tests/issues/14)):
+([ISS 14](https://github.com/btclib-org/functional-tests/issues/14)):
 `includeconf=` in `bitcoin.conf` reads each file it names after the one
 naming it, one named inside an included file is ignored with a warning,
 one naming a missing file refuses the start, and `-includeconf` on the

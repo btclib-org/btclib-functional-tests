@@ -29,7 +29,7 @@ protocol bump is a later, unrelated commit
 version this suite already reads elsewhere cannot tell the two builds
 apart here. What can, and is read from the running build rather than
 assumed for the whole class
-([ISS 35](https://github.com/btclib-org/btclib-functional-tests/issues/35),
+([ISS 35](https://github.com/btclib-org/functional-tests/issues/35),
 `capability.py`'s own module docstring), is `getnetworkinfo`'s own
 `version` -- Core's `CLIENT_VERSION`,
 `10000 * major + 100 * minor + build` (`src/clientversion.h`) --

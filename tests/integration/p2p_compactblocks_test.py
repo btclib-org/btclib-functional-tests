@@ -144,7 +144,7 @@ for from a peer it has not selected for high-bandwidth mode, are ignored
 there too, from bitcoin/bitcoin#32606. `v32.0rc1` is the first tag to
 carry each. A bitcoind whose `getnetworkinfo` `version` reads older than
 that
-([ISS 35](https://github.com/btclib-org/btclib-functional-tests/issues/35))
+([ISS 35](https://github.com/btclib-org/functional-tests/issues/35))
 keeps the peer, answering the `getblocktxn` with a `blocktxn` carrying
 no transaction, and takes each `cmpctblock`, which is asserted there
 instead, the log halves reading the node's own lines for the exchange
@@ -990,7 +990,7 @@ def _carries(node: NodeAdapter, version: int) -> bool:
     Core's own claim for every node, bitcoind before `version` excepted:
     that build does what the check's own body asserts there instead, read
     off its own `getnetworkinfo` `version`
-    ([ISS 35](https://github.com/btclib-org/btclib-functional-tests/issues/35)).
+    ([ISS 35](https://github.com/btclib-org/functional-tests/issues/35)).
     """
     if not isinstance(node, BitcoindAdapter):
         return True

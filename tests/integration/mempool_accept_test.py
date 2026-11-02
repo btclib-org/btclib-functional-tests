@@ -21,7 +21,7 @@ starts it with before any block is mined.
 `testmempoolaccept` reports `vsize_adjusted` and `vsize_bip141` beside
 `vsize` only in `v32.0` and later, from bitcoin/bitcoin#32800's merge.
 Where the build's own `getnetworkinfo` `version` reads older
-([ISS 35](https://github.com/btclib-org/btclib-functional-tests/issues/35)),
+([ISS 35](https://github.com/btclib-org/functional-tests/issues/35)),
 each allowed transaction is expected without them, as Core's file at
 `v31.1` expects it. `_VSIZE_FIELDS_VERSION`'s own comment has the known
 limit.
@@ -191,7 +191,7 @@ def _reports_vsize_fields(node: NodeAdapter) -> bool:
     Core's own claim for every node, bitcoind before
     `_VSIZE_FIELDS_VERSION` excepted, read off its own `getnetworkinfo`
     `version`
-    ([ISS 35](https://github.com/btclib-org/btclib-functional-tests/issues/35)).
+    ([ISS 35](https://github.com/btclib-org/functional-tests/issues/35)).
     """
     if not isinstance(node, BitcoindAdapter):
         return True

@@ -7,7 +7,7 @@
 Read from Core's `test/functional/mempool_datacarrier.py` (`fa5f29774872`,
 2025-12-16) and narrowed to what the option and MiniWallet families reach
 together
-([ISS btclib-functional-tests#14](https://github.com/btclib-org/btclib-functional-tests/issues/14)):
+([ISS functional-tests#14](https://github.com/btclib-org/functional-tests/issues/14)):
 `-datacarrier` and `-datacarriersize` (`Capability.DATACARRIER`) gate
 whether, and how large, an `OP_RETURN` output is relayed, and
 `MiniWallet.create_self_transfer` (`Capability.MINE`) is what funds the

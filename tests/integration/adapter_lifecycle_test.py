@@ -7,9 +7,9 @@
 What `tests/node_test.py` and `tests/bitcoind_test.py` fake, run
 against the process itself: `stop`
 reporting a node killed out from under the adapter
-([ISS 84](https://github.com/btclib-org/btclib-functional-tests/issues/84)),
+([ISS 84](https://github.com/btclib-org/functional-tests/issues/84)),
 and `mine` extending the tip by the blocks it returns
-([ISS 56](https://github.com/btclib-org/btclib-functional-tests/issues/56)),
+([ISS 56](https://github.com/btclib-org/functional-tests/issues/56)),
 a counted skip on `Capability.MINE` for a build that does not declare it.
 
 Each `adapter_lifecycle_<node>_test.py` module beside this one runs it,

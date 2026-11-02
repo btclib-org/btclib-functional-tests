@@ -173,7 +173,7 @@ def _blocksonly_ignores_cmpctblock(node: NodeAdapter) -> bool:
     Core's own claim for every node, bitcoind before
     `_BLOCKSONLY_IGNORES_CMPCTBLOCK_VERSION` excepted: that build
     reconstructs the block, read off its own `getnetworkinfo` `version`
-    ([ISS 35](https://github.com/btclib-org/btclib-functional-tests/issues/35)).
+    ([ISS 35](https://github.com/btclib-org/functional-tests/issues/35)).
     """
     if not isinstance(node, BitcoindAdapter):
         return True

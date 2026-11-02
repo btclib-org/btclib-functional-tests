@@ -4,7 +4,7 @@
 
 """`NodeAdapter`'s own `chain`, one body over each node.
 
-[ISS 63](https://github.com/btclib-org/btclib-functional-tests/issues/63):
+[ISS 63](https://github.com/btclib-org/functional-tests/issues/63):
 a node started on each chain its adapter's `chains` names answers
 `getblockchaininfo` with that chain, writes its log where the adapter
 reads it, accepts a connection on its p2p port, and holds no peer --

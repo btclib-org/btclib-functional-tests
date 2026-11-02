@@ -23,7 +23,7 @@ to Core's own first deterministic address, `_MINE_CHUNK` at a time.
 A bitcoind that `_carries_the_fix` says lacks bitcoin/bitcoin#35168, the
 fix for bitcoin/bitcoin#35050, is not restarted: the restart is Core's
 subject, and checks that fix
-([ISS 62](https://github.com/btclib-org/btclib-functional-tests/issues/62)).
+([ISS 62](https://github.com/btclib-org/functional-tests/issues/62)).
 
 The node is built over a data directory of its own, through
 `make_adapter` (`tests/integration/conftest.py`), since it starts with

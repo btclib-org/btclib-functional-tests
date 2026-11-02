@@ -36,7 +36,7 @@ name: node-integration
 #
 # `btclib-node` and `btclib-node-main` also install the same pinned
 # `bitcoind` the job above does, and set `TF2_BITCOIND` from it (issue
-# btclib-functional-tests#61): without one,
+# functional-tests#61): without one,
 # `mixed_cluster_block_sync_btclib_node_test.py` -- the "most valuable
 # case" of ISS 43, needing both nodes at once -- skips on every job that
 # runs `*_btclib_node_test.py`, `bitcoind`'s own `skip-reason-prefix`

@@ -57,7 +57,7 @@ here it starts from the genesis block of a fresh one.
 pauses a stalling `manual` peer rather than dropping it only from
 bitcoin/bitcoin@698b5bbf3a0a0a52d97ae6acce2752769f14a208. Where the
 build's own `help addconnection` names no `manual`
-([ISS 35](https://github.com/btclib-org/btclib-functional-tests/issues/35)),
+([ISS 35](https://github.com/btclib-org/functional-tests/issues/35)),
 the second check's bodies assert the refusal Core's
 `RPC_INVALID_PARAMETER` answers instead.
 
@@ -66,7 +66,7 @@ withheld first is sent (bitcoin/bitcoin#32179, fixed by bitcoin/bitcoin#32180).
 No option or RPC tells such a build apart, so the first check's log half
 reads the build's own `getnetworkinfo` `version` and, there, does not
 assert `Stall started` absent
-([ISS 354](https://github.com/btclib-org/btclib-functional-tests/issues/354)).
+([ISS 354](https://github.com/btclib-org/functional-tests/issues/354)).
 
 Each `p2p_ibd_stalling_<node>_test.py` module beside this one runs each body,
 `tests/integration/conftest.py`'s own module docstring having how.
@@ -183,7 +183,7 @@ def _relogs_stall(node: NodeAdapter) -> bool:
     It does once the block withheld first is sent, and only a bitcoind
     before `_STALL_NOT_RELOGGED_VERSION` does, read off its own
     `getnetworkinfo` `version`
-    ([ISS 354](https://github.com/btclib-org/btclib-functional-tests/issues/354)).
+    ([ISS 354](https://github.com/btclib-org/functional-tests/issues/354)).
     """
     version = bitcoind_version(node)
     return version is not None and version < _STALL_NOT_RELOGGED_VERSION

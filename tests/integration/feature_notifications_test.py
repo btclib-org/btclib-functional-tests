@@ -6,7 +6,7 @@
 
 Read from Core's `test/functional/feature_notifications.py`
 (`fa6f7e36a8c2`, 2026-10-23), the option and the disk families together
-([ISS 14](https://github.com/btclib-org/btclib-functional-tests/issues/14)).
+([ISS 14](https://github.com/btclib-org/functional-tests/issues/14)).
 Each command Core's first node runs writes a file the test reads back,
 and each is a body here, over a node of its own started with that
 option alone:

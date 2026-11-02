@@ -6,7 +6,7 @@
 
 Read from Core's `test/functional/feature_chain_tiebreaks.py`
 (`20ae9b98eab2`, 2026-03-04), a file needing no mechanism the adapter
-lacks ([ISS 317](https://github.com/btclib-org/btclib-functional-tests/issues/317)):
+lacks ([ISS 317](https://github.com/btclib-org/functional-tests/issues/317)):
 of the blocks of equal work a node holds, it takes as its tip the one
 whose chain it held in full first, and keeps that tip across a restart.
 The nodes start unlinked on a clean chain, each fed blocks by a peer.
@@ -207,7 +207,7 @@ def _keeps_its_tip_across_a_restart(node: NodeAdapter) -> bool:
 
     Core's own claim for every node, bitcoind before `_TIP_KEPT_VERSION`
     excepted, read off its own `getnetworkinfo` `version`
-    ([ISS 35](https://github.com/btclib-org/btclib-functional-tests/issues/35)).
+    ([ISS 35](https://github.com/btclib-org/functional-tests/issues/35)).
     """
     if not isinstance(node, BitcoindAdapter):
         return True

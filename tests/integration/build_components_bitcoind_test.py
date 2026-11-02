@@ -4,7 +4,7 @@
 
 """`BitcoindAdapter`'s wallet probe, against what the build says of itself.
 
-[ISS 53](https://github.com/btclib-org/btclib-functional-tests/issues/53):
+[ISS 53](https://github.com/btclib-org/functional-tests/issues/53):
 `bitcoind.py`'s own `_has_wallet` reads wallet support off the binary,
 never off `test/config.ini`, and its docstring says why. A `bitcoind`
 that sits in a Core build tree has that file beside it, so the two are

@@ -6,7 +6,7 @@
 
 Read from Core's `test/functional/feature_blocksxor.py`
 (`fa5f29774872`, 2025-12-16), the option, MiniWallet and disk families
-together ([ISS 14](https://github.com/btclib-org/btclib-functional-tests/issues/14)):
+together ([ISS 14](https://github.com/btclib-org/functional-tests/issues/14)):
 a node under `-blocksxor=1` (`Capability.BLOCKS_XOR`) and `-fastprune`
 (`Capability.FASTPRUNE`) spreads the blocks `MiniWallet` mines
 (`Capability.MINE`) over several block files and as many undo files, in
