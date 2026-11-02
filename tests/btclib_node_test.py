@@ -58,6 +58,9 @@ def test_capabilities_gain_rpc_auth_config_where_the_build_writes_a_cookie(
         patch.object(btclib_node_module, "_served_rpcs", return_value=frozenset()),
         patch.object(btclib_node_module, "_speaks_v2", return_value=False),
         patch.object(btclib_node_module, "_permits_bare_multisig", return_value=False),
+        patch.object(
+            btclib_node_module, "_moves_activation_heights", return_value=False
+        ),
     ):
         adapter = BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444)
     assert adapter.capabilities == BtclibNodeAdapter.capabilities | {
@@ -90,6 +93,9 @@ def test_capabilities_gain_rpc_auth_negation_where_the_build_negates(
         patch.object(btclib_node_module, "_served_rpcs", return_value=frozenset()),
         patch.object(btclib_node_module, "_speaks_v2", return_value=False),
         patch.object(btclib_node_module, "_permits_bare_multisig", return_value=False),
+        patch.object(
+            btclib_node_module, "_moves_activation_heights", return_value=False
+        ),
     ):
         adapter = BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444)
     assert adapter.capabilities == BtclibNodeAdapter.capabilities | {
@@ -123,6 +129,9 @@ def test_capabilities_gain_inbound_eviction_where_the_build_evicts(
         patch.object(btclib_node_module, "_served_rpcs", return_value=frozenset()),
         patch.object(btclib_node_module, "_speaks_v2", return_value=False),
         patch.object(btclib_node_module, "_permits_bare_multisig", return_value=False),
+        patch.object(
+            btclib_node_module, "_moves_activation_heights", return_value=False
+        ),
     ):
         adapter = BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444)
     assert adapter.capabilities == BtclibNodeAdapter.capabilities | {
@@ -155,6 +164,9 @@ def test_capabilities_gain_mine_where_the_build_connects_alone(
         patch.object(btclib_node_module, "_served_rpcs", return_value=frozenset()),
         patch.object(btclib_node_module, "_speaks_v2", return_value=False),
         patch.object(btclib_node_module, "_permits_bare_multisig", return_value=False),
+        patch.object(
+            btclib_node_module, "_moves_activation_heights", return_value=False
+        ),
     ):
         adapter = BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444)
     assert adapter.capabilities == BtclibNodeAdapter.capabilities | {Capability.MINE}
@@ -185,6 +197,9 @@ def test_capabilities_gain_ban_where_the_build_serves_a_ban_list(
         patch.object(btclib_node_module, "_served_rpcs", return_value=frozenset()),
         patch.object(btclib_node_module, "_speaks_v2", return_value=False),
         patch.object(btclib_node_module, "_permits_bare_multisig", return_value=False),
+        patch.object(
+            btclib_node_module, "_moves_activation_heights", return_value=False
+        ),
     ):
         adapter = BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444)
     assert adapter.capabilities == BtclibNodeAdapter.capabilities | {Capability.BAN}
@@ -215,6 +230,9 @@ def test_capabilities_gain_min_relay_tx_fee_where_the_build_sets_it(
         patch.object(btclib_node_module, "_served_rpcs", return_value=frozenset()),
         patch.object(btclib_node_module, "_speaks_v2", return_value=False),
         patch.object(btclib_node_module, "_permits_bare_multisig", return_value=False),
+        patch.object(
+            btclib_node_module, "_moves_activation_heights", return_value=False
+        ),
     ):
         adapter = BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444)
     assert adapter.capabilities == BtclibNodeAdapter.capabilities | {
@@ -247,6 +265,9 @@ def test_capabilities_gain_permit_bare_multisig_where_the_build_reads_it(
         patch.object(btclib_node_module, "_served_rpcs", return_value=frozenset()),
         patch.object(btclib_node_module, "_speaks_v2", return_value=False),
         patch.object(btclib_node_module, "_permits_bare_multisig", return_value=True),
+        patch.object(
+            btclib_node_module, "_moves_activation_heights", return_value=False
+        ),
     ):
         adapter = BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444)
     assert adapter.capabilities == BtclibNodeAdapter.capabilities | {
@@ -279,6 +300,9 @@ def test_capabilities_gain_chain_tips_where_the_build_serves_them(
         patch.object(btclib_node_module, "_served_rpcs", return_value=frozenset()),
         patch.object(btclib_node_module, "_speaks_v2", return_value=False),
         patch.object(btclib_node_module, "_permits_bare_multisig", return_value=False),
+        patch.object(
+            btclib_node_module, "_moves_activation_heights", return_value=False
+        ),
     ):
         adapter = BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444)
     assert adapter.capabilities == BtclibNodeAdapter.capabilities | {
@@ -311,6 +335,9 @@ def test_capabilities_gain_disconnect_where_the_build_serves_it(
         patch.object(btclib_node_module, "_served_rpcs", return_value=frozenset()),
         patch.object(btclib_node_module, "_speaks_v2", return_value=False),
         patch.object(btclib_node_module, "_permits_bare_multisig", return_value=False),
+        patch.object(
+            btclib_node_module, "_moves_activation_heights", return_value=False
+        ),
     ):
         adapter = BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444)
     assert adapter.capabilities == BtclibNodeAdapter.capabilities | {
@@ -343,6 +370,9 @@ def test_capabilities_gain_package_acceptance_where_the_build_serves_it(
         patch.object(btclib_node_module, "_served_rpcs", return_value=frozenset()),
         patch.object(btclib_node_module, "_speaks_v2", return_value=False),
         patch.object(btclib_node_module, "_permits_bare_multisig", return_value=False),
+        patch.object(
+            btclib_node_module, "_moves_activation_heights", return_value=False
+        ),
     ):
         adapter = BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444)
     assert adapter.capabilities == BtclibNodeAdapter.capabilities | {
@@ -375,6 +405,9 @@ def test_capabilities_gain_orphanage_where_the_build_serves_it(
         patch.object(btclib_node_module, "_served_rpcs", return_value=frozenset()),
         patch.object(btclib_node_module, "_speaks_v2", return_value=False),
         patch.object(btclib_node_module, "_permits_bare_multisig", return_value=False),
+        patch.object(
+            btclib_node_module, "_moves_activation_heights", return_value=False
+        ),
     ):
         adapter = BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444)
     assert adapter.capabilities == BtclibNodeAdapter.capabilities | {
@@ -407,6 +440,9 @@ def test_capabilities_gain_cluster_replacement_where_the_build_counts_clusters(
         patch.object(btclib_node_module, "_served_rpcs", return_value=frozenset()),
         patch.object(btclib_node_module, "_speaks_v2", return_value=False),
         patch.object(btclib_node_module, "_permits_bare_multisig", return_value=False),
+        patch.object(
+            btclib_node_module, "_moves_activation_heights", return_value=False
+        ),
     ):
         adapter = BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444)
     assert adapter.capabilities == BtclibNodeAdapter.capabilities | {
@@ -439,6 +475,9 @@ def test_capabilities_gain_listen_address_where_the_build_reads_bind(
         patch.object(btclib_node_module, "_served_rpcs", return_value=frozenset()),
         patch.object(btclib_node_module, "_speaks_v2", return_value=False),
         patch.object(btclib_node_module, "_permits_bare_multisig", return_value=False),
+        patch.object(
+            btclib_node_module, "_moves_activation_heights", return_value=False
+        ),
     ):
         adapter = BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444)
     assert adapter.capabilities == BtclibNodeAdapter.capabilities | {
@@ -471,6 +510,9 @@ def test_capabilities_gain_peer_permissions_where_the_build_reads_whitelist(
         patch.object(btclib_node_module, "_served_rpcs", return_value=frozenset()),
         patch.object(btclib_node_module, "_speaks_v2", return_value=False),
         patch.object(btclib_node_module, "_permits_bare_multisig", return_value=False),
+        patch.object(
+            btclib_node_module, "_moves_activation_heights", return_value=False
+        ),
     ):
         adapter = BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444)
     assert adapter.capabilities == BtclibNodeAdapter.capabilities | {
@@ -503,10 +545,48 @@ def test_capabilities_gain_v2transport_where_the_build_speaks_bip324(
         patch.object(btclib_node_module, "_served_rpcs", return_value=frozenset()),
         patch.object(btclib_node_module, "_speaks_v2", return_value=True),
         patch.object(btclib_node_module, "_permits_bare_multisig", return_value=False),
+        patch.object(
+            btclib_node_module, "_moves_activation_heights", return_value=False
+        ),
     ):
         adapter = BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444)
     assert adapter.capabilities == BtclibNodeAdapter.capabilities | {
         Capability.V2TRANSPORT
+    }
+
+
+def test_capabilities_gain_test_activation_height_where_the_build_reads_it(
+    tmp_path: Path,
+) -> None:
+    """An instance built with a `-testactivationheight` build declares it."""
+    with (
+        patch.object(btclib_node_module, "_writes_auth_cookie", return_value=False),
+        patch.object(btclib_node_module, "_negates_rpcauth", return_value=False),
+        patch.object(btclib_node_module, "_evicts_inbound", return_value=False),
+        patch.object(btclib_node_module, "_connects_alone", return_value=False),
+        patch.object(btclib_node_module, "_serves_ban_list", return_value=False),
+        patch.object(btclib_node_module, "_sets_min_relay_fee", return_value=False),
+        patch.object(btclib_node_module, "_serves_chain_tips", return_value=False),
+        patch.object(btclib_node_module, "_serves_disconnect", return_value=False),
+        patch.object(btclib_node_module, "_serves_submitpackage", return_value=False),
+        patch.object(btclib_node_module, "_serves_getorphantxs", return_value=False),
+        patch.object(btclib_node_module, "_replaces_by_cluster", return_value=False),
+        patch.object(btclib_node_module, "_binds_address", return_value=False),
+        patch.object(btclib_node_module, "_reads_whitelist", return_value=False),
+        patch.object(btclib_node_module, "_serves_mempool_entry", return_value=False),
+        patch.object(btclib_node_module, "_reads_includeconf", return_value=False),
+        patch.object(btclib_node_module, "_serves_setmocktime", return_value=False),
+        patch.object(btclib_node_module, "_serves_generate", return_value=False),
+        patch.object(btclib_node_module, "_served_rpcs", return_value=frozenset()),
+        patch.object(btclib_node_module, "_speaks_v2", return_value=False),
+        patch.object(btclib_node_module, "_permits_bare_multisig", return_value=False),
+        patch.object(
+            btclib_node_module, "_moves_activation_heights", return_value=True
+        ),
+    ):
+        adapter = BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444)
+    assert adapter.capabilities == BtclibNodeAdapter.capabilities | {
+        Capability.TEST_ACTIVATION_HEIGHT
     }
 
 
@@ -535,6 +615,9 @@ def test_capabilities_are_the_class_set_where_no_probe_holds(
         patch.object(btclib_node_module, "_served_rpcs", return_value=frozenset()),
         patch.object(btclib_node_module, "_speaks_v2", return_value=False),
         patch.object(btclib_node_module, "_permits_bare_multisig", return_value=False),
+        patch.object(
+            btclib_node_module, "_moves_activation_heights", return_value=False
+        ),
     ):
         adapter = BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444)
     assert adapter.capabilities is BtclibNodeAdapter.capabilities
@@ -565,6 +648,9 @@ def test_capabilities_gain_mempool_entry_where_the_build_serves_it(
         patch.object(btclib_node_module, "_served_rpcs", return_value=frozenset()),
         patch.object(btclib_node_module, "_speaks_v2", return_value=False),
         patch.object(btclib_node_module, "_permits_bare_multisig", return_value=False),
+        patch.object(
+            btclib_node_module, "_moves_activation_heights", return_value=False
+        ),
     ):
         adapter = BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444)
     assert adapter.capabilities == BtclibNodeAdapter.capabilities | {
@@ -598,6 +684,9 @@ def test_capabilities_gain_clock_where_the_build_serves_setmocktime(
         patch.object(btclib_node_module, "_served_rpcs", return_value=frozenset()),
         patch.object(btclib_node_module, "_speaks_v2", return_value=False),
         patch.object(btclib_node_module, "_permits_bare_multisig", return_value=False),
+        patch.object(
+            btclib_node_module, "_moves_activation_heights", return_value=False
+        ),
     ):
         adapter = BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444)
     assert adapter.capabilities == BtclibNodeAdapter.capabilities | {Capability.CLOCK}
@@ -628,6 +717,9 @@ def test_capabilities_gain_generate_where_the_build_serves_it(
         patch.object(btclib_node_module, "_served_rpcs", return_value=frozenset()),
         patch.object(btclib_node_module, "_speaks_v2", return_value=False),
         patch.object(btclib_node_module, "_permits_bare_multisig", return_value=False),
+        patch.object(
+            btclib_node_module, "_moves_activation_heights", return_value=False
+        ),
     ):
         adapter = BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444)
     assert adapter.capabilities == BtclibNodeAdapter.capabilities | {
@@ -660,6 +752,9 @@ def test_capabilities_gain_include_conf_where_the_build_reads_it(
         patch.object(btclib_node_module, "_served_rpcs", return_value=frozenset()),
         patch.object(btclib_node_module, "_speaks_v2", return_value=False),
         patch.object(btclib_node_module, "_permits_bare_multisig", return_value=False),
+        patch.object(
+            btclib_node_module, "_moves_activation_heights", return_value=False
+        ),
     ):
         adapter = BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444)
     assert adapter.capabilities == BtclibNodeAdapter.capabilities | {
@@ -764,11 +859,37 @@ def test_capabilities_drop_the_regtest_only_ones_on_another_chain(
         ),
         patch.object(btclib_node_module, "_speaks_v2", return_value=False),
         patch.object(btclib_node_module, "_permits_bare_multisig", return_value=False),
+        patch.object(
+            btclib_node_module, "_moves_activation_heights", return_value=False
+        ),
     ):
         adapter = BtclibNodeAdapter(
             sys.executable, tmp_path, 18443, 18444, chain="signet"
         )
     assert adapter.capabilities is BtclibNodeAdapter.capabilities
+
+
+@pytest.mark.parametrize(
+    "chain, declares", [("main", False), ("test", True), ("signet", True)]
+)
+def test_test_activation_height_is_dropped_on_mainnet_alone(
+    chain: str, declares: bool, tmp_path: Path
+) -> None:
+    """A holding probe declares it on every chain but `main`."""
+    with ExitStack() as stack:
+        for name in _NO_OTHER_PROBE:
+            stack.enter_context(
+                patch.object(
+                    btclib_node_module,
+                    name,
+                    return_value=name == "_moves_activation_heights",
+                )
+            )
+        stack.enter_context(
+            patch.object(btclib_node_module, "_served_rpcs", return_value=frozenset())
+        )
+        adapter = BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444, chain=chain)
+    assert (Capability.TEST_ACTIVATION_HEIGHT in adapter.capabilities) is declares
 
 
 def test_rpc_client_authenticates_with_a_placeholder_credential_pre_1070(
@@ -1377,6 +1498,46 @@ def test_bare_multisig_probe_answers_from_the_parsed_config(
     assert answer is permits_off
 
 
+def test_moves_activation_heights_reads_the_probe_s_own_return_code() -> None:
+    """`_moves_activation_heights` is its own probe exiting zero."""
+    btclib_node_module._moves_activation_heights.cache_clear()
+    with patch("subprocess.run", return_value=SimpleNamespace(returncode=0)) as run:
+        assert btclib_node_module._moves_activation_heights("fake-python-2173") is True
+    _assert_probed_in_own_home(
+        run, "fake-python-2173", btclib_node_module._ACTIVATION_HEIGHT_PROBE
+    )
+
+
+def test_moves_activation_heights_is_false_where_the_parse_refuses() -> None:
+    """A nonzero exit -- the flag refused, or segwit unmoved -- is `False`."""
+    btclib_node_module._moves_activation_heights.cache_clear()
+    with patch("subprocess.run", return_value=SimpleNamespace(returncode=1)):
+        assert (
+            btclib_node_module._moves_activation_heights("fake-python-pre-2173")
+            is False
+        )
+
+
+@pytest.mark.parametrize(
+    "height, moves",
+    [(5, True), (0, False), (None, False)],
+)
+def test_activation_height_probe_answers_from_the_parsed_config(
+    height: int | None, moves: bool, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """`_ACTIVATION_HEIGHT_PROBE` answers from the chain's `segwit_height`."""
+    body = (
+        "raise SystemExit(2)"
+        if height is None
+        else "return SimpleNamespace(chain=SimpleNamespace("
+        f"consensus=SimpleNamespace(segwit_height={height})))"
+    )
+    answer = _run_probe_on_stub_config(
+        btclib_node_module._moves_activation_heights, body, tmp_path, monkeypatch
+    )
+    assert answer is moves
+
+
 def test_speaks_v2_reads_the_probe_s_own_return_code() -> None:
     """`_speaks_v2` is `_V2_PROBE` exiting zero."""
     btclib_node_module._speaks_v2.cache_clear()
@@ -1667,6 +1828,7 @@ _NO_OTHER_PROBE = (
     "_serves_generate",
     "_speaks_v2",
     "_permits_bare_multisig",
+    "_moves_activation_heights",
 )
 
 
