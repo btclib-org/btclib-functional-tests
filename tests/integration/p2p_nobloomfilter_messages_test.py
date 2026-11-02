@@ -11,7 +11,7 @@ Core starts its node with `-peerbloomfilters=0`, which is the default, so
 this node takes no option. The file's other steps are not ported here.
 
 The step asserts two facts of one action, so it is split as the log family
-splits them ([ISS 5](https://github.com/btclib-org/btclib-functional-tests/issues/5)).
+splits them ([ISS 5](https://github.com/btclib-org/functional-tests/issues/5)).
 The wire half reads the disconnect. Core's `getconnectioncount` check after
 it is dropped: the closed socket already says the node closed it. The log
 half asks for `Capability.DEBUG_LOG`.
@@ -19,7 +19,7 @@ half asks for `Capability.DEBUG_LOG`.
 The disconnect is in bitcoind from bitcoin/bitcoin#35832, which a
 release before `v32.0` does not carry: there the request is ignored and
 the peer kept. The body reads the build's own `getnetworkinfo` `version`
-([ISS 35](https://github.com/btclib-org/btclib-functional-tests/issues/35)).
+([ISS 35](https://github.com/btclib-org/functional-tests/issues/35)).
 On an older build the wire half asserts the peer is kept, and the log
 half asserts the line is not written. `_DISCONNECT_VERSION`'s own
 comment has the known limit.
@@ -69,7 +69,7 @@ def _disconnects(adapter: NodeAdapter) -> bool:
 
     Core's own claim for every node, bitcoind before `_DISCONNECT_VERSION`
     excepted, read off its own `getnetworkinfo` `version`
-    ([ISS 35](https://github.com/btclib-org/btclib-functional-tests/issues/35)).
+    ([ISS 35](https://github.com/btclib-org/functional-tests/issues/35)).
     """
     if not isinstance(adapter, BitcoindAdapter):
         return True

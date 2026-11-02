@@ -7,7 +7,7 @@
 Read from Core's `test/functional/rpc_getdescriptoractivity.py`
 (`3fd68a95e68b`, 2026-04-07) and narrowed to what the MiniWallet family
 reaches
-([ISS btclib-functional-tests#14](https://github.com/btclib-org/btclib-functional-tests/issues/14)):
+([ISS functional-tests#14](https://github.com/btclib-org/functional-tests/issues/14)):
 `MiniWallet.send_to` (`Capability.MINE`) pays a fresh address this module
 builds -- `getnewdestination` (`wallet.py`) has no counterpart here, so a
 key-path p2tr output over a random key this module generates itself,
@@ -23,7 +23,7 @@ largest coinbase the subject's own wallet has matured, and on the
 session's shared adapter that coinbase is mined on top of whatever
 chain the tests before it left: past enough regtest halvings, it is
 worth less than `_AMOUNT`
-([ISS 127](https://github.com/btclib-org/btclib-functional-tests/issues/127)).
+([ISS 127](https://github.com/btclib-org/functional-tests/issues/127)).
 
 Not the clock family, unlike Core's own file: Core's own `setmocktime`
 call there freezes the clock its own node-driven mining
@@ -44,7 +44,7 @@ opening its `asm` and the `rawtr` function opening its `desc`; that an
 unconfirmed payment is excluded when `include_mempool` is `False`; and
 the RPC-argument errors (`Block not found`, an invalid descriptor, and
 the required-argument usage string). Kept too
-([ISS 167](https://github.com/btclib-org/btclib-functional-tests/issues/167)):
+([ISS 167](https://github.com/btclib-org/functional-tests/issues/167)):
 Core's own multiple-address query, its mix of a confirmed and an
 unconfirmed payment, its receive-then-spend over two blocks, and its
 no-address case, a coin paying `mini_wallet.py`'s

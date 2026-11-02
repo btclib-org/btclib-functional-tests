@@ -22,7 +22,7 @@ matching Core's own `restart_node(1, [...])`. Where Core restarts with
 The plain restart's own ban check reads `listbanned` first, the way
 Core's own `is_banned` helper does, before the refused reconnection is
 even attempted
-([ISS 94](https://github.com/btclib-org/btclib-functional-tests/issues/94)).
+([ISS 94](https://github.com/btclib-org/functional-tests/issues/94)).
 The reconnection is then Core's own: `addnode ... "onetry"` on `node0`,
 with `v2transport` false as `connect_nodes` passes it, inside
 `assert_debug_log` (`debug_log.py`) on `node1`, whose

@@ -6,7 +6,7 @@
 
 Read from Core's `test/functional/p2p_seednode.py` (`fa5f29774872`,
 2025-12-16), a file of
-[ISS 47](https://github.com/btclib-org/btclib-functional-tests/issues/47):
+[ISS 47](https://github.com/btclib-org/functional-tests/issues/47):
 a node given no `-seednode` asks none, one whose address table is empty
 asks its `-seednode` at once, and one whose table holds addresses dials
 those first and asks its `-seednode` only once its wait has passed.

@@ -22,7 +22,7 @@ follows `setmocktime` (bitcoin/bitcoin#34328). No probe tells the two
 apart, the node having no option or RPC for it: that build is asserted to
 follow the mock clock, as Core's own file did there, read off its own
 `getnetworkinfo` `version`
-([ISS 354](https://github.com/btclib-org/btclib-functional-tests/issues/354)).
+([ISS 354](https://github.com/btclib-org/functional-tests/issues/354)).
 """
 
 from __future__ import annotations

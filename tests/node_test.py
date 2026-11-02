@@ -150,7 +150,7 @@ def test_free_ports_returns_pairwise_distinct_bindable_ports() -> None:
 def test_free_ports_draws_below_every_ephemeral_range() -> None:
     """No port `free_ports` returns is one the kernel could hand out itself.
 
-    [ISS 192](https://github.com/btclib-org/btclib-functional-tests/issues/192):
+    [ISS 192](https://github.com/btclib-org/functional-tests/issues/192):
     a port inside Linux's default `ip_local_port_range`, which starts at
     32768, can be taken by any outgoing connection before the node binds
     it.
@@ -240,7 +240,7 @@ def test_port_cursor_skips_a_held_port_and_wraps_round(
 def test_port_cursor_does_not_repeat_across_calls(held_ports: set[int]) -> None:
     """Two draws of one port each answer two ports, not the same one twice.
 
-    [ISS 85](https://github.com/btclib-org/btclib-functional-tests/issues/85)'s
+    [ISS 85](https://github.com/btclib-org/functional-tests/issues/85)'s
     own defect: two sequential `free_port` calls answering one port.
     """
     from btclib_functional_tests import node as node_module  # noqa: PLC0415
@@ -493,7 +493,7 @@ def test_start_timeout_is_scaled_by_the_global_factor(tmp_path: Path) -> None:
 def test_start_timeout_chains_the_last_transient_rpc_failure(tmp_path: Path) -> None:
     """The `TimeoutError` carries what the node last answered, not `None`.
 
-    Regression test for [ISS 98](https://github.com/btclib-org/btclib-functional-tests/issues/98):
+    Regression test for [ISS 98](https://github.com/btclib-org/functional-tests/issues/98):
     the pre-fix `_wait_for_rpc` raised a bare `TimeoutError`, so a caller's
     own `except ... as e: e.__cause__` read `None` for every timeout, a
     permanent answer included, and there was nothing in the traceback
@@ -531,7 +531,7 @@ def test_start_timeout_carries_the_errors_stderr_and_this_start_s_log(
 ) -> None:
     """The `TimeoutError` says what the node was doing, not only its deadline.
 
-    Regression test for [ISS 134](https://github.com/btclib-org/btclib-functional-tests/issues/134):
+    Regression test for [ISS 134](https://github.com/btclib-org/functional-tests/issues/134):
     a timeout's message named its deadline alone. The line an earlier
     start left in the same log is not this start's, and stays out of the
     message.
@@ -672,7 +672,7 @@ def test_start_raises_at_once_on_an_rpc_error_that_is_not_warmup(
 ) -> None:
     """A node answering with a real RPC error is failed at once, not waited out.
 
-    Regression test for [ISS 98](https://github.com/btclib-org/btclib-functional-tests/issues/98):
+    Regression test for [ISS 98](https://github.com/btclib-org/functional-tests/issues/98):
     the pre-fix `_wait_for_rpc` caught every exception alike, so this waited
     out the whole startup timeout and was reported as `TimeoutError` --
     silence -- rather than as the answer the node actually sent.
@@ -825,7 +825,7 @@ def test_two_adapters_over_one_datadir_each_read_their_own_stderr(
 ) -> None:
     """A second start over a running node's datadir leaves its stderr alone.
 
-    Regression test for [ISS 105](https://github.com/btclib-org/btclib-functional-tests/issues/105):
+    Regression test for [ISS 105](https://github.com/btclib-org/functional-tests/issues/105):
     the second process's own stderr goes to a file of its own, so the
     first node's `stop` reads back what the first process wrote.
     """

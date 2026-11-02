@@ -7,7 +7,7 @@
 Read from Core's `test/functional/mempool_sigoplimit.py` (`5d25a0c28d19`,
 2026-07-07) and narrowed to what the option and MiniWallet families
 reach together
-([ISS btclib-functional-tests#14](https://github.com/btclib-org/btclib-functional-tests/issues/14)):
+([ISS functional-tests#14](https://github.com/btclib-org/functional-tests/issues/14)):
 `-bytespersigop` (`Capability.BYTES_PER_SIGOP`) converts a transaction's
 own sigop count into an equivalent virtual size, and
 `MiniWallet.send_to` funds a P2WSH output carrying a witness script this

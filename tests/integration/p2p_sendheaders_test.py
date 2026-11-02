@@ -6,7 +6,7 @@
 
 Read from Core's `test/functional/p2p_sendheaders.py` (`a7acf277dc39`,
 2026-10-02), a file needing no mechanism the adapter lacks
-([ISS 317](https://github.com/btclib-org/btclib-functional-tests/issues/317)):
+([ISS 317](https://github.com/btclib-org/functional-tests/issues/317)):
 a node announces a new block to a peer by `inv` until the peer sends
 `sendheaders`, and by `headers` after it. Two nodes are linked as
 Core's `setup_network` links them (`Capability.CONNECT`), the first

@@ -169,7 +169,7 @@ def _anchors_survive_a_network_toggle(
 ) -> bool:
     """Return whether this build keeps anchors across a switched-off network.
 
-    Read per build ([ISS 35](https://github.com/btclib-org/btclib-functional-tests/issues/35)):
+    Read per build ([ISS 35](https://github.com/btclib-org/functional-tests/issues/35)):
     a node other than bitcoind is held to it.
     """
     version = bitcoind_version(node)

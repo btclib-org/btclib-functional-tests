@@ -6,7 +6,7 @@
 
 Read from Core's `test/functional/p2p_blockfilters.py` (`3fd68a95e68b`,
 2026-04-07), an option and the log beside node-linking
-([ISS 14](https://github.com/btclib-org/btclib-functional-tests/issues/14)):
+([ISS 14](https://github.com/btclib-org/functional-tests/issues/14)):
 a node under `-blockfilterindex` and `-peerblockfilters`
 (`Capability.BLOCK_FILTER_INDEX`, `Capability.PEER_BLOCK_FILTERS`)
 signals `NODE_COMPACT_FILTERS` and serves BIP157's `cfcheckpt`,

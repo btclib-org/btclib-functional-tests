@@ -18,14 +18,14 @@ wallet's own namespacing, neither of which bears on how the cache is fed.
 
 The third body asks what Core's own file never calls and several other
 Core files do: `confirmed_only`
-([ISS 69](https://github.com/btclib-org/btclib-functional-tests/issues/69)),
+([ISS 69](https://github.com/btclib-org/functional-tests/issues/69)),
 over a cache holding a coin this wallet's own `generate` confirmed, one
 a block the node mined itself confirmed (`generateblock`, naming that one
 transaction), and one only the mempool holds.
 
 The last two ask what Core's own `mempool_truc.py` and
 `mempool_package_rbf.py` rest on
-([ISS 103](https://github.com/btclib-org/btclib-functional-tests/issues/103)):
+([ISS 103](https://github.com/btclib-org/functional-tests/issues/103)):
 that a caller-chosen `fee_rate` is the fee `getmempoolentry` reports,
 priced over the tx's own vsize or over `target_vsize`, and not refused
 above `sendrawtransaction`'s own default `maxfeerate`; and that

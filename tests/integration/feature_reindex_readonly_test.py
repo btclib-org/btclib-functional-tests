@@ -6,7 +6,7 @@
 
 Read from Core's `test/functional/feature_reindex_readonly.py`
 (`6eca11175be6`, 2026-07-16), the option, disk and log families together
-([ISS 14](https://github.com/btclib-org/btclib-functional-tests/issues/14)):
+([ISS 14](https://github.com/btclib-org/functional-tests/issues/14)):
 a node under `-fastprune` (`Capability.FASTPRUNE`) mines a block larger
 than a block file, so its chain spills into the next block file, and,
 restarted with `-reindex` (`Capability.REINDEX`) once the first of them

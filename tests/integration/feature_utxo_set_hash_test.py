@@ -7,7 +7,7 @@
 Read from Core's `test/functional/feature_utxo_set_hash.py`
 (`58eeab790d98`, 2026-05-13) and narrowed to what the MiniWallet family
 reaches
-([ISS btclib-functional-tests#14](https://github.com/btclib-org/btclib-functional-tests/issues/14)):
+([ISS functional-tests#14](https://github.com/btclib-org/functional-tests/issues/14)):
 `MiniWallet.generate`/`send_self_transfer` (`Capability.MINE`) build a
 short chain, `gettxoutsetinfo` is `Capability.UTXO_SET_INFO`, and
 `btclib.coinstats.CoinStats` -- covered in `TF2.md`'s own entry for

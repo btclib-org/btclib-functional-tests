@@ -5,7 +5,7 @@
 """Core's `interface_rpc`, one body over each node.
 
 Read from Core's `test/functional/interface_rpc.py` (`fa2bd96cc0d4`,
-2026-08-06), [ISS 14](https://github.com/btclib-org/btclib-functional-tests/issues/14)'s:
+2026-08-06), [ISS 14](https://github.com/btclib-org/functional-tests/issues/14)'s:
 the JSON-RPC server's own answers, each read off the HTTP exchange
 rather than through a client that interprets them. `_post` sends a body
 as it is written, over the node's own RPC connection and credential,
@@ -37,7 +37,7 @@ after `Server response:`, and matches the message `TestNodeCLI.send_cli`
 (`test_node.py`) rewrites that into, where this sends the same request
 over `_exchange` and matches the 503 and the body the server sent; what
 `bitcoin-cli` makes of it is `interface_bitcoin_cli.py`'s subject
-([ISS 49](https://github.com/btclib-org/btclib-functional-tests/issues/49)).
+([ISS 49](https://github.com/btclib-org/functional-tests/issues/49)).
 `http_request` returns no header, so `_post` does not check the
 `Content-Type` Core's `AuthServiceProxy._get_response` checks, a check
 of Core's harness rather than of any step of the test.

@@ -27,7 +27,7 @@ against a Core developer's own build* has the full mapping, and
 neither needing a flag of its own here.
 
 A Core test converged onto several nodes is one body
-([ISS 125](https://github.com/btclib-org/btclib-functional-tests/issues/125)):
+([ISS 125](https://github.com/btclib-org/functional-tests/issues/125)):
 a function in `<file>_test.py`, named for Core's own file
 (`p2p_block_sync_test.py`), taking the adapters it runs on and
 `skip_counts`. Its name carries no `test_` prefix, so pytest collects no
@@ -239,7 +239,7 @@ def pytest_collection_modifyitems(
 # A line of a failure report past twice this keeps its first and last
 # `_KEPT` characters. A GitHub runner stalls on a line of some megabytes,
 # and a node that echoes the transaction it refused to decode makes one
-# (issue btclib-org/btclib-functional-tests#442).
+# (issue btclib-org/functional-tests#442).
 _KEPT = 1000
 
 
@@ -464,7 +464,7 @@ def mixed_cluster(
 ) -> Iterator[tuple[BitcoindAdapter, BtclibNodeAdapter]]:
     """Yield one fresh `BitcoindAdapter` and one fresh `BtclibNodeAdapter`.
 
-    [ISS 43](https://github.com/btclib-org/btclib-functional-tests/issues/43)'s
+    [ISS 43](https://github.com/btclib-org/functional-tests/issues/43)'s
     own "most valuable case": a cluster of two different kinds of node,
     started independently and never wired together by this fixture --
     matching `bitcoind_cluster` above, a test's own `connect_nodes` is

@@ -6,7 +6,7 @@
 
 Read from Core's `test/functional/feature_reindex_init.py`
 (`0d1301b47a35`, 2026-03-24), the option and disk families together
-([ISS 14](https://github.com/btclib-org/btclib-functional-tests/issues/14)):
+([ISS 14](https://github.com/btclib-org/functional-tests/issues/14)):
 a node stopped and its block index removed from `blocks/index` refuses
 to start, advising a reindex in Core's own words, and started again
 with `-test=reindex_after_failure_noninteractive_yes`
@@ -32,7 +32,7 @@ having added the empty caption and its separator
 (bitcoin/bitcoin#34276). No probe tells the two apart, the node having no
 option or RPC for it: that build is asserted to print it, read off its own
 `getnetworkinfo` `version`
-([ISS 354](https://github.com/btclib-org/btclib-functional-tests/issues/354)).
+([ISS 354](https://github.com/btclib-org/functional-tests/issues/354)).
 
 Each `feature_reindex_init_<node>_test.py` module beside this one runs it,
 `tests/integration/conftest.py`'s own module docstring having how.

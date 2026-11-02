@@ -6,7 +6,7 @@
 
 Read from Core's `test/functional/rpc_estimatefee.py`
 (`4056908f0fea`, 2026-09-29), a file needing no mechanism the adapter
-lacks ([ISS 317](https://github.com/btclib-org/btclib-functional-tests/issues/317)):
+lacks ([ISS 317](https://github.com/btclib-org/functional-tests/issues/317)):
 one clean-chain node refuses `estimatesmartfee` and `estimaterawfee`
 given too few or too many arguments, an argument of the wrong type, an
 unknown estimate mode, fee rate estimator, named parameter or option key,
@@ -16,7 +16,7 @@ message, and answers each valid call without an error
 the wrong types included: Core leaves them out only under `--usecli`.
 
 Two steps are per-build
-([ISS 35](https://github.com/btclib-org/btclib-functional-tests/issues/35)),
+([ISS 35](https://github.com/btclib-org/functional-tests/issues/35)),
 each read off the node's own `help estimatesmartfee` by `_help_names`:
 
 - `estimatesmartfee`'s `options` argument, from bitcoin/bitcoin#34075,

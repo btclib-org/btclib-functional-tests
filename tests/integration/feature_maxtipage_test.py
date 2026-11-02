@@ -7,7 +7,7 @@
 Read from Core's `test/functional/feature_maxtipage.py`
 (`fa5f29774872`, 2025-12-16), an option and the clock beside
 node-linking
-([ISS 14](https://github.com/btclib-org/btclib-functional-tests/issues/14)):
+([ISS 14](https://github.com/btclib-org/functional-tests/issues/14)):
 a node restarted with `-maxtipage` (`Capability.MAX_TIP_AGE`) and
 connected to a miner stays in initial block download while every block
 it receives is older than the maximum age by its clock, and leaves it on

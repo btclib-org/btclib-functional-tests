@@ -6,7 +6,7 @@
 
 Read from Core's `test/functional/p2p_i2p_ports.py` (`fa20275db32c`,
 2025-10-21), a file of
-[ISS 47](https://github.com/btclib-org/btclib-functional-tests/issues/47):
+[ISS 47](https://github.com/btclib-org/functional-tests/issues/47):
 a node given `-i2psam` refuses to dial an I2P address on any port but
 `0`, the one SAM 3.1 connects to, and dials the SAM bridge for one on
 port `0`. Both of Core's steps are kept, in its order, each reading

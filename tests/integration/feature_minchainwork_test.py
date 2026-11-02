@@ -7,7 +7,7 @@
 Read from Core's `test/functional/feature_minchainwork.py`
 (`c502b65c007b`, 2026-10-03), an option and the clock beside
 node-linking
-([ISS 14](https://github.com/btclib-org/btclib-functional-tests/issues/14)):
+([ISS 14](https://github.com/btclib-org/functional-tests/issues/14)):
 three nodes in a line, each dialling the one before it, the second and
 the third under `-minimumchainwork=0x65`
 (`Capability.MINIMUM_CHAIN_WORK`) and the third's clock two days ahead

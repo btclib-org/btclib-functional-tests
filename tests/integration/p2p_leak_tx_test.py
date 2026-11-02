@@ -7,7 +7,7 @@
 Read from Core's `test/functional/p2p_leak_tx.py` (`fa5f29774872`,
 2025-12-16) and narrowed to what the clock and MiniWallet families reach
 together
-([ISS btclib-functional-tests#14](https://github.com/btclib-org/btclib-functional-tests/issues/14)):
+([ISS functional-tests#14](https://github.com/btclib-org/functional-tests/issues/14)):
 `Capability.CLOCK` (`setmocktime`) is what holds the node's own
 transaction-announcement clock still until this module is ready to
 advance it, and `MiniWallet.send_self_transfer` (`Capability.MINE`) is

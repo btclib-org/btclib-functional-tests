@@ -6,7 +6,7 @@
 
 Read from Core's `test/functional/p2p_dns_seeds.py` (`fa4cb96bdec2`,
 2026-02-17), a file of
-[ISS 47](https://github.com/btclib-org/btclib-functional-tests/issues/47):
+[ISS 47](https://github.com/btclib-org/functional-tests/issues/47):
 a node given `-connect` asks its chain's DNS seeds for no peers unless
 `-dnsseed` says so, refuses `-forcednsseed` beside `-dnsseed` off, skips
 the seeds once outbound full-relay peers connect but not block-relay-only

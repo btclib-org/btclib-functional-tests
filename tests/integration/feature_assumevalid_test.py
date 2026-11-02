@@ -6,7 +6,7 @@
 
 Read from Core's `test/functional/feature_assumevalid.py` (`fa16bc53d79c`,
 2026-04-16), an option and the log
-([ISS 14](https://github.com/btclib-org/btclib-functional-tests/issues/14)): a
+([ISS 14](https://github.com/btclib-org/functional-tests/issues/14)): a
 chain carries a coinbase output spent, once it matures, by a transaction
 with an empty (invalid) signature, and that spend is buried under a
 further stretch of blocks reaching past two weeks' worth of work.

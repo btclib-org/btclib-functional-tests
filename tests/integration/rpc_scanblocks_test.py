@@ -6,7 +6,7 @@
 
 Read from Core's `test/functional/rpc_scanblocks.py` (`aeca0610865e`,
 2026-07-01), the option and MiniWallet families together
-([ISS btclib-functional-tests#14](https://github.com/btclib-org/btclib-functional-tests/issues/14)):
+([ISS functional-tests#14](https://github.com/btclib-org/functional-tests/issues/14)):
 `-blockfilterindex=1` (`Capability.BLOCK_FILTER_INDEX`) keeps BIP158's
 basic filter per block, `scanblocks` answers from it, and
 `MiniWallet.send_to` (`Capability.MINE`) pays the two outputs the scans

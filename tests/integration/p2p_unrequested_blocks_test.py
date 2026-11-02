@@ -6,7 +6,7 @@
 
 Read from Core's `test/functional/p2p_unrequested_blocks.py`
 (`fab352053d6e`, 2026-04-16), an option and the log beside node-linking
-([ISS 14](https://github.com/btclib-org/btclib-functional-tests/issues/14)):
+([ISS 14](https://github.com/btclib-org/functional-tests/issues/14)):
 two nodes not linked, the second under `-minimumchainwork=0x10`
 (`Capability.MINIMUM_CHAIN_WORK`), each mining a block of its own
 (`Capability.GENERATE`) and each fed blocks by a peer. The first node

@@ -7,7 +7,7 @@
 Read from Core's `test/functional/mempool_dust.py` (`fa5f29774872`,
 2025-12-16) and narrowed to what the option and MiniWallet families reach
 together
-([ISS btclib-functional-tests#14](https://github.com/btclib-org/btclib-functional-tests/issues/14)):
+([ISS functional-tests#14](https://github.com/btclib-org/functional-tests/issues/14)):
 `-permitbaremultisig` and `-dustrelayfee`
 (`Capability.PERMIT_BARE_MULTISIG`, `Capability.DUST_RELAY_FEE`) are two
 of the mempool's own relay-policy knobs, and `MiniWallet.create_self_transfer`

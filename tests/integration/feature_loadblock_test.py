@@ -6,7 +6,7 @@
 
 Read from Core's `test/functional/feature_loadblock.py`
 (`fa4fc8c1d7b5`, 2026-05-22), the option and disk families together
-([ISS 14](https://github.com/btclib-org/btclib-functional-tests/issues/14)):
+([ISS 14](https://github.com/btclib-org/functional-tests/issues/14)):
 a node restarted with `-loadblock` (`Capability.LOAD_BLOCK`) naming a
 file of the first node's chain reaches that node's height and tip.
 

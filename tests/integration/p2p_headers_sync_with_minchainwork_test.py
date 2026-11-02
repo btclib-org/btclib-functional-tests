@@ -7,7 +7,7 @@
 Read from Core's `test/functional/p2p_headers_sync_with_minchainwork.py`
 (`ff3e2e4ebdce`, 2026-08-19), an option, the log and the clock beside
 node-linking
-([ISS 14](https://github.com/btclib-org/btclib-functional-tests/issues/14)):
+([ISS 14](https://github.com/btclib-org/functional-tests/issues/14)):
 the first node dials each of the others, the second under
 `-minimumchainwork=0x1f`, the third and the last under `0x1000`
 (`Capability.MINIMUM_CHAIN_WORK`), the last giving the first `noban`.

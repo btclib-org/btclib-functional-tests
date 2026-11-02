@@ -10,7 +10,7 @@ against bitcoind, which declares every capability it asks for. Whether
 that body expects a null in place of `start`'s scan objects refused as
 Core's pinned file refuses it is read from the running build's own
 `getnetworkinfo` `version`
-([ISS 35](https://github.com/btclib-org/btclib-functional-tests/issues/35)),
+([ISS 35](https://github.com/btclib-org/functional-tests/issues/35)),
 `_NULL_AS_MISSING_VERSION` below having why.
 
     TF2_INTEGRATION=1 uv run pytest tests/integration

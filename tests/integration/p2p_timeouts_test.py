@@ -6,7 +6,7 @@
 
 Read from Core's `test/functional/p2p_timeouts.py` (`fa4cb96bdec2`,
 2026-02-17), the option, clock and log families together
-([ISS 14](https://github.com/btclib-org/btclib-functional-tests/issues/14)):
+([ISS 14](https://github.com/btclib-org/functional-tests/issues/14)):
 a node started with `-peertimeout=3` (`Capability.PEER_TIMEOUT`) keeps
 three peers that never finish the handshake -- one sending `version`
 and never `verack`, one sending only `ping`, one sending nothing -- for

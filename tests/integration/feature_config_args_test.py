@@ -6,14 +6,14 @@
 
 Read from Core's `test/functional/feature_config_args.py`
 (`2630d8e6c9d6`, 2026-09-22), a file of
-[ISS 47](https://github.com/btclib-org/btclib-functional-tests/issues/47):
+[ISS 47](https://github.com/btclib-org/functional-tests/issues/47):
 `-proxy` given no value is refused (`test_invalid_command_line_options`),
 `-connect` ignores `-seednode`, and `-dnsseed` too where a proxy is given
 (`test_connect_with_seednode`), and `-privatebroadcast` is refused without
 a Tor or I2P proxy or beside `-connect`, and warns beside
 `-proxyrandomize=0` (`test_privatebroadcast`). The file's other steps are
 not ported here: they are
-[ISS 14](https://github.com/btclib-org/btclib-functional-tests/issues/14)'s
+[ISS 14](https://github.com/btclib-org/functional-tests/issues/14)'s
 log and configuration file steps, the proxy in them only keeping the node
 off the network.
 

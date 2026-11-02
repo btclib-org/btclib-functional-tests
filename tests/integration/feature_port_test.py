@@ -6,7 +6,7 @@
 
 Read from Core's `test/functional/feature_port.py`
 (`997757dd2b4d`, 2024-11-15), the option and log families together
-([ISS 14](https://github.com/btclib-org/btclib-functional-tests/issues/14)):
+([ISS 14](https://github.com/btclib-org/functional-tests/issues/14)):
 where a node restarted with `-port` and `-bind`
 (`Capability.LISTEN_ADDRESS`) listens, read off the `Bound to` lines its
 debug log (`Capability.DEBUG_LOG`) gains, and the error a `-port` of

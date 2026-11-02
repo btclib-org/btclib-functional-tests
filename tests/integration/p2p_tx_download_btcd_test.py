@@ -14,7 +14,7 @@ address and grants the one permission `noban` stands for, so there is no
 
 The disconnect and `notfound` checks fail against btcd, a deliberate
 difference
-([ISS 487](https://github.com/btclib-org/btclib-functional-tests/issues/487)):
+([ISS 487](https://github.com/btclib-org/functional-tests/issues/487)):
 btcd asks the other peer for the transaction only once that peer
 announces it again, after a disconnect
 ([`netsync/manager.go#L529-L534`](https://github.com/btcsuite/btcd/blob/v0.26.2/netsync/manager.go#L529-L534))

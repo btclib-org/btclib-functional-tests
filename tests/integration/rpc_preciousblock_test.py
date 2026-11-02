@@ -6,7 +6,7 @@
 
 Read from Core's `test/functional/rpc_preciousblock.py` (`fa5f29774872`,
 2025-12-16), a file needing no mechanism the adapter lacks
-([ISS 317](https://github.com/btclib-org/btclib-functional-tests/issues/317)):
+([ISS 317](https://github.com/btclib-org/functional-tests/issues/317)):
 `preciousblock` (`Capability.PRECIOUS_BLOCK`) has a node take a block as
 if it had received it before every other block of the same work. The
 nodes start unlinked on a clean chain, and each mines blocks of its own

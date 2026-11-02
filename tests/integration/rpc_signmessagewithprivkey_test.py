@@ -6,7 +6,7 @@
 
 Read from Core's `test/functional/rpc_signmessagewithprivkey.py`
 (`fa5f29774872`, 2025-12-16), a file needing no mechanism the adapter
-lacks ([ISS 317](https://github.com/btclib-org/btclib-functional-tests/issues/317)):
+lacks ([ISS 317](https://github.com/btclib-org/functional-tests/issues/317)):
 one clean-chain node signs a message with a private key the caller hands
 it, over `signmessagewithprivkey`, and verifies that signature under the
 key's P2PKH address, over `verifymessage`

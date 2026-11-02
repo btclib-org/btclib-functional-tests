@@ -6,7 +6,7 @@
 
 Read from Core's `test/functional/mempool_expiry.py` (`fa5f29774872`,
 2025-12-16), the option, MiniWallet and clock families together
-([ISS 14](https://github.com/btclib-org/btclib-functional-tests/issues/14)):
+([ISS 14](https://github.com/btclib-org/functional-tests/issues/14)):
 a transaction still in the mempool five seconds short of the expiry
 timeout is gone five seconds past it, the child spending it goes with
 it, an independent transaction stays, and a prioritisation given to the

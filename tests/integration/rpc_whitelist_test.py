@@ -6,7 +6,7 @@ r"""Core's `rpc_whitelist`, as bodies over each node.
 
 Read from Core's `test/functional/rpc_whitelist.py` (`fad441867c9b`,
 2026-10-12), disk-family mechanism alone (issue btclib-org/btclib#2220,
-[ISS 7](https://github.com/btclib-org/btclib-functional-tests/issues/7)):
+[ISS 7](https://github.com/btclib-org/functional-tests/issues/7)):
 `rpcauth`, `rpcwhitelist` and `rpcwhitelistdefault` are `bitcoin.conf`
 keys, written to the datadir this adapter is given before it ever
 starts -- no `extra_args` and no adapter change, `bitcoin.conf` living
@@ -35,7 +35,7 @@ could forge a log line or every printable special character. A bitcoind
 escapes the newline as `\x0a` from bitcoin/bitcoin#35833, which no tag
 up to `v32.1` carries, and writes it raw before; which of the two is
 asserted is read off the build's own `getnetworkinfo` `version`
-([ISS 35](https://github.com/btclib-org/btclib-functional-tests/issues/35)).
+([ISS 35](https://github.com/btclib-org/functional-tests/issues/35)).
 
 Each `rpc_whitelist_<node>_test.py` module beside this one runs each body,
 `tests/integration/conftest.py`'s own module docstring having how.

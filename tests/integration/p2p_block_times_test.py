@@ -24,7 +24,7 @@ before `_add_outbound` returns, ahead of any block in the store.
 `getpeerinfo` reports `last_block_announcement` only past the pinned
 release, from bitcoin/bitcoin#27052's merge. Where the build's own
 `getnetworkinfo` `version` reads older
-([ISS 35](https://github.com/btclib-org/btclib-functional-tests/issues/35)),
+([ISS 35](https://github.com/btclib-org/functional-tests/issues/35)),
 the body asserts the field absent at each of Core's checks of it, and
 keeps Core's `last_block` check. The constant's own comment has the
 known limit.
@@ -159,7 +159,7 @@ def _reports_announcement(node: NodeAdapter) -> bool:
     Core's own claim for every node, bitcoind before
     `_LAST_BLOCK_ANNOUNCEMENT_VERSION` excepted, read off its own
     `getnetworkinfo` `version`
-    ([ISS 35](https://github.com/btclib-org/btclib-functional-tests/issues/35)).
+    ([ISS 35](https://github.com/btclib-org/functional-tests/issues/35)).
     """
     if not isinstance(node, BitcoindAdapter):
         return True

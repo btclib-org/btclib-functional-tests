@@ -31,7 +31,7 @@ _BLOCK_WORDING_VERSION = 300000
 def bitcoind_version(node: NodeAdapter) -> int | None:
     """Return `node`'s own `getnetworkinfo` `version`, `None` off bitcoind.
 
-    ([ISS 35](https://github.com/btclib-org/btclib-functional-tests/issues/35))
+    ([ISS 35](https://github.com/btclib-org/functional-tests/issues/35))
     """
     if not isinstance(node, BitcoindAdapter):
         return None

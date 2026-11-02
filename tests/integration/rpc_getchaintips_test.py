@@ -6,7 +6,7 @@
 
 Read from Core's `test/functional/rpc_getchaintips.py` (`fa16bc53d79c`,
 2026-04-16), a file needing no mechanism the adapter lacks
-([ISS 317](https://github.com/btclib-org/btclib-functional-tests/issues/317)):
+([ISS 317](https://github.com/btclib-org/functional-tests/issues/317)):
 four nodes linked in a line, as Core's `setup_network` links them
 (`Capability.CONNECT`), the first reporting its active tip alone
 (`Capability.CHAIN_TIPS`). The network is

@@ -23,7 +23,7 @@ connected during initial block download (bitcoin/bitcoin#34054), so it
 asks for no such coinbase. No probe tells the two behaviours apart, the
 node having no option or RPC for it: that build is asserted to ask for
 nothing, read off its own `getnetworkinfo` `version`
-([ISS 354](https://github.com/btclib-org/btclib-functional-tests/issues/354)).
+([ISS 354](https://github.com/btclib-org/functional-tests/issues/354)).
 
 Core's run is one sequence, and each body is that whole sequence over
 two fresh nodes. The log half asserts besides what Core's
@@ -275,7 +275,7 @@ def _filters_ibd_blocks(node: NodeAdapter) -> bool:
 
     Only a bitcoind before `_IBD_BLOCKS_NOT_FILTERED_VERSION` does, read off
     its own `getnetworkinfo` `version`
-    ([ISS 354](https://github.com/btclib-org/btclib-functional-tests/issues/354)).
+    ([ISS 354](https://github.com/btclib-org/functional-tests/issues/354)).
     """
     version = bitcoind_version(node)
     return version is not None and version < _IBD_BLOCKS_NOT_FILTERED_VERSION

@@ -4,7 +4,7 @@
 
 """Core's `--nocleanup`, measured as already true: bitcoind.
 
-Issue [btclib-functional-tests#36](https://github.com/btclib-org/btclib-functional-tests/issues/36):
+Issue [functional-tests#36](https://github.com/btclib-org/functional-tests/issues/36):
 `NodeAdapter.stop` (`node.py`) only terminates the process, never
 removing the data directory it wrote to -- there is nothing here for a
 `--nocleanup` flag to disable. CONTRIBUTING.md's own *Running against a

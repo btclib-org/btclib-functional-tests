@@ -9,7 +9,7 @@ Read from Core's `test/functional/feature_notifications.py`:
 here against bitcoind, which declares every capability they ask for.
 Which wording of the warning about an invalid chain with more work the
 body expects is read from the running build's own `getnetworkinfo`
-`version` ([ISS 35](https://github.com/btclib-org/btclib-functional-tests/issues/35)),
+`version` ([ISS 35](https://github.com/btclib-org/functional-tests/issues/35)),
 `_names_the_invalid_chain` below having which builds use which.
 
     TF2_INTEGRATION=1 uv run pytest tests/integration

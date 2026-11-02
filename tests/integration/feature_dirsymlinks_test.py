@@ -7,7 +7,7 @@
 Read from Core's `test/functional/feature_dirsymlinks.py`
 (`fa5f29774872`, 2025-12-16), disk-family mechanism alone
 (issue btclib-org/btclib#2220,
-[ISS 7](https://github.com/btclib-org/btclib-functional-tests/issues/7)):
+[ISS 7](https://github.com/btclib-org/functional-tests/issues/7)):
 a node started over a datadir whose `blocks/` and `chainstate/` are
 symlinks elsewhere -- a common way of putting either on its own device
 -- starts exactly as it does over the plain directories.
