@@ -966,7 +966,7 @@ gh api --method GET repos/bitcoin/bitcoin/commits \
 | `feature_reindex_init.py` | [`0d1301b47a35`](https://github.com/bitcoin/bitcoin/commit/0d1301b47a35) | 2026-03-24 | pass, the refusal's leading `": "` asserted per-build ([ISS 354](https://github.com/btclib-org/functional-tests/issues/354)); skip (reindex_after_failure) on a build whose `-test` lacks the reindex value | skip (reindex_after_failure) |
 | `rpc_generate.py` | [`6eca11175be6`](https://github.com/bitcoin/bitcoin/commit/6eca11175be6) | 2026-07-16 | pass | fail ([ISS btclib-node#2126](https://github.com/btclib-org/btclib-node/issues/2126)) |
 | `rpc_signrawtransactionwithkey.py` | [`fa5f29774872`](https://github.com/bitcoin/bitcoin/commit/fa5f29774872) | 2025-12-16 | pass | pass |
-| `rpc_scantxoutset.py` | [`b388674acf06`](https://github.com/bitcoin/bitcoin/commit/b388674acf06) | 2026-08-06 | pass, `start`'s refusal of a null scan-object list asserted per-build ([ISS 35](https://github.com/btclib-org/functional-tests/issues/35)) | fail ([ISS btclib-node#2104](https://github.com/btclib-org/btclib-node/issues/2104)) |
+| `rpc_scantxoutset.py` | [`b388674acf06`](https://github.com/bitcoin/bitcoin/commit/b388674acf06) | 2026-08-06 | pass, `start`'s refusal of a null scan-object list asserted per-build ([ISS 35](https://github.com/btclib-org/functional-tests/issues/35)) | pass |
 | `feature_proxy.py` | [`fd65406b39a8`](https://github.com/bitcoin/bitcoin/commit/fd65406b39a8) | 2026-10-01 | pass; skip (proxy_per_network) on a build whose `-help` shows no `-proxy` suffix, the malformed suffix starts' refusal asserted per-build ([ISS 354](https://github.com/btclib-org/functional-tests/issues/354)), and the `tor` refusal, the network's case and the connection log line asserted per-build ([ISS 35](https://github.com/btclib-org/functional-tests/issues/35)) | skip (proxy) |
 | `feature_proxy.py` (`-cjdnsreachable`) | same | same | pass | skip (cjdns) |
 | `feature_proxy.py` (`-i2psam`) | same | same | pass | skip (i2p_sam) |
@@ -1093,7 +1093,7 @@ gh api --method GET repos/bitcoin/bitcoin/commits \
 | `p2p_compactblocks.py` (high-bandwidth states) | same | same | pass | pass |
 | `p2p_compactblocks.py` (ignored) | same | same | pass, the ignored `cmpctblock` asserted per-build ([ISS 35](https://github.com/btclib-org/functional-tests/issues/35)) | pass |
 | `feature_startupnotify.py` | [`fa71c15f8610`](https://github.com/bitcoin/bitcoin/commit/fa71c15f8610) | 2025-11-26 | pass | skip (startup_notify) |
-| `rpc_dumptxoutset.py` | [`58eeab790d98`](https://github.com/bitcoin/bitcoin/commit/58eeab790d98) | 2026-05-13 | pass, the dump at a forked height asserted per-build ([ISS 35](https://github.com/btclib-org/functional-tests/issues/35)) | fail ([ISS btclib-node#2103](https://github.com/btclib-org/btclib-node/issues/2103)) |
+| `rpc_dumptxoutset.py` | [`58eeab790d98`](https://github.com/bitcoin/bitcoin/commit/58eeab790d98) | 2026-05-13 | pass, the dump at a forked height asserted per-build ([ISS 35](https://github.com/btclib-org/functional-tests/issues/35)) | pass |
 | `feature_loadblock.py` | [`fa4fc8c1d7b5`](https://github.com/bitcoin/bitcoin/commit/fa4fc8c1d7b5) | 2026-05-22 | pass | skip (load_block) |
 | `feature_port.py` | [`997757dd2b4d`](https://github.com/bitcoin/bitcoin/commit/997757dd2b4d) | 2024-11-15 | pass | skip (debug_log) |
 | `p2p_opportunistic_1p1c.py` (parent first) | [`86ff13a0af06`](https://github.com/bitcoin/bitcoin/commit/86ff13a0af06) | 2026-10-01 | pass | skip |
@@ -1170,7 +1170,7 @@ gh api --method GET repos/bitcoin/bitcoin/commits \
 | `feature_config_args.py` (`-privatebroadcast`) | same | same | pass, the warning's last sentence asserted per-build ([ISS 35](https://github.com/btclib-org/functional-tests/issues/35)) | skip (proxy) |
 | `p2p_nobloomfilter_messages.py` (filtered block, wire) | [`9871fb726cb5`](https://github.com/bitcoin/bitcoin/commit/9871fb726cb5) | 2026-07-31 | pass, the disconnect asserted per-build ([ISS 35](https://github.com/btclib-org/functional-tests/issues/35)) | pass |
 | `p2p_nobloomfilter_messages.py` (filtered block, log) | same | same | pass, its log line read per-build ([ISS 35](https://github.com/btclib-org/functional-tests/issues/35)) | skip |
-| `interface_http.py` (excessive request size, wire) | [`228877d7836a`](https://github.com/bitcoin/bitcoin/commit/228877d7836a) | 2026-10-10 | pass, the header-lines refusal asserted per-build ([ISS 35](https://github.com/btclib-org/functional-tests/issues/35)) | fail ([ISS btclib-node#1972](https://github.com/btclib-org/btclib-node/issues/1972)) |
+| `interface_http.py` (excessive request size, wire) | [`228877d7836a`](https://github.com/bitcoin/bitcoin/commit/228877d7836a) | 2026-10-10 | pass, the header-lines refusal asserted per-build ([ISS 35](https://github.com/btclib-org/functional-tests/issues/35)) | pass |
 | `interface_http.py` (excessive request size, log) | same | same | pass, its log lines read per-build ([ISS 35](https://github.com/btclib-org/functional-tests/issues/35)) | skip |
 | `feature_block.py` (wire) | [`f82043af507a`](https://github.com/bitcoin/bitcoin/commit/f82043af507a) | 2026-06-30 | pass | skip (test_activation_height) |
 | `feature_block.py` (log) | same | same | pass | skip |
@@ -1303,10 +1303,7 @@ no entry here is a `bitcoind only` row, or has its reason in the docstring of
 - `rpc_generate.py`: btclib-node serves no hidden `generate`, so its
   refusal and its help are not Core's
   ([ISS btclib-node#2126](https://github.com/btclib-org/btclib-node/issues/2126)).
-- `rpc_scantxoutset.py`: fails: `start` with a null scan-object list is
-  refused as a type error, where the pinned bitcoind refuses it as the
-  missing argument
-  ([ISS btclib-node#2104](https://github.com/btclib-org/btclib-node/issues/2104)).
+- `rpc_scantxoutset.py`: Core's claim in full.
 - `mining_template_verification.py`: fails: a proposed block whose coinbase
   input names a non-null prevout is answered "first transaction is not a
   coinbase", where Core answers `bad-cb-missing`
@@ -1386,10 +1383,7 @@ no entry here is a `bitcoind only` row, or has its reason in the docstring of
 - `feature_startupnotify.py`: Core's claim. Skips on `startup_notify`
   ([ISS btclib-node#1449](https://github.com/btclib-org/btclib-node/issues/1449)).
 - `rpc_dumptxoutset.py`: every check of Core's file but the hashes it asserts as
-  constants, asserted against the same node. Fails: a dump rolled back to a
-  height a fork also reaches is refused, where the pinned bitcoind rolls
-  back without invalidating blocks
-  ([ISS btclib-node#2103](https://github.com/btclib-org/btclib-node/issues/2103)).
+  constants, asserted against the same node.
 - `feature_loadblock.py`: Core's claim, the test writing the block file itself
   in the format `linearize-data.py` writes. Skips on `load_block`, left out by
   decision
@@ -1494,8 +1488,6 @@ no entry here is a `bitcoind only` row, or has its reason in the docstring of
   does without `NODE_BLOOM`.
 - `interface_http.py`: the excessive request size step alone, a wire row and a
   log row ([ISS 5](https://github.com/btclib-org/functional-tests/issues/5)).
-  The node answers a header section over the limit in many short lines
-  ([ISS btclib-node#1972](https://github.com/btclib-org/btclib-node/issues/1972)).
 - `feature_block.py`: a smaller claim: Core's sequence without its
   invalid-transaction templates and its `LARGE_REORG_SIZE` re-org
   ([ISS 439](https://github.com/btclib-org/functional-tests/issues/439)),
