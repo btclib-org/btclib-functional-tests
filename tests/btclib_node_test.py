@@ -21,6 +21,51 @@ from btclib_functional_tests.btclib_node import BtclibNodeAdapter
 from btclib_functional_tests.capability import Capability
 from btclib_functional_tests.timeout_factor import set_factor
 
+_PROBES = (
+    "_writes_auth_cookie",
+    "_negates_rpcauth",
+    "_evicts_inbound",
+    "_connects_alone",
+    "_serves_ban_list",
+    "_sets_min_relay_fee",
+    "_serves_chain_tips",
+    "_serves_disconnect",
+    "_serves_submitpackage",
+    "_serves_getorphantxs",
+    "_replaces_by_cluster",
+    "_binds_address",
+    "_reads_whitelist",
+    "_serves_mempool_entry",
+    "_reads_includeconf",
+    "_serves_setmocktime",
+    "_serves_generate",
+    "_speaks_v2",
+    "_permits_bare_multisig",
+    "_moves_activation_heights",
+)
+
+
+def _adapter_where(
+    tmp_path: Path,
+    *holding: str,
+    served: frozenset[str] = frozenset(),
+    chain: str = "regtest",
+) -> BtclibNodeAdapter:
+    """Return an adapter on `chain` whose `holding` probes alone answer true.
+
+    `_served_rpcs` answers `served`.
+    """
+    assert set(holding) <= set(_PROBES)
+    with ExitStack() as stack:
+        for name in _PROBES:
+            stack.enter_context(
+                patch.object(btclib_node_module, name, return_value=name in holding)
+            )
+        stack.enter_context(
+            patch.object(btclib_node_module, "_served_rpcs", return_value=served)
+        )
+        return BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444, chain=chain)
+
 
 def test_class_wide_capabilities_are_the_facts_true_of_every_build() -> None:
     """`CONNECT`, `BLOCKS_DIR` and `UTXO_SET_INFO` are class-wide."""
@@ -37,32 +82,7 @@ def test_capabilities_gain_rpc_auth_config_where_the_build_writes_a_cookie(
     tmp_path: Path,
 ) -> None:
     """An instance built with a post-1070 executable declares both."""
-    with (
-        patch.object(btclib_node_module, "_writes_auth_cookie", return_value=True),
-        patch.object(btclib_node_module, "_negates_rpcauth", return_value=False),
-        patch.object(btclib_node_module, "_evicts_inbound", return_value=False),
-        patch.object(btclib_node_module, "_connects_alone", return_value=False),
-        patch.object(btclib_node_module, "_serves_ban_list", return_value=False),
-        patch.object(btclib_node_module, "_sets_min_relay_fee", return_value=False),
-        patch.object(btclib_node_module, "_serves_chain_tips", return_value=False),
-        patch.object(btclib_node_module, "_serves_disconnect", return_value=False),
-        patch.object(btclib_node_module, "_serves_submitpackage", return_value=False),
-        patch.object(btclib_node_module, "_serves_getorphantxs", return_value=False),
-        patch.object(btclib_node_module, "_replaces_by_cluster", return_value=False),
-        patch.object(btclib_node_module, "_binds_address", return_value=False),
-        patch.object(btclib_node_module, "_reads_whitelist", return_value=False),
-        patch.object(btclib_node_module, "_serves_mempool_entry", return_value=False),
-        patch.object(btclib_node_module, "_reads_includeconf", return_value=False),
-        patch.object(btclib_node_module, "_serves_setmocktime", return_value=False),
-        patch.object(btclib_node_module, "_serves_generate", return_value=False),
-        patch.object(btclib_node_module, "_served_rpcs", return_value=frozenset()),
-        patch.object(btclib_node_module, "_speaks_v2", return_value=False),
-        patch.object(btclib_node_module, "_permits_bare_multisig", return_value=False),
-        patch.object(
-            btclib_node_module, "_moves_activation_heights", return_value=False
-        ),
-    ):
-        adapter = BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444)
+    adapter = _adapter_where(tmp_path, "_writes_auth_cookie")
     assert adapter.capabilities == BtclibNodeAdapter.capabilities | {
         Capability.RPC_AUTH_CONFIG
     }
@@ -72,32 +92,7 @@ def test_capabilities_gain_rpc_auth_negation_where_the_build_negates(
     tmp_path: Path,
 ) -> None:
     """An instance built with a `-norpcauth`-reading executable declares it."""
-    with (
-        patch.object(btclib_node_module, "_writes_auth_cookie", return_value=True),
-        patch.object(btclib_node_module, "_negates_rpcauth", return_value=True),
-        patch.object(btclib_node_module, "_evicts_inbound", return_value=False),
-        patch.object(btclib_node_module, "_connects_alone", return_value=False),
-        patch.object(btclib_node_module, "_serves_ban_list", return_value=False),
-        patch.object(btclib_node_module, "_sets_min_relay_fee", return_value=False),
-        patch.object(btclib_node_module, "_serves_chain_tips", return_value=False),
-        patch.object(btclib_node_module, "_serves_disconnect", return_value=False),
-        patch.object(btclib_node_module, "_serves_submitpackage", return_value=False),
-        patch.object(btclib_node_module, "_serves_getorphantxs", return_value=False),
-        patch.object(btclib_node_module, "_replaces_by_cluster", return_value=False),
-        patch.object(btclib_node_module, "_binds_address", return_value=False),
-        patch.object(btclib_node_module, "_reads_whitelist", return_value=False),
-        patch.object(btclib_node_module, "_serves_mempool_entry", return_value=False),
-        patch.object(btclib_node_module, "_reads_includeconf", return_value=False),
-        patch.object(btclib_node_module, "_serves_setmocktime", return_value=False),
-        patch.object(btclib_node_module, "_serves_generate", return_value=False),
-        patch.object(btclib_node_module, "_served_rpcs", return_value=frozenset()),
-        patch.object(btclib_node_module, "_speaks_v2", return_value=False),
-        patch.object(btclib_node_module, "_permits_bare_multisig", return_value=False),
-        patch.object(
-            btclib_node_module, "_moves_activation_heights", return_value=False
-        ),
-    ):
-        adapter = BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444)
+    adapter = _adapter_where(tmp_path, "_writes_auth_cookie", "_negates_rpcauth")
     assert adapter.capabilities == BtclibNodeAdapter.capabilities | {
         Capability.RPC_AUTH_CONFIG,
         Capability.RPC_AUTH_NEGATION,
@@ -108,32 +103,7 @@ def test_capabilities_gain_inbound_eviction_where_the_build_evicts(
     tmp_path: Path,
 ) -> None:
     """An instance built with a post-1064 executable declares eviction."""
-    with (
-        patch.object(btclib_node_module, "_writes_auth_cookie", return_value=False),
-        patch.object(btclib_node_module, "_negates_rpcauth", return_value=False),
-        patch.object(btclib_node_module, "_evicts_inbound", return_value=True),
-        patch.object(btclib_node_module, "_connects_alone", return_value=False),
-        patch.object(btclib_node_module, "_serves_ban_list", return_value=False),
-        patch.object(btclib_node_module, "_sets_min_relay_fee", return_value=False),
-        patch.object(btclib_node_module, "_serves_chain_tips", return_value=False),
-        patch.object(btclib_node_module, "_serves_disconnect", return_value=False),
-        patch.object(btclib_node_module, "_serves_submitpackage", return_value=False),
-        patch.object(btclib_node_module, "_serves_getorphantxs", return_value=False),
-        patch.object(btclib_node_module, "_replaces_by_cluster", return_value=False),
-        patch.object(btclib_node_module, "_binds_address", return_value=False),
-        patch.object(btclib_node_module, "_reads_whitelist", return_value=False),
-        patch.object(btclib_node_module, "_serves_mempool_entry", return_value=False),
-        patch.object(btclib_node_module, "_reads_includeconf", return_value=False),
-        patch.object(btclib_node_module, "_serves_setmocktime", return_value=False),
-        patch.object(btclib_node_module, "_serves_generate", return_value=False),
-        patch.object(btclib_node_module, "_served_rpcs", return_value=frozenset()),
-        patch.object(btclib_node_module, "_speaks_v2", return_value=False),
-        patch.object(btclib_node_module, "_permits_bare_multisig", return_value=False),
-        patch.object(
-            btclib_node_module, "_moves_activation_heights", return_value=False
-        ),
-    ):
-        adapter = BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444)
+    adapter = _adapter_where(tmp_path, "_evicts_inbound")
     assert adapter.capabilities == BtclibNodeAdapter.capabilities | {
         Capability.INBOUND_EVICTION
     }
@@ -143,32 +113,7 @@ def test_capabilities_gain_mine_where_the_build_connects_alone(
     tmp_path: Path,
 ) -> None:
     """An instance built with a post-1152 executable declares mining."""
-    with (
-        patch.object(btclib_node_module, "_writes_auth_cookie", return_value=False),
-        patch.object(btclib_node_module, "_negates_rpcauth", return_value=False),
-        patch.object(btclib_node_module, "_evicts_inbound", return_value=False),
-        patch.object(btclib_node_module, "_connects_alone", return_value=True),
-        patch.object(btclib_node_module, "_serves_ban_list", return_value=False),
-        patch.object(btclib_node_module, "_sets_min_relay_fee", return_value=False),
-        patch.object(btclib_node_module, "_serves_chain_tips", return_value=False),
-        patch.object(btclib_node_module, "_serves_disconnect", return_value=False),
-        patch.object(btclib_node_module, "_serves_submitpackage", return_value=False),
-        patch.object(btclib_node_module, "_serves_getorphantxs", return_value=False),
-        patch.object(btclib_node_module, "_replaces_by_cluster", return_value=False),
-        patch.object(btclib_node_module, "_binds_address", return_value=False),
-        patch.object(btclib_node_module, "_reads_whitelist", return_value=False),
-        patch.object(btclib_node_module, "_serves_mempool_entry", return_value=False),
-        patch.object(btclib_node_module, "_reads_includeconf", return_value=False),
-        patch.object(btclib_node_module, "_serves_setmocktime", return_value=False),
-        patch.object(btclib_node_module, "_serves_generate", return_value=False),
-        patch.object(btclib_node_module, "_served_rpcs", return_value=frozenset()),
-        patch.object(btclib_node_module, "_speaks_v2", return_value=False),
-        patch.object(btclib_node_module, "_permits_bare_multisig", return_value=False),
-        patch.object(
-            btclib_node_module, "_moves_activation_heights", return_value=False
-        ),
-    ):
-        adapter = BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444)
+    adapter = _adapter_where(tmp_path, "_connects_alone")
     assert adapter.capabilities == BtclibNodeAdapter.capabilities | {Capability.MINE}
 
 
@@ -176,32 +121,7 @@ def test_capabilities_gain_ban_where_the_build_serves_a_ban_list(
     tmp_path: Path,
 ) -> None:
     """An instance built with a post-1088 executable declares banning."""
-    with (
-        patch.object(btclib_node_module, "_writes_auth_cookie", return_value=False),
-        patch.object(btclib_node_module, "_negates_rpcauth", return_value=False),
-        patch.object(btclib_node_module, "_evicts_inbound", return_value=False),
-        patch.object(btclib_node_module, "_connects_alone", return_value=False),
-        patch.object(btclib_node_module, "_serves_ban_list", return_value=True),
-        patch.object(btclib_node_module, "_sets_min_relay_fee", return_value=False),
-        patch.object(btclib_node_module, "_serves_chain_tips", return_value=False),
-        patch.object(btclib_node_module, "_serves_disconnect", return_value=False),
-        patch.object(btclib_node_module, "_serves_submitpackage", return_value=False),
-        patch.object(btclib_node_module, "_serves_getorphantxs", return_value=False),
-        patch.object(btclib_node_module, "_replaces_by_cluster", return_value=False),
-        patch.object(btclib_node_module, "_binds_address", return_value=False),
-        patch.object(btclib_node_module, "_reads_whitelist", return_value=False),
-        patch.object(btclib_node_module, "_serves_mempool_entry", return_value=False),
-        patch.object(btclib_node_module, "_reads_includeconf", return_value=False),
-        patch.object(btclib_node_module, "_serves_setmocktime", return_value=False),
-        patch.object(btclib_node_module, "_serves_generate", return_value=False),
-        patch.object(btclib_node_module, "_served_rpcs", return_value=frozenset()),
-        patch.object(btclib_node_module, "_speaks_v2", return_value=False),
-        patch.object(btclib_node_module, "_permits_bare_multisig", return_value=False),
-        patch.object(
-            btclib_node_module, "_moves_activation_heights", return_value=False
-        ),
-    ):
-        adapter = BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444)
+    adapter = _adapter_where(tmp_path, "_serves_ban_list")
     assert adapter.capabilities == BtclibNodeAdapter.capabilities | {Capability.BAN}
 
 
@@ -209,32 +129,7 @@ def test_capabilities_gain_min_relay_tx_fee_where_the_build_sets_it(
     tmp_path: Path,
 ) -> None:
     """An instance built with a post-1332 executable declares the floor."""
-    with (
-        patch.object(btclib_node_module, "_writes_auth_cookie", return_value=False),
-        patch.object(btclib_node_module, "_negates_rpcauth", return_value=False),
-        patch.object(btclib_node_module, "_evicts_inbound", return_value=False),
-        patch.object(btclib_node_module, "_connects_alone", return_value=False),
-        patch.object(btclib_node_module, "_serves_ban_list", return_value=False),
-        patch.object(btclib_node_module, "_sets_min_relay_fee", return_value=True),
-        patch.object(btclib_node_module, "_serves_chain_tips", return_value=False),
-        patch.object(btclib_node_module, "_serves_disconnect", return_value=False),
-        patch.object(btclib_node_module, "_serves_submitpackage", return_value=False),
-        patch.object(btclib_node_module, "_serves_getorphantxs", return_value=False),
-        patch.object(btclib_node_module, "_replaces_by_cluster", return_value=False),
-        patch.object(btclib_node_module, "_binds_address", return_value=False),
-        patch.object(btclib_node_module, "_reads_whitelist", return_value=False),
-        patch.object(btclib_node_module, "_serves_mempool_entry", return_value=False),
-        patch.object(btclib_node_module, "_reads_includeconf", return_value=False),
-        patch.object(btclib_node_module, "_serves_setmocktime", return_value=False),
-        patch.object(btclib_node_module, "_serves_generate", return_value=False),
-        patch.object(btclib_node_module, "_served_rpcs", return_value=frozenset()),
-        patch.object(btclib_node_module, "_speaks_v2", return_value=False),
-        patch.object(btclib_node_module, "_permits_bare_multisig", return_value=False),
-        patch.object(
-            btclib_node_module, "_moves_activation_heights", return_value=False
-        ),
-    ):
-        adapter = BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444)
+    adapter = _adapter_where(tmp_path, "_sets_min_relay_fee")
     assert adapter.capabilities == BtclibNodeAdapter.capabilities | {
         Capability.MIN_RELAY_TX_FEE
     }
@@ -244,32 +139,7 @@ def test_capabilities_gain_permit_bare_multisig_where_the_build_reads_it(
     tmp_path: Path,
 ) -> None:
     """An instance built with a `-permitbaremultisig` build declares it."""
-    with (
-        patch.object(btclib_node_module, "_writes_auth_cookie", return_value=False),
-        patch.object(btclib_node_module, "_negates_rpcauth", return_value=False),
-        patch.object(btclib_node_module, "_evicts_inbound", return_value=False),
-        patch.object(btclib_node_module, "_connects_alone", return_value=False),
-        patch.object(btclib_node_module, "_serves_ban_list", return_value=False),
-        patch.object(btclib_node_module, "_sets_min_relay_fee", return_value=False),
-        patch.object(btclib_node_module, "_serves_chain_tips", return_value=False),
-        patch.object(btclib_node_module, "_serves_disconnect", return_value=False),
-        patch.object(btclib_node_module, "_serves_submitpackage", return_value=False),
-        patch.object(btclib_node_module, "_serves_getorphantxs", return_value=False),
-        patch.object(btclib_node_module, "_replaces_by_cluster", return_value=False),
-        patch.object(btclib_node_module, "_binds_address", return_value=False),
-        patch.object(btclib_node_module, "_reads_whitelist", return_value=False),
-        patch.object(btclib_node_module, "_serves_mempool_entry", return_value=False),
-        patch.object(btclib_node_module, "_reads_includeconf", return_value=False),
-        patch.object(btclib_node_module, "_serves_setmocktime", return_value=False),
-        patch.object(btclib_node_module, "_serves_generate", return_value=False),
-        patch.object(btclib_node_module, "_served_rpcs", return_value=frozenset()),
-        patch.object(btclib_node_module, "_speaks_v2", return_value=False),
-        patch.object(btclib_node_module, "_permits_bare_multisig", return_value=True),
-        patch.object(
-            btclib_node_module, "_moves_activation_heights", return_value=False
-        ),
-    ):
-        adapter = BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444)
+    adapter = _adapter_where(tmp_path, "_permits_bare_multisig")
     assert adapter.capabilities == BtclibNodeAdapter.capabilities | {
         Capability.PERMIT_BARE_MULTISIG
     }
@@ -279,32 +149,7 @@ def test_capabilities_gain_chain_tips_where_the_build_serves_them(
     tmp_path: Path,
 ) -> None:
     """An instance built with a `getchaintips`-serving build declares it."""
-    with (
-        patch.object(btclib_node_module, "_writes_auth_cookie", return_value=False),
-        patch.object(btclib_node_module, "_negates_rpcauth", return_value=False),
-        patch.object(btclib_node_module, "_evicts_inbound", return_value=False),
-        patch.object(btclib_node_module, "_connects_alone", return_value=False),
-        patch.object(btclib_node_module, "_serves_ban_list", return_value=False),
-        patch.object(btclib_node_module, "_sets_min_relay_fee", return_value=False),
-        patch.object(btclib_node_module, "_serves_chain_tips", return_value=True),
-        patch.object(btclib_node_module, "_serves_disconnect", return_value=False),
-        patch.object(btclib_node_module, "_serves_submitpackage", return_value=False),
-        patch.object(btclib_node_module, "_serves_getorphantxs", return_value=False),
-        patch.object(btclib_node_module, "_replaces_by_cluster", return_value=False),
-        patch.object(btclib_node_module, "_binds_address", return_value=False),
-        patch.object(btclib_node_module, "_reads_whitelist", return_value=False),
-        patch.object(btclib_node_module, "_serves_mempool_entry", return_value=False),
-        patch.object(btclib_node_module, "_reads_includeconf", return_value=False),
-        patch.object(btclib_node_module, "_serves_setmocktime", return_value=False),
-        patch.object(btclib_node_module, "_serves_generate", return_value=False),
-        patch.object(btclib_node_module, "_served_rpcs", return_value=frozenset()),
-        patch.object(btclib_node_module, "_speaks_v2", return_value=False),
-        patch.object(btclib_node_module, "_permits_bare_multisig", return_value=False),
-        patch.object(
-            btclib_node_module, "_moves_activation_heights", return_value=False
-        ),
-    ):
-        adapter = BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444)
+    adapter = _adapter_where(tmp_path, "_serves_chain_tips")
     assert adapter.capabilities == BtclibNodeAdapter.capabilities | {
         Capability.CHAIN_TIPS
     }
@@ -314,32 +159,7 @@ def test_capabilities_gain_disconnect_where_the_build_serves_it(
     tmp_path: Path,
 ) -> None:
     """An instance built with a `disconnectnode`-serving build declares it."""
-    with (
-        patch.object(btclib_node_module, "_writes_auth_cookie", return_value=False),
-        patch.object(btclib_node_module, "_negates_rpcauth", return_value=False),
-        patch.object(btclib_node_module, "_evicts_inbound", return_value=False),
-        patch.object(btclib_node_module, "_connects_alone", return_value=False),
-        patch.object(btclib_node_module, "_serves_ban_list", return_value=False),
-        patch.object(btclib_node_module, "_sets_min_relay_fee", return_value=False),
-        patch.object(btclib_node_module, "_serves_chain_tips", return_value=False),
-        patch.object(btclib_node_module, "_serves_disconnect", return_value=True),
-        patch.object(btclib_node_module, "_serves_submitpackage", return_value=False),
-        patch.object(btclib_node_module, "_serves_getorphantxs", return_value=False),
-        patch.object(btclib_node_module, "_replaces_by_cluster", return_value=False),
-        patch.object(btclib_node_module, "_binds_address", return_value=False),
-        patch.object(btclib_node_module, "_reads_whitelist", return_value=False),
-        patch.object(btclib_node_module, "_serves_mempool_entry", return_value=False),
-        patch.object(btclib_node_module, "_reads_includeconf", return_value=False),
-        patch.object(btclib_node_module, "_serves_setmocktime", return_value=False),
-        patch.object(btclib_node_module, "_serves_generate", return_value=False),
-        patch.object(btclib_node_module, "_served_rpcs", return_value=frozenset()),
-        patch.object(btclib_node_module, "_speaks_v2", return_value=False),
-        patch.object(btclib_node_module, "_permits_bare_multisig", return_value=False),
-        patch.object(
-            btclib_node_module, "_moves_activation_heights", return_value=False
-        ),
-    ):
-        adapter = BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444)
+    adapter = _adapter_where(tmp_path, "_serves_disconnect")
     assert adapter.capabilities == BtclibNodeAdapter.capabilities | {
         Capability.DISCONNECT
     }
@@ -349,32 +169,7 @@ def test_capabilities_gain_package_acceptance_where_the_build_serves_it(
     tmp_path: Path,
 ) -> None:
     """An instance built with a `submitpackage`-serving build declares it."""
-    with (
-        patch.object(btclib_node_module, "_writes_auth_cookie", return_value=False),
-        patch.object(btclib_node_module, "_negates_rpcauth", return_value=False),
-        patch.object(btclib_node_module, "_evicts_inbound", return_value=False),
-        patch.object(btclib_node_module, "_connects_alone", return_value=False),
-        patch.object(btclib_node_module, "_serves_ban_list", return_value=False),
-        patch.object(btclib_node_module, "_sets_min_relay_fee", return_value=False),
-        patch.object(btclib_node_module, "_serves_chain_tips", return_value=False),
-        patch.object(btclib_node_module, "_serves_disconnect", return_value=False),
-        patch.object(btclib_node_module, "_serves_submitpackage", return_value=True),
-        patch.object(btclib_node_module, "_serves_getorphantxs", return_value=False),
-        patch.object(btclib_node_module, "_replaces_by_cluster", return_value=False),
-        patch.object(btclib_node_module, "_binds_address", return_value=False),
-        patch.object(btclib_node_module, "_reads_whitelist", return_value=False),
-        patch.object(btclib_node_module, "_serves_mempool_entry", return_value=False),
-        patch.object(btclib_node_module, "_reads_includeconf", return_value=False),
-        patch.object(btclib_node_module, "_serves_setmocktime", return_value=False),
-        patch.object(btclib_node_module, "_serves_generate", return_value=False),
-        patch.object(btclib_node_module, "_served_rpcs", return_value=frozenset()),
-        patch.object(btclib_node_module, "_speaks_v2", return_value=False),
-        patch.object(btclib_node_module, "_permits_bare_multisig", return_value=False),
-        patch.object(
-            btclib_node_module, "_moves_activation_heights", return_value=False
-        ),
-    ):
-        adapter = BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444)
+    adapter = _adapter_where(tmp_path, "_serves_submitpackage")
     assert adapter.capabilities == BtclibNodeAdapter.capabilities | {
         Capability.PACKAGE_ACCEPTANCE
     }
@@ -384,32 +179,7 @@ def test_capabilities_gain_orphanage_where_the_build_serves_it(
     tmp_path: Path,
 ) -> None:
     """An instance built with a `getorphantxs`-serving build declares it."""
-    with (
-        patch.object(btclib_node_module, "_writes_auth_cookie", return_value=False),
-        patch.object(btclib_node_module, "_negates_rpcauth", return_value=False),
-        patch.object(btclib_node_module, "_evicts_inbound", return_value=False),
-        patch.object(btclib_node_module, "_connects_alone", return_value=False),
-        patch.object(btclib_node_module, "_serves_ban_list", return_value=False),
-        patch.object(btclib_node_module, "_sets_min_relay_fee", return_value=False),
-        patch.object(btclib_node_module, "_serves_chain_tips", return_value=False),
-        patch.object(btclib_node_module, "_serves_disconnect", return_value=False),
-        patch.object(btclib_node_module, "_serves_submitpackage", return_value=False),
-        patch.object(btclib_node_module, "_serves_getorphantxs", return_value=True),
-        patch.object(btclib_node_module, "_replaces_by_cluster", return_value=False),
-        patch.object(btclib_node_module, "_binds_address", return_value=False),
-        patch.object(btclib_node_module, "_reads_whitelist", return_value=False),
-        patch.object(btclib_node_module, "_serves_mempool_entry", return_value=False),
-        patch.object(btclib_node_module, "_reads_includeconf", return_value=False),
-        patch.object(btclib_node_module, "_serves_setmocktime", return_value=False),
-        patch.object(btclib_node_module, "_serves_generate", return_value=False),
-        patch.object(btclib_node_module, "_served_rpcs", return_value=frozenset()),
-        patch.object(btclib_node_module, "_speaks_v2", return_value=False),
-        patch.object(btclib_node_module, "_permits_bare_multisig", return_value=False),
-        patch.object(
-            btclib_node_module, "_moves_activation_heights", return_value=False
-        ),
-    ):
-        adapter = BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444)
+    adapter = _adapter_where(tmp_path, "_serves_getorphantxs")
     assert adapter.capabilities == BtclibNodeAdapter.capabilities | {
         Capability.ORPHANAGE
     }
@@ -419,32 +189,7 @@ def test_capabilities_gain_cluster_replacement_where_the_build_counts_clusters(
     tmp_path: Path,
 ) -> None:
     """An instance built with a cluster-counting build declares it."""
-    with (
-        patch.object(btclib_node_module, "_writes_auth_cookie", return_value=False),
-        patch.object(btclib_node_module, "_negates_rpcauth", return_value=False),
-        patch.object(btclib_node_module, "_evicts_inbound", return_value=False),
-        patch.object(btclib_node_module, "_connects_alone", return_value=False),
-        patch.object(btclib_node_module, "_serves_ban_list", return_value=False),
-        patch.object(btclib_node_module, "_sets_min_relay_fee", return_value=False),
-        patch.object(btclib_node_module, "_serves_chain_tips", return_value=False),
-        patch.object(btclib_node_module, "_serves_disconnect", return_value=False),
-        patch.object(btclib_node_module, "_serves_submitpackage", return_value=False),
-        patch.object(btclib_node_module, "_serves_getorphantxs", return_value=False),
-        patch.object(btclib_node_module, "_replaces_by_cluster", return_value=True),
-        patch.object(btclib_node_module, "_binds_address", return_value=False),
-        patch.object(btclib_node_module, "_reads_whitelist", return_value=False),
-        patch.object(btclib_node_module, "_serves_mempool_entry", return_value=False),
-        patch.object(btclib_node_module, "_reads_includeconf", return_value=False),
-        patch.object(btclib_node_module, "_serves_setmocktime", return_value=False),
-        patch.object(btclib_node_module, "_serves_generate", return_value=False),
-        patch.object(btclib_node_module, "_served_rpcs", return_value=frozenset()),
-        patch.object(btclib_node_module, "_speaks_v2", return_value=False),
-        patch.object(btclib_node_module, "_permits_bare_multisig", return_value=False),
-        patch.object(
-            btclib_node_module, "_moves_activation_heights", return_value=False
-        ),
-    ):
-        adapter = BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444)
+    adapter = _adapter_where(tmp_path, "_replaces_by_cluster")
     assert adapter.capabilities == BtclibNodeAdapter.capabilities | {
         Capability.CLUSTER_REPLACEMENT
     }
@@ -454,32 +199,7 @@ def test_capabilities_gain_listen_address_where_the_build_reads_bind(
     tmp_path: Path,
 ) -> None:
     """An instance built with a `-bind`-reading build declares it."""
-    with (
-        patch.object(btclib_node_module, "_writes_auth_cookie", return_value=False),
-        patch.object(btclib_node_module, "_negates_rpcauth", return_value=False),
-        patch.object(btclib_node_module, "_evicts_inbound", return_value=False),
-        patch.object(btclib_node_module, "_connects_alone", return_value=False),
-        patch.object(btclib_node_module, "_serves_ban_list", return_value=False),
-        patch.object(btclib_node_module, "_sets_min_relay_fee", return_value=False),
-        patch.object(btclib_node_module, "_serves_chain_tips", return_value=False),
-        patch.object(btclib_node_module, "_serves_disconnect", return_value=False),
-        patch.object(btclib_node_module, "_serves_submitpackage", return_value=False),
-        patch.object(btclib_node_module, "_serves_getorphantxs", return_value=False),
-        patch.object(btclib_node_module, "_replaces_by_cluster", return_value=False),
-        patch.object(btclib_node_module, "_binds_address", return_value=True),
-        patch.object(btclib_node_module, "_reads_whitelist", return_value=False),
-        patch.object(btclib_node_module, "_serves_mempool_entry", return_value=False),
-        patch.object(btclib_node_module, "_reads_includeconf", return_value=False),
-        patch.object(btclib_node_module, "_serves_setmocktime", return_value=False),
-        patch.object(btclib_node_module, "_serves_generate", return_value=False),
-        patch.object(btclib_node_module, "_served_rpcs", return_value=frozenset()),
-        patch.object(btclib_node_module, "_speaks_v2", return_value=False),
-        patch.object(btclib_node_module, "_permits_bare_multisig", return_value=False),
-        patch.object(
-            btclib_node_module, "_moves_activation_heights", return_value=False
-        ),
-    ):
-        adapter = BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444)
+    adapter = _adapter_where(tmp_path, "_binds_address")
     assert adapter.capabilities == BtclibNodeAdapter.capabilities | {
         Capability.LISTEN_ADDRESS
     }
@@ -489,32 +209,7 @@ def test_capabilities_gain_peer_permissions_where_the_build_reads_whitelist(
     tmp_path: Path,
 ) -> None:
     """An instance built with a `-whitelist`-reading build declares it."""
-    with (
-        patch.object(btclib_node_module, "_writes_auth_cookie", return_value=False),
-        patch.object(btclib_node_module, "_negates_rpcauth", return_value=False),
-        patch.object(btclib_node_module, "_evicts_inbound", return_value=False),
-        patch.object(btclib_node_module, "_connects_alone", return_value=False),
-        patch.object(btclib_node_module, "_serves_ban_list", return_value=False),
-        patch.object(btclib_node_module, "_sets_min_relay_fee", return_value=False),
-        patch.object(btclib_node_module, "_serves_chain_tips", return_value=False),
-        patch.object(btclib_node_module, "_serves_disconnect", return_value=False),
-        patch.object(btclib_node_module, "_serves_submitpackage", return_value=False),
-        patch.object(btclib_node_module, "_serves_getorphantxs", return_value=False),
-        patch.object(btclib_node_module, "_replaces_by_cluster", return_value=False),
-        patch.object(btclib_node_module, "_binds_address", return_value=False),
-        patch.object(btclib_node_module, "_reads_whitelist", return_value=True),
-        patch.object(btclib_node_module, "_serves_mempool_entry", return_value=False),
-        patch.object(btclib_node_module, "_reads_includeconf", return_value=False),
-        patch.object(btclib_node_module, "_serves_setmocktime", return_value=False),
-        patch.object(btclib_node_module, "_serves_generate", return_value=False),
-        patch.object(btclib_node_module, "_served_rpcs", return_value=frozenset()),
-        patch.object(btclib_node_module, "_speaks_v2", return_value=False),
-        patch.object(btclib_node_module, "_permits_bare_multisig", return_value=False),
-        patch.object(
-            btclib_node_module, "_moves_activation_heights", return_value=False
-        ),
-    ):
-        adapter = BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444)
+    adapter = _adapter_where(tmp_path, "_reads_whitelist")
     assert adapter.capabilities == BtclibNodeAdapter.capabilities | {
         Capability.PEER_PERMISSIONS
     }
@@ -524,32 +219,7 @@ def test_capabilities_gain_v2transport_where_the_build_speaks_bip324(
     tmp_path: Path,
 ) -> None:
     """An instance built with a `-v2transport` build declares it."""
-    with (
-        patch.object(btclib_node_module, "_writes_auth_cookie", return_value=False),
-        patch.object(btclib_node_module, "_negates_rpcauth", return_value=False),
-        patch.object(btclib_node_module, "_evicts_inbound", return_value=False),
-        patch.object(btclib_node_module, "_connects_alone", return_value=False),
-        patch.object(btclib_node_module, "_serves_ban_list", return_value=False),
-        patch.object(btclib_node_module, "_sets_min_relay_fee", return_value=False),
-        patch.object(btclib_node_module, "_serves_chain_tips", return_value=False),
-        patch.object(btclib_node_module, "_serves_disconnect", return_value=False),
-        patch.object(btclib_node_module, "_serves_submitpackage", return_value=False),
-        patch.object(btclib_node_module, "_serves_getorphantxs", return_value=False),
-        patch.object(btclib_node_module, "_replaces_by_cluster", return_value=False),
-        patch.object(btclib_node_module, "_binds_address", return_value=False),
-        patch.object(btclib_node_module, "_reads_whitelist", return_value=False),
-        patch.object(btclib_node_module, "_serves_mempool_entry", return_value=False),
-        patch.object(btclib_node_module, "_reads_includeconf", return_value=False),
-        patch.object(btclib_node_module, "_serves_setmocktime", return_value=False),
-        patch.object(btclib_node_module, "_serves_generate", return_value=False),
-        patch.object(btclib_node_module, "_served_rpcs", return_value=frozenset()),
-        patch.object(btclib_node_module, "_speaks_v2", return_value=True),
-        patch.object(btclib_node_module, "_permits_bare_multisig", return_value=False),
-        patch.object(
-            btclib_node_module, "_moves_activation_heights", return_value=False
-        ),
-    ):
-        adapter = BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444)
+    adapter = _adapter_where(tmp_path, "_speaks_v2")
     assert adapter.capabilities == BtclibNodeAdapter.capabilities | {
         Capability.V2TRANSPORT
     }
@@ -559,32 +229,7 @@ def test_capabilities_gain_test_activation_height_where_the_build_reads_it(
     tmp_path: Path,
 ) -> None:
     """An instance built with a `-testactivationheight` build declares it."""
-    with (
-        patch.object(btclib_node_module, "_writes_auth_cookie", return_value=False),
-        patch.object(btclib_node_module, "_negates_rpcauth", return_value=False),
-        patch.object(btclib_node_module, "_evicts_inbound", return_value=False),
-        patch.object(btclib_node_module, "_connects_alone", return_value=False),
-        patch.object(btclib_node_module, "_serves_ban_list", return_value=False),
-        patch.object(btclib_node_module, "_sets_min_relay_fee", return_value=False),
-        patch.object(btclib_node_module, "_serves_chain_tips", return_value=False),
-        patch.object(btclib_node_module, "_serves_disconnect", return_value=False),
-        patch.object(btclib_node_module, "_serves_submitpackage", return_value=False),
-        patch.object(btclib_node_module, "_serves_getorphantxs", return_value=False),
-        patch.object(btclib_node_module, "_replaces_by_cluster", return_value=False),
-        patch.object(btclib_node_module, "_binds_address", return_value=False),
-        patch.object(btclib_node_module, "_reads_whitelist", return_value=False),
-        patch.object(btclib_node_module, "_serves_mempool_entry", return_value=False),
-        patch.object(btclib_node_module, "_reads_includeconf", return_value=False),
-        patch.object(btclib_node_module, "_serves_setmocktime", return_value=False),
-        patch.object(btclib_node_module, "_serves_generate", return_value=False),
-        patch.object(btclib_node_module, "_served_rpcs", return_value=frozenset()),
-        patch.object(btclib_node_module, "_speaks_v2", return_value=False),
-        patch.object(btclib_node_module, "_permits_bare_multisig", return_value=False),
-        patch.object(
-            btclib_node_module, "_moves_activation_heights", return_value=True
-        ),
-    ):
-        adapter = BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444)
+    adapter = _adapter_where(tmp_path, "_moves_activation_heights")
     assert adapter.capabilities == BtclibNodeAdapter.capabilities | {
         Capability.TEST_ACTIVATION_HEIGHT
     }
@@ -594,32 +239,7 @@ def test_capabilities_are_the_class_set_where_no_probe_holds(
     tmp_path: Path,
 ) -> None:
     """An instance no probe holds for keeps the class-wide set."""
-    with (
-        patch.object(btclib_node_module, "_writes_auth_cookie", return_value=False),
-        patch.object(btclib_node_module, "_negates_rpcauth", return_value=False),
-        patch.object(btclib_node_module, "_evicts_inbound", return_value=False),
-        patch.object(btclib_node_module, "_connects_alone", return_value=False),
-        patch.object(btclib_node_module, "_serves_ban_list", return_value=False),
-        patch.object(btclib_node_module, "_sets_min_relay_fee", return_value=False),
-        patch.object(btclib_node_module, "_serves_chain_tips", return_value=False),
-        patch.object(btclib_node_module, "_serves_disconnect", return_value=False),
-        patch.object(btclib_node_module, "_serves_submitpackage", return_value=False),
-        patch.object(btclib_node_module, "_serves_getorphantxs", return_value=False),
-        patch.object(btclib_node_module, "_replaces_by_cluster", return_value=False),
-        patch.object(btclib_node_module, "_binds_address", return_value=False),
-        patch.object(btclib_node_module, "_reads_whitelist", return_value=False),
-        patch.object(btclib_node_module, "_serves_mempool_entry", return_value=False),
-        patch.object(btclib_node_module, "_reads_includeconf", return_value=False),
-        patch.object(btclib_node_module, "_serves_setmocktime", return_value=False),
-        patch.object(btclib_node_module, "_serves_generate", return_value=False),
-        patch.object(btclib_node_module, "_served_rpcs", return_value=frozenset()),
-        patch.object(btclib_node_module, "_speaks_v2", return_value=False),
-        patch.object(btclib_node_module, "_permits_bare_multisig", return_value=False),
-        patch.object(
-            btclib_node_module, "_moves_activation_heights", return_value=False
-        ),
-    ):
-        adapter = BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444)
+    adapter = _adapter_where(tmp_path)
     assert adapter.capabilities is BtclibNodeAdapter.capabilities
 
 
@@ -627,32 +247,7 @@ def test_capabilities_gain_mempool_entry_where_the_build_serves_it(
     tmp_path: Path,
 ) -> None:
     """An instance built with a `getmempoolentry`-serving build declares it."""
-    with (
-        patch.object(btclib_node_module, "_writes_auth_cookie", return_value=False),
-        patch.object(btclib_node_module, "_negates_rpcauth", return_value=False),
-        patch.object(btclib_node_module, "_evicts_inbound", return_value=False),
-        patch.object(btclib_node_module, "_connects_alone", return_value=False),
-        patch.object(btclib_node_module, "_serves_ban_list", return_value=False),
-        patch.object(btclib_node_module, "_sets_min_relay_fee", return_value=False),
-        patch.object(btclib_node_module, "_serves_chain_tips", return_value=False),
-        patch.object(btclib_node_module, "_serves_disconnect", return_value=False),
-        patch.object(btclib_node_module, "_serves_submitpackage", return_value=False),
-        patch.object(btclib_node_module, "_serves_getorphantxs", return_value=False),
-        patch.object(btclib_node_module, "_replaces_by_cluster", return_value=False),
-        patch.object(btclib_node_module, "_binds_address", return_value=False),
-        patch.object(btclib_node_module, "_reads_whitelist", return_value=False),
-        patch.object(btclib_node_module, "_serves_mempool_entry", return_value=True),
-        patch.object(btclib_node_module, "_reads_includeconf", return_value=False),
-        patch.object(btclib_node_module, "_serves_setmocktime", return_value=False),
-        patch.object(btclib_node_module, "_serves_generate", return_value=False),
-        patch.object(btclib_node_module, "_served_rpcs", return_value=frozenset()),
-        patch.object(btclib_node_module, "_speaks_v2", return_value=False),
-        patch.object(btclib_node_module, "_permits_bare_multisig", return_value=False),
-        patch.object(
-            btclib_node_module, "_moves_activation_heights", return_value=False
-        ),
-    ):
-        adapter = BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444)
+    adapter = _adapter_where(tmp_path, "_serves_mempool_entry")
     assert adapter.capabilities == BtclibNodeAdapter.capabilities | {
         Capability.MEMPOOL_ENTRY
     }
@@ -663,32 +258,7 @@ def test_capabilities_gain_clock_where_the_build_serves_setmocktime(
     tmp_path: Path,
 ) -> None:
     """An instance built with a `setmocktime`-serving build declares `CLOCK`."""
-    with (
-        patch.object(btclib_node_module, "_writes_auth_cookie", return_value=False),
-        patch.object(btclib_node_module, "_negates_rpcauth", return_value=False),
-        patch.object(btclib_node_module, "_evicts_inbound", return_value=False),
-        patch.object(btclib_node_module, "_connects_alone", return_value=False),
-        patch.object(btclib_node_module, "_serves_ban_list", return_value=False),
-        patch.object(btclib_node_module, "_sets_min_relay_fee", return_value=False),
-        patch.object(btclib_node_module, "_serves_chain_tips", return_value=False),
-        patch.object(btclib_node_module, "_serves_disconnect", return_value=False),
-        patch.object(btclib_node_module, "_serves_submitpackage", return_value=False),
-        patch.object(btclib_node_module, "_serves_getorphantxs", return_value=False),
-        patch.object(btclib_node_module, "_replaces_by_cluster", return_value=False),
-        patch.object(btclib_node_module, "_binds_address", return_value=False),
-        patch.object(btclib_node_module, "_reads_whitelist", return_value=False),
-        patch.object(btclib_node_module, "_serves_mempool_entry", return_value=False),
-        patch.object(btclib_node_module, "_reads_includeconf", return_value=False),
-        patch.object(btclib_node_module, "_serves_setmocktime", return_value=True),
-        patch.object(btclib_node_module, "_serves_generate", return_value=False),
-        patch.object(btclib_node_module, "_served_rpcs", return_value=frozenset()),
-        patch.object(btclib_node_module, "_speaks_v2", return_value=False),
-        patch.object(btclib_node_module, "_permits_bare_multisig", return_value=False),
-        patch.object(
-            btclib_node_module, "_moves_activation_heights", return_value=False
-        ),
-    ):
-        adapter = BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444)
+    adapter = _adapter_where(tmp_path, "_serves_setmocktime")
     assert adapter.capabilities == BtclibNodeAdapter.capabilities | {Capability.CLOCK}
 
 
@@ -696,32 +266,7 @@ def test_capabilities_gain_generate_where_the_build_serves_it(
     tmp_path: Path,
 ) -> None:
     """An instance built with a build serving both RPCs declares `GENERATE`."""
-    with (
-        patch.object(btclib_node_module, "_writes_auth_cookie", return_value=False),
-        patch.object(btclib_node_module, "_negates_rpcauth", return_value=False),
-        patch.object(btclib_node_module, "_evicts_inbound", return_value=False),
-        patch.object(btclib_node_module, "_connects_alone", return_value=False),
-        patch.object(btclib_node_module, "_serves_ban_list", return_value=False),
-        patch.object(btclib_node_module, "_sets_min_relay_fee", return_value=False),
-        patch.object(btclib_node_module, "_serves_chain_tips", return_value=False),
-        patch.object(btclib_node_module, "_serves_disconnect", return_value=False),
-        patch.object(btclib_node_module, "_serves_submitpackage", return_value=False),
-        patch.object(btclib_node_module, "_serves_getorphantxs", return_value=False),
-        patch.object(btclib_node_module, "_replaces_by_cluster", return_value=False),
-        patch.object(btclib_node_module, "_binds_address", return_value=False),
-        patch.object(btclib_node_module, "_reads_whitelist", return_value=False),
-        patch.object(btclib_node_module, "_serves_mempool_entry", return_value=False),
-        patch.object(btclib_node_module, "_reads_includeconf", return_value=False),
-        patch.object(btclib_node_module, "_serves_setmocktime", return_value=False),
-        patch.object(btclib_node_module, "_serves_generate", return_value=True),
-        patch.object(btclib_node_module, "_served_rpcs", return_value=frozenset()),
-        patch.object(btclib_node_module, "_speaks_v2", return_value=False),
-        patch.object(btclib_node_module, "_permits_bare_multisig", return_value=False),
-        patch.object(
-            btclib_node_module, "_moves_activation_heights", return_value=False
-        ),
-    ):
-        adapter = BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444)
+    adapter = _adapter_where(tmp_path, "_serves_generate")
     assert adapter.capabilities == BtclibNodeAdapter.capabilities | {
         Capability.GENERATE
     }
@@ -731,32 +276,7 @@ def test_capabilities_gain_include_conf_where_the_build_reads_it(
     tmp_path: Path,
 ) -> None:
     """An instance built with a `-noincludeconf`-reading build declares it."""
-    with (
-        patch.object(btclib_node_module, "_writes_auth_cookie", return_value=False),
-        patch.object(btclib_node_module, "_negates_rpcauth", return_value=False),
-        patch.object(btclib_node_module, "_evicts_inbound", return_value=False),
-        patch.object(btclib_node_module, "_connects_alone", return_value=False),
-        patch.object(btclib_node_module, "_serves_ban_list", return_value=False),
-        patch.object(btclib_node_module, "_sets_min_relay_fee", return_value=False),
-        patch.object(btclib_node_module, "_serves_chain_tips", return_value=False),
-        patch.object(btclib_node_module, "_serves_disconnect", return_value=False),
-        patch.object(btclib_node_module, "_serves_submitpackage", return_value=False),
-        patch.object(btclib_node_module, "_serves_getorphantxs", return_value=False),
-        patch.object(btclib_node_module, "_replaces_by_cluster", return_value=False),
-        patch.object(btclib_node_module, "_binds_address", return_value=False),
-        patch.object(btclib_node_module, "_reads_whitelist", return_value=False),
-        patch.object(btclib_node_module, "_serves_mempool_entry", return_value=False),
-        patch.object(btclib_node_module, "_reads_includeconf", return_value=True),
-        patch.object(btclib_node_module, "_serves_setmocktime", return_value=False),
-        patch.object(btclib_node_module, "_serves_generate", return_value=False),
-        patch.object(btclib_node_module, "_served_rpcs", return_value=frozenset()),
-        patch.object(btclib_node_module, "_speaks_v2", return_value=False),
-        patch.object(btclib_node_module, "_permits_bare_multisig", return_value=False),
-        patch.object(
-            btclib_node_module, "_moves_activation_heights", return_value=False
-        ),
-    ):
-        adapter = BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444)
+    adapter = _adapter_where(tmp_path, "_reads_includeconf")
     assert adapter.capabilities == BtclibNodeAdapter.capabilities | {
         Capability.INCLUDE_CONF
     }
@@ -834,38 +354,14 @@ def test_capabilities_drop_the_regtest_only_ones_on_another_chain(
     tmp_path: Path,
 ) -> None:
     """Holding probes give no `_REGTEST_ONLY` capability off regtest."""
-    with (
-        patch.object(btclib_node_module, "_writes_auth_cookie", return_value=False),
-        patch.object(btclib_node_module, "_negates_rpcauth", return_value=False),
-        patch.object(btclib_node_module, "_evicts_inbound", return_value=False),
-        patch.object(btclib_node_module, "_connects_alone", return_value=True),
-        patch.object(btclib_node_module, "_serves_ban_list", return_value=False),
-        patch.object(btclib_node_module, "_sets_min_relay_fee", return_value=False),
-        patch.object(btclib_node_module, "_serves_chain_tips", return_value=False),
-        patch.object(btclib_node_module, "_serves_disconnect", return_value=False),
-        patch.object(btclib_node_module, "_serves_submitpackage", return_value=False),
-        patch.object(btclib_node_module, "_serves_getorphantxs", return_value=False),
-        patch.object(btclib_node_module, "_replaces_by_cluster", return_value=False),
-        patch.object(btclib_node_module, "_binds_address", return_value=False),
-        patch.object(btclib_node_module, "_reads_whitelist", return_value=False),
-        patch.object(btclib_node_module, "_serves_mempool_entry", return_value=False),
-        patch.object(btclib_node_module, "_reads_includeconf", return_value=False),
-        patch.object(btclib_node_module, "_serves_setmocktime", return_value=True),
-        patch.object(btclib_node_module, "_serves_generate", return_value=True),
-        patch.object(
-            btclib_node_module,
-            "_served_rpcs",
-            return_value=frozenset({"addconnection"}),
-        ),
-        patch.object(btclib_node_module, "_speaks_v2", return_value=False),
-        patch.object(btclib_node_module, "_permits_bare_multisig", return_value=False),
-        patch.object(
-            btclib_node_module, "_moves_activation_heights", return_value=False
-        ),
-    ):
-        adapter = BtclibNodeAdapter(
-            sys.executable, tmp_path, 18443, 18444, chain="signet"
-        )
+    adapter = _adapter_where(
+        tmp_path,
+        "_connects_alone",
+        "_serves_setmocktime",
+        "_serves_generate",
+        served=frozenset({"addconnection"}),
+        chain="signet",
+    )
     assert adapter.capabilities is BtclibNodeAdapter.capabilities
 
 
@@ -876,19 +372,7 @@ def test_test_activation_height_is_dropped_on_mainnet_alone(
     chain: str, declares: bool, tmp_path: Path
 ) -> None:
     """A holding probe declares it on every chain but `main`."""
-    with ExitStack() as stack:
-        for name in _NO_OTHER_PROBE:
-            stack.enter_context(
-                patch.object(
-                    btclib_node_module,
-                    name,
-                    return_value=name == "_moves_activation_heights",
-                )
-            )
-        stack.enter_context(
-            patch.object(btclib_node_module, "_served_rpcs", return_value=frozenset())
-        )
-        adapter = BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444, chain=chain)
+    adapter = _adapter_where(tmp_path, "_moves_activation_heights", chain=chain)
     assert (Capability.TEST_ACTIVATION_HEIGHT in adapter.capabilities) is declares
 
 
@@ -1808,43 +1292,6 @@ def test_generate_probe_answers_from_the_table_s_keys(
     assert answer is served
 
 
-_NO_OTHER_PROBE = (
-    "_writes_auth_cookie",
-    "_negates_rpcauth",
-    "_evicts_inbound",
-    "_connects_alone",
-    "_serves_ban_list",
-    "_sets_min_relay_fee",
-    "_serves_chain_tips",
-    "_serves_disconnect",
-    "_serves_submitpackage",
-    "_serves_getorphantxs",
-    "_replaces_by_cluster",
-    "_binds_address",
-    "_reads_whitelist",
-    "_serves_mempool_entry",
-    "_reads_includeconf",
-    "_serves_setmocktime",
-    "_serves_generate",
-    "_speaks_v2",
-    "_permits_bare_multisig",
-    "_moves_activation_heights",
-)
-
-
-def _adapter_serving(tmp_path: Path, served: frozenset[str]) -> BtclibNodeAdapter:
-    """Return an adapter serving `served`, each other probe false."""
-    with ExitStack() as stack:
-        for name in _NO_OTHER_PROBE:
-            stack.enter_context(
-                patch.object(btclib_node_module, name, return_value=False)
-            )
-        stack.enter_context(
-            patch.object(btclib_node_module, "_served_rpcs", return_value=served)
-        )
-        return BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444)
-
-
 @pytest.mark.parametrize(
     "capability", sorted(btclib_node_module._RPC_CAPABILITIES, key=str)
 )
@@ -1853,7 +1300,7 @@ def test_capabilities_gain_each_one_whose_rpcs_the_table_serves(
 ) -> None:
     """A build serving a capability's RPCs, and no other, declares it alone."""
     rpcs = btclib_node_module._RPC_CAPABILITIES[capability]
-    adapter = _adapter_serving(tmp_path, rpcs | {"getblockcount"})
+    adapter = _adapter_where(tmp_path, served=rpcs | {"getblockcount"})
     assert adapter.capabilities == BtclibNodeAdapter.capabilities | {capability}
 
 
@@ -1873,7 +1320,7 @@ def test_capabilities_lack_one_whose_rpcs_the_table_serves_in_part(
 ) -> None:
     """A build missing one of a capability's RPCs does not declare it."""
     rpcs = sorted(btclib_node_module._RPC_CAPABILITIES[capability])
-    adapter = _adapter_serving(tmp_path, frozenset(rpcs[1:]))
+    adapter = _adapter_where(tmp_path, served=frozenset(rpcs[1:]))
     assert capability not in adapter.capabilities
 
 
