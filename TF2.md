@@ -930,7 +930,7 @@ gh api --method GET repos/bitcoin/bitcoin/commits \
 | `mempool_updatefromblock.py` | `fa6b05c96ffb` | 2026-03-12 | pass, the limits asserted per-build ([ISS 35](https://github.com/btclib-org/functional-tests/issues/35)) | pass |
 | `p2p_leak_tx.py` (in block) | `fa5f29774872` | 2025-12-16 | pass, the `getpeerinfo` fields asserted per-build ([ISS 354](https://github.com/btclib-org/functional-tests/issues/354)) | pass |
 | `p2p_leak_tx.py` (replaced) | same | same | pass | pass |
-| `p2p_leak_tx.py` (unannounced) | same | same | pass | fail ([ISS btclib-node#2157](https://github.com/btclib-org/btclib-node/issues/2157)) |
+| `p2p_leak_tx.py` (unannounced) | same | same | pass | pass |
 | `feature_utxo_set_hash.py` | `58eeab790d98` | 2026-05-13 | pass | pass |
 | `rpc_getdescriptoractivity.py` | `3fd68a95e68b` | 2026-04-07 | pass | skip |
 | `rpc_getdescriptoractivity.py` (mempool) | same | same | pass | skip |
@@ -1054,7 +1054,7 @@ gh api --method GET repos/bitcoin/bitcoin/commits \
 | `p2p_blocksonly.py` (`-blocksonly`, log) | same | same | pass | skip |
 | `p2p_blocksonly.py` (block-relay-only, wire) | same | same | pass | fail ([ISS btclib-node#2128](https://github.com/btclib-org/btclib-node/issues/2128)) |
 | `p2p_blocksonly.py` (block-relay-only, log) | same | same | pass | skip |
-| `p2p_orphan_handling.py` (arrival timing) | [`9cc7dc50bdc9`](https://github.com/bitcoin/bitcoin/commit/9cc7dc50bdc9) | 2026-08-17 | pass | fail ([ISS btclib-node#2157](https://github.com/btclib-org/btclib-node/issues/2157)) |
+| `p2p_orphan_handling.py` (arrival timing) | [`9cc7dc50bdc9`](https://github.com/bitcoin/bitcoin/commit/9cc7dc50bdc9) | 2026-08-17 | pass | pass |
 | `p2p_orphan_handling.py` (rejected parents) | same | same | pass | fail ([ISS btclib-node#2159](https://github.com/btclib-org/btclib-node/issues/2159)) |
 | `p2p_orphan_handling.py` (multiple parents) | same | same | pass | pass |
 | `p2p_orphan_handling.py` (overlapping parents) | same | same | pass | pass |
@@ -1120,7 +1120,7 @@ gh api --method GET repos/bitcoin/bitcoin/commits \
 | `p2p_blockfilters.py` | [`3fd68a95e68b`](https://github.com/bitcoin/bitcoin/commit/3fd68a95e68b) | 2026-04-07 | pass | skip (peer_block_filters) |
 | `p2p_getaddr_caching.py` | [`fa5f29774872`](https://github.com/bitcoin/bitcoin/commit/fa5f29774872) | 2025-12-16 | pass | skip (peer_timeout) |
 | `mempool_reorg.py` (coinbase) | [`fa3aeb51cfb1`](https://github.com/bitcoin/bitcoin/commit/fa3aeb51cfb1) | 2026-10-26 | pass | pass |
-| `mempool_reorg.py` (relay) | same | same | pass | fail ([ISS btclib-node#2157](https://github.com/btclib-org/btclib-node/issues/2157)) |
+| `mempool_reorg.py` (relay) | same | same | pass | pass |
 | `interface_rpc.py` (getrpcinfo) | [`fa2bd96cc0d4`](https://github.com/bitcoin/bitcoin/commit/fa2bd96cc0d4) | 2026-08-06 | pass | pass |
 | `interface_rpc.py` (batch) | same | same | pass | pass |
 | `interface_rpc.py` (status codes) | same | same | pass | pass |
@@ -1401,9 +1401,7 @@ no entry here is a `bitcoind only` row, or has its reason in the docstring of
   ([ISS btclib-node#1395](https://github.com/btclib-org/btclib-node/issues/1395)).
 - `p2p_getaddr_caching.py`: Core's claim, bitcoind's test running on
   `UnboundBitcoindAdapter`. Skips on `peer_timeout`.
-- `mempool_reorg.py`: Core's claim in full. The (relay) row fails: the node
-  serves a transaction it never announced
-  ([ISS btclib-node#2157](https://github.com/btclib-org/btclib-node/issues/2157)).
+- `mempool_reorg.py`: Core's claim in full.
 - `interface_rpc.py`: the work queue step is read off the HTTP reply, not
   through `bitcoin-cli`
   ([ISS 49](https://github.com/btclib-org/functional-tests/issues/49)).
@@ -1529,17 +1527,11 @@ no entry here is a `bitcoind only` row, or has its reason in the docstring of
   block-relay-only log row on `debug_log`. The block-relay-only wire row
   fails: `getnetworkinfo` answers no `localrelay`
   ([ISS btclib-node#2128](https://github.com/btclib-org/btclib-node/issues/2128)).
-- `p2p_leak_tx.py`: the (unannounced) row fails: the node answers a
-  `getdata` for a transaction it never announced
-  ([ISS btclib-node#2157](https://github.com/btclib-org/btclib-node/issues/2157)).
 - `p2p_orphan_handling.py`: every row skips on `orphanage` on a build that
   serves no `getorphantxs`
   ([ISS btclib-node#1420](https://github.com/btclib-org/btclib-node/issues/1420)).
   On one that does, each **skip** row skips on a later capability. The
-  (arrival timing) row fails on a `getdata` answered for a transaction
-  never announced
-  ([ISS btclib-node#2157](https://github.com/btclib-org/btclib-node/issues/2157)),
-  the (rejected parents) row on the child of a witness-stripped parent
+  (rejected parents) row fails on the child of a witness-stripped parent
   being refused
   ([ISS btclib-node#2159](https://github.com/btclib-org/btclib-node/issues/2159)),
   the (parent confirmed) row on an orphan that stays one once its parent
