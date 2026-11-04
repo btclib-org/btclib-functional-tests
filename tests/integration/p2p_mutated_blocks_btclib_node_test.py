@@ -14,8 +14,8 @@ The mutated-block halves have the node dial the test, and ask for
 `Capability.TYPED_OUTBOUND`, declared per build
 (`btclib_node.py`'s own docstring); the log half is a counted skip on
 `Capability.DEBUG_LOG`, bitcoind's alone. The missing-parent log half
-asks for `Capability.TEST_ACTIVATION_HEIGHT` and `Capability.DEBUG_LOG`,
-neither declared by any build.
+asks for `Capability.TEST_ACTIVATION_HEIGHT`, declared per build, and
+`Capability.DEBUG_LOG` too.
 
     export TF2_INTEGRATION=1 TF2_BTCLIB_NODE_PYTHON=<python>
     uv run pytest tests/integration/p2p_mutated_blocks_btclib_node_test.py

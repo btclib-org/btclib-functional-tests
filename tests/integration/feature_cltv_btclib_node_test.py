@@ -6,11 +6,11 @@ r"""Core's `feature_cltv`, rewritten on this harness: btclib-node.
 
 `feature_cltv_test.py` beside this module holds the bodies, run here
 against the target rather than the oracle (rule 3 of issue
-btclib-org/btclib#2220). `Capability.TEST_ACTIVATION_HEIGHT` is not
-declared (`feature_dersig_btclib_node_test.py` has the measurement), nor
-is `Capability.ACCEPT_NON_STANDARD` (`btclib_node.py`'s own docstring
-has it), so every body asking for either is a counted skip; the block
-refusals ask for neither.
+btclib-org/btclib#2220). `Capability.TEST_ACTIVATION_HEIGHT` is
+declared per build, and `Capability.ACCEPT_NON_STANDARD` by none
+(`btclib_node.py`'s own docstring has both), so the mempool body is a
+counted skip; the log body also asks for `Capability.DEBUG_LOG`,
+bitcoind's alone.
 
     export TF2_INTEGRATION=1 TF2_BTCLIB_NODE_PYTHON=<python>
     uv run pytest \
@@ -45,7 +45,7 @@ def test_cltv_activates_one_block_before_the_configured_height(
     btclib_node_cluster: Callable[[int], list[BtclibNodeAdapter]],
     skip_counts: SkipCounts,
 ) -> None:
-    """The target: skipped on `Capability.TEST_ACTIVATION_HEIGHT`."""
+    """The target: the body this module's docstring names, over btclib-node."""
     cltv_activates_one_block_before_the_configured_height(
         btclib_node_cluster, skip_counts
     )
@@ -55,7 +55,7 @@ def test_a_version_3_block_is_refused_once_active(
     btclib_node_cluster: Callable[[int], list[BtclibNodeAdapter]],
     skip_counts: SkipCounts,
 ) -> None:
-    """The target: skipped on `Capability.TEST_ACTIVATION_HEIGHT`."""
+    """The target: the body this module's docstring names, over btclib-node."""
     a_version_3_block_is_refused_once_active(btclib_node_cluster, skip_counts)
 
 
@@ -63,7 +63,7 @@ def test_a_version_3_block_is_logged_once_active(
     btclib_node_cluster: Callable[[int], list[BtclibNodeAdapter]],
     skip_counts: SkipCounts,
 ) -> None:
-    """The target: skipped on `Capability.TEST_ACTIVATION_HEIGHT`."""
+    """The target: the body this module's docstring names, over btclib-node."""
     a_version_3_block_is_logged_once_active(btclib_node_cluster, skip_counts)
 
 
@@ -71,7 +71,7 @@ def test_cltv_failures_are_mined_until_the_configured_height(
     btclib_node_cluster: Callable[[int], list[BtclibNodeAdapter]],
     skip_counts: SkipCounts,
 ) -> None:
-    """The target: skipped on `Capability.TEST_ACTIVATION_HEIGHT`."""
+    """The target: the body this module's docstring names, over btclib-node."""
     cltv_failures_are_mined_until_the_configured_height(
         btclib_node_cluster, skip_counts
     )
@@ -89,5 +89,5 @@ def test_cltv_failures_are_refused_in_a_block(
     btclib_node_cluster: Callable[[int], list[BtclibNodeAdapter]],
     skip_counts: SkipCounts,
 ) -> None:
-    """The target: the block refusals, which ask for neither capability."""
+    """The target: the block refusals, which ask for `Capability.MINE` alone."""
     cltv_failures_are_refused_in_a_block(btclib_node_cluster, skip_counts)
