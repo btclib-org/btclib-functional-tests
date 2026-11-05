@@ -74,16 +74,13 @@ classifiers = [
 ]
 
 [project.urls]
-# no `documentation` and no `changelog`: this tree publishes nothing,
-# and `changelog` is the name a publisher here gives `RELEASE_NOTES.md`,
-# which section 2 gives a tier-1 tree alone (section 3). `homepage` and
-# `download` have a referent regardless: a releasing tree's `homepage`
-# is its own documentation site, and this tree releases nothing, so its
-# home is the organization's own site,
-# the same choice btclib-benchmarks makes for the same reason -- and
-# `repository` below already carries this repository's own page, which a
-# reader following the *About* link is already looking at
-homepage = "https://btclib.org"
+# `homepage` is this repository's page on btclib.org, and
+# `documentation` the site REPOSITORY.md's *Read the Docs* reads back
+# (section 3, btclib-org/.github#1974). No `changelog`: it is the name a
+# publisher here gives `RELEASE_NOTES.md`, which section 2 gives a
+# tier-1 tree alone (section 3).
+homepage = "https://btclib.org/functional-tests/"
+documentation = "https://btclib-functional-tests.readthedocs.io/"
 download = "https://github.com/btclib-org/functional-tests/releases"
 repository = "https://github.com/btclib-org/functional-tests"
 issues = "https://github.com/btclib-org/functional-tests/issues"

@@ -16,8 +16,8 @@ for one of those answers alongside it. That is this file's scope, and
 The topics and `.homepage` have a second form in the tree —
 `pyproject.toml`'s `keywords` and its `[project.urls] homepage` — so
 each is read back here for comparison rather than as the only place the
-answer lives, which is what *Topics* and *What this file passes over*
-say of them. This tree publishes nothing: *Publishing* below says what
+answer lives, which is what *Topics* and *Creating the repository* say
+of them. This tree publishes no package: *Publishing* below says what
 is absent. *Read the Docs* below records the project the docs build on.
 
 Each section carries the command that sets its setting and the command
@@ -65,8 +65,8 @@ git push git@github.com:btclib-org/functional-tests.git main
 Then the switches section 11 turns off or on at the repository level, in
 one call — the projects board and the wiki off, the tracker on, squash as
 the only merge method with auto-merge, the head branch deleted on merge,
-and the squash commit's title and body. `homepage` is set apart, under *A
-field the standard scopes to a releasing tree* below.
+and the squash commit's title and body — together with the `.homepage`,
+section 3's page on btclib.org:
 
 ```shell
 gh api -X PATCH repos/btclib-org/functional-tests \
@@ -75,7 +75,8 @@ gh api -X PATCH repos/btclib-org/functional-tests \
   -F allow_rebase_merge=false -F allow_auto_merge=true \
   -F delete_branch_on_merge=true \
   -f squash_merge_commit_title=COMMIT_OR_PR_TITLE \
-  -f squash_merge_commit_message=COMMIT_MESSAGES
+  -f squash_merge_commit_message=COMMIT_MESSAGES \
+  -f homepage=https://btclib.org/functional-tests/
 ```
 
 Read back:
@@ -88,12 +89,16 @@ gh api repos/btclib-org/functional-tests \
 #  "visibility":"public","wiki":false}
 gh api repos/btclib-org/functional-tests/pages
 # {"message":"Not Found", ...}, gh: Not Found (HTTP 404)
+gh api repos/btclib-org/functional-tests --jq .homepage
+# https://btclib.org/functional-tests/
 ```
 
 `has_issues` is what `CONTRIBUTING.md`'s *The issue tracker* rests on,
 and so does `.github/ISSUE_TEMPLATE/`. The Pages call is expected to
 answer `404`: this tree serves no GitHub Pages site, and a recorded `404`
-is what makes a later flip visible.
+is what makes a later flip visible. The `.homepage` line was read on
+2026-11-05, for comparison with `pyproject.toml`'s `[project.urls]
+homepage`, which carries the same URL.
 
 ## Required checks on main
 
@@ -657,25 +662,3 @@ store is read too:
 gh api repos/btclib-org/functional-tests/actions/variables --jq .total_count
 # 0
 ```
-
-**A field the standard scopes to a releasing tree.** `.homepage` is the
-*About* link on this repository's page and `pyproject.toml`'s
-`[project.urls] homepage` is the same URL, so what is checkable here is
-that the two surfaces still agree:
-
-```shell
-diff <(gh api repos/btclib-org/functional-tests --jq '.homepage') \
-     <(sed -n '/^\[project.urls\]/,/^\[/p' pyproject.toml \
-       | sed -n 's/^homepage = "\(.*\)"$/\1/p')
-# (empty)
-```
-
-Which URL it is, and why it is the organization site rather than
-something of this tree's, is at that key in `pyproject.toml` and nowhere
-here: no limb of the scope at the top reaches the field in a tree that
-releases nothing, so this file holds it to no value beyond the agreement
-checked above. Section 3 states the rule of "a releasing tree's
-`homepage`"; section 16's checklist sets the field "where the tree
-releases"; and section 11 calls it "a releasing tree's" where it names
-what a copy records that has another form in the tree. *Publishing*
-above is this repository's answer to releasing.
