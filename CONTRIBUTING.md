@@ -812,10 +812,9 @@ Which day each of the rest runs is section 10 of
 [the organization standard](https://github.com/btclib-org/.github), and
 not this file's to restate.
 
-The required checks run on `ubuntu-latest`. Those other than
-`sourcery.yml`'s run the suite, the hooks, the docs build and the
-integration tests on the version `.python-version` names. Sourcery's
-analysis runs on the interpreter its wheel bundles, which the header of
-btclib-org/.github's `reusable-sourcery.yml` names. `claude-review`
-gates nothing: a review that gates a merge would make a model's
-judgement a branch rule.
+The required checks run on `ubuntu-latest`. The suite, pre-commit, the
+docs build and the integration tests run on the version
+`.python-version` names; Sourcery's analysis runs on the interpreter its
+wheel bundles, which the header of btclib-org/.github's
+`reusable-sourcery.yml` names. `claude-review` gates nothing: a review
+that gates a merge would make a model's judgement a branch rule.
