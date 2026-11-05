@@ -330,9 +330,10 @@ def _self_announcement_test(
             receiver.sync_with_ping()
             receiver.sync_with_ping()
 
+        # one self-announcement, to either kind of peer
+        assert receiver.self_announcements_received == 1
         if outbound:
-            # the node's only self-announcement to an outbound peer
-            assert receiver.self_announcements_received == 1
+            # and nothing else to an outbound peer
             assert receiver.addr_messages_received == 1
             assert receiver.addresses_received == 1
             # announced the tip, the peer is one the node does not evict
@@ -346,7 +347,6 @@ def _self_announcement_test(
         else:
             # the self-announcement, then the answer to the `getaddr`,
             # or both in one message
-            assert receiver.self_announcements_received == 1
             assert receiver.addr_messages_received == (2 if first_alone else 1)
             assert receiver.addresses_received > 1
 
@@ -455,8 +455,8 @@ def _externalip_bypasses_onlynet(node: NodeAdapter) -> bool:
     """
     if not isinstance(node, BitcoindAdapter):
         return True
-    version = node.rpc.call("getnetworkinfo")["version"]
-    return bool(version >= _EXTERNALIP_BYPASSES_ONLYNET_VERSION)
+    version: int = node.rpc.call("getnetworkinfo")["version"]
+    return version >= _EXTERNALIP_BYPASSES_ONLYNET_VERSION
 
 
 def externalip_bypasses_onlynet(cluster: _Cluster, skip_counts: SkipCounts) -> None:

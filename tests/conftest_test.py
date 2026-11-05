@@ -402,7 +402,7 @@ def test_cov_is_not_the_last_token_of_addopts() -> None:
     match = re.search(r'^addopts = "(.*)"$', text, re.MULTILINE)
     assert match, "pyproject.toml has no single-line 'addopts = \"...\"'"
 
-    addopts = match.group(1).split()
+    addopts = match[1].split()
     assert "--cov" in addopts, "the local coverage gate is --cov in addopts"
     assert addopts[-1] != "--cov", (
         "--cov is the last token of addopts, so it will swallow the first "
@@ -847,14 +847,14 @@ def test_fold_worker_tally_defaults_to_no_counts_without_the_key() -> None:
     """A `workeroutput` that never stashed a tally folds in nothing."""
     counts = SkipCounts()
     fold_worker_tally(counts, {})
-    assert list(counts) == []
+    assert not list(counts)
 
 
 def test_fold_worker_tally_does_nothing_without_a_workeroutput() -> None:
     """No `workeroutput`, the worker never having got that far, is a no-op."""
     counts = SkipCounts()
     fold_worker_tally(counts, None)
-    assert list(counts) == []
+    assert not list(counts)
 
 
 class _BuiltWith(NodeAdapter):

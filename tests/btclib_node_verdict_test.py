@@ -608,7 +608,7 @@ def test_every_test_function_is_a_row_or_a_harness_test(verdict: ModuleType) -> 
         for function in functions
         if verdict.row_of(stem, function) is None and stem not in verdict._NO_ROW
     ]
-    assert unrowed == []
+    assert not unrowed
 
 
 def test_every_table_entry_names_a_test_that_exists(verdict: ModuleType) -> None:

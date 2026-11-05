@@ -183,8 +183,7 @@ class _Conn(Conn):
             self.block_announced = True
             self.last_blockhash_announced = Inv.parse(message.payload).items[-1].hash
         elif message.command == "headers":
-            headers = Headers.parse(message.payload, check_validity=False).headers
-            if headers:
+            if headers := Headers.parse(message.payload, check_validity=False).headers:
                 self.block_announced = True
                 # headers may be announced over several messages
                 self.recent_headers_announced += [header.hash for header in headers]
@@ -512,14 +511,13 @@ def _part_2(net: _Network, test_node: _Conn, inv_node: _Conn, block_time: int) -
                 for block in blocks:
                     inv_node.send_block_inv(block.header.hash)
                 test_node.wait_for_getdata([block.header.hash for block in blocks])
-                inv_node.sync_with_ping()
             else:
                 test_node.send_header_for_blocks(blocks)
                 test_node.wait_for_getdata([block.header.hash for block in blocks])
                 # a duplicate `headers` causes no duplicate `getdata`,
                 # checked below
                 inv_node.send_header_for_blocks(blocks)
-                inv_node.sync_with_ping()
+            inv_node.sync_with_ping()
             for block in blocks:
                 test_node.send_block(block)
             test_node.sync_with_ping()
@@ -643,7 +641,7 @@ def _part_4(net: _Network, test_node: _Conn, inv_node: _Conn) -> tuple[bytes, in
 
     # one header on the fork, less work than the tip: not fetched
     test_node.clear("getdata")
-    test_node.send_header_for_blocks(blocks[0:1])
+    test_node.send_header_for_blocks(blocks[:1])
     test_node.sync_with_ping()
     assert not test_node.has("getdata")
 
@@ -651,7 +649,7 @@ def _part_4(net: _Network, test_node: _Conn, inv_node: _Conn) -> tuple[bytes, in
     test_node.send_header_for_blocks(blocks[1:2])
     test_node.sync_with_ping()
     test_node.wait_for_getdata(
-        [block.header.hash for block in blocks[0:2]],
+        [block.header.hash for block in blocks[:2]],
         timeout=_DIRECT_FETCH_RESPONSE_TIME,
     )
 

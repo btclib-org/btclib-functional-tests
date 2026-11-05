@@ -372,8 +372,7 @@ def verdicts(
                 f" no commit touching `{gone}` at all"
             )
             continue
-        moved = [path for path, (sha, _) in latest.items() if has_moved(pin, sha)]
-        if moved:
+        if moved := [path for path, (sha, _) in latest.items() if has_moved(pin, sha)]:
             changes = "; ".join(
                 f"`{path}` last changed on master in `{latest[path][0]}`"
                 f" ({latest[path][1]})"

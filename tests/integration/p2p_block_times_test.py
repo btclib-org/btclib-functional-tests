@@ -163,8 +163,8 @@ def _reports_announcement(node: NodeAdapter) -> bool:
     """
     if not isinstance(node, BitcoindAdapter):
         return True
-    version = node.rpc.call("getnetworkinfo")["version"]
-    return bool(version >= _LAST_BLOCK_ANNOUNCEMENT_VERSION)
+    version: int = node.rpc.call("getnetworkinfo")["version"]
+    return version >= _LAST_BLOCK_ANNOUNCEMENT_VERSION
 
 
 def _peer_info(node: NodeAdapter) -> dict[str, object]:

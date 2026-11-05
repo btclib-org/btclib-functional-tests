@@ -245,6 +245,33 @@ def _disable_flag(
     mempool.append(tx2)
 
 
+def _locked_sequence(
+    node: NodeAdapter, utxo: Utxo, tip: int, *, will_pass: bool
+) -> int:
+    """Return the relative lock of one input of Core's random spends.
+
+    A height lock of the coin's confirmations, one more where the input is
+    not to pass, and on a coin flip the time lock of the same span instead.
+    """
+    confirmations = tip - utxo.height + 1 if utxo.confirmed else 0
+    sequence = confirmations
+    if not will_pass:
+        sequence += 1
+    # the median time past of the block before the coin's own
+    orig_time = _median_time_past(node, confirmations)
+    cur_time = _median_time_past(node, 0)
+    elapsed = cur_time - orig_time
+    can_time_lock = (elapsed >> SEQUENCE_LOCKTIME_GRANULARITY) < SEQUENCE_LOCKTIME_MASK
+    if random.randint(0, 1) and can_time_lock:
+        time_delta = sequence << SEQUENCE_LOCKTIME_GRANULARITY
+        if will_pass and time_delta > elapsed:
+            sequence = elapsed >> SEQUENCE_LOCKTIME_GRANULARITY
+        elif not will_pass and time_delta <= elapsed:
+            sequence = (elapsed >> SEQUENCE_LOCKTIME_GRANULARITY) + 1
+        sequence |= SEQUENCE_LOCKTIME_TYPE_FLAG
+    return sequence
+
+
 def _confirmed_inputs(
     nodes: Sequence[NodeAdapter], wallet: MiniWallet, fee: int, mempool: list[Tx]
 ) -> None:
@@ -271,25 +298,8 @@ def _confirmed_inputs(
                 using_sequence_locks = True
                 # one in ten is locked to what its coin already meets
                 input_will_pass = random.randint(1, 10) == 1
-                confirmations = tip - utxo.height + 1 if utxo.confirmed else 0
-                sequence = confirmations
-                if not input_will_pass:
-                    sequence += 1
-                    should_pass = False
-                # the median time past of the block before the coin's own
-                orig_time = _median_time_past(node, confirmations)
-                cur_time = _median_time_past(node, 0)
-                elapsed = cur_time - orig_time
-                can_time_lock = (
-                    elapsed >> SEQUENCE_LOCKTIME_GRANULARITY
-                ) < SEQUENCE_LOCKTIME_MASK
-                if random.randint(0, 1) and can_time_lock:
-                    time_delta = sequence << SEQUENCE_LOCKTIME_GRANULARITY
-                    if input_will_pass and time_delta > elapsed:
-                        sequence = elapsed >> SEQUENCE_LOCKTIME_GRANULARITY
-                    elif not input_will_pass and time_delta <= elapsed:
-                        sequence = (elapsed >> SEQUENCE_LOCKTIME_GRANULARITY) + 1
-                    sequence |= SEQUENCE_LOCKTIME_TYPE_FLAG
+                should_pass = should_pass and input_will_pass
+                sequence = _locked_sequence(node, utxo, tip, will_pass=input_will_pass)
             sequences.append(sequence)
 
         # Core's own overestimate of the size: the unsigned inputs, and room

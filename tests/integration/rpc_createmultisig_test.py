@@ -300,7 +300,7 @@ def _do_multisig(
 
     out_spk = _new_destination()
     rawtx = _unsigned(outpoint, out_spk, _OUT_VALUE)
-    partial = priv_keys[0 : nsigs - 1]
+    partial = priv_keys[: nsigs - 1]
     sign = "signrawtransactionwithkey"
 
     prevtx_err = dict(prevtxs[0])

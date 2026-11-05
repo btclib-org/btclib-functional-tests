@@ -112,6 +112,7 @@ from tests.integration.script_verify_flag_test import bitcoind_version
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Sequence
+    from decimal import Decimal
 
     from btclib_functional_tests.capability import SkipCounts
     from btclib_functional_tests.node import NodeAdapter
@@ -282,7 +283,9 @@ def _raise_network_minfee(nodes: Sequence[NodeAdapter]) -> None:
 
         def _above(node: NodeAdapter = node) -> bool:
             info = node.rpc.call("getmempoolinfo")
-            return bool(info["mempoolminfee"] > info["minrelaytxfee"])
+            minfee: Decimal = info["mempoolminfee"]
+            relayfee: Decimal = info["minrelaytxfee"]
+            return minfee > relayfee
 
         wait_until(_above, timeout=_WAIT)
 

@@ -396,8 +396,7 @@ class _Destination:
             self.send(Pong(Ping.parse(message.payload).nonce))
         elif message.command == "inv":
             items = Inv.parse(message.payload).items
-            wanted = [i for i in items if i.type_code != InventoryType.UNDEFINED]
-            if wanted:
+            if wanted := [i for i in items if i.type_code != InventoryType.UNDEFINED]:
                 self.send(GetData(wanted))
         elif message.command == "getdata":
             for item in GetData.parse(message.payload).items:
@@ -460,13 +459,13 @@ class _Destinations:
         with self.lock:
             i = len(self.destinations)
             listener = None
-            if conn_type == "private-broadcast" and not any(
-                d.conn_type == "private-broadcast" for d in self.destinations
+            if conn_type == "private-broadcast" and all(
+                d.conn_type != "private-broadcast" for d in self.destinations
             ):
                 address = self.receiver
             else:
-                if conn_type == "outbound-full-relay" and not any(
-                    d.conn_type == "outbound-full-relay" for d in self.destinations
+                if conn_type == "outbound-full-relay" and all(
+                    d.conn_type != "outbound-full-relay" for d in self.destinations
                 ):
                     listener = _Destination(data_store=True)
                 elif conn_type == "private-broadcast" and self.trigger_no_relay_peer:
@@ -526,8 +525,8 @@ def _newer(node: NodeAdapter) -> bool:
     """
     if not isinstance(node, BitcoindAdapter):
         return True
-    version = node.rpc.call("getnetworkinfo")["version"]
-    return bool(version >= _PRIVATE_BROADCAST_RPCS_VERSION)
+    version: int = node.rpc.call("getnetworkinfo")["version"]
+    return version >= _PRIVATE_BROADCAST_RPCS_VERSION
 
 
 def _raw(tx: Tx) -> str:
@@ -556,8 +555,7 @@ def _wait_for_tx(peer: Peer, tx: Tx) -> None:
             peer.send(Pong(Ping.parse(message.payload).nonce))
         elif message.command == "inv":
             items = Inv.parse(message.payload).items
-            wanted = [i for i in items if i.type_code != InventoryType.UNDEFINED]
-            if wanted:
+            if wanted := [i for i in items if i.type_code != InventoryType.UNDEFINED]:
                 peer.send(GetData(wanted))
         elif (
             message.command == "tx" and TxPayload.parse(message.payload).tx.id == tx.id
@@ -673,7 +671,7 @@ def _check_broadcasts(
     else:
         assert "attempts_remaining" not in pending[0]
     assert all("address" in p and "sent" in p for p in peers)
-    assert sum(1 for p in peers if "received" in p) >= broadcasts_to_expect
+    assert sum("received" in p for p in peers) >= broadcasts_to_expect
 
 
 def _refused_without_private_broadcast(node: NodeAdapter) -> None:
@@ -893,7 +891,7 @@ def transactions_are_broadcast_privately(
             for t in pbinfo["transactions"]
             if t["txid"] == txs[0].id.hex() and t["wtxid"] == txs[0].hash.hex()
         ]
-        assert len(pending) == 0
+        assert not pending
 
         # a transaction already in the mempool
         skip_destinations = len(proxied.destinations)

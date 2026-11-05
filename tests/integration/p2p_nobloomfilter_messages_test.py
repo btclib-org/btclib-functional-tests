@@ -73,8 +73,8 @@ def _disconnects(adapter: NodeAdapter) -> bool:
     """
     if not isinstance(adapter, BitcoindAdapter):
         return True
-    version = adapter.rpc.call("getnetworkinfo")["version"]
-    return bool(version >= _DISCONNECT_VERSION)
+    version: int = adapter.rpc.call("getnetworkinfo")["version"]
+    return version >= _DISCONNECT_VERSION
 
 
 def _filtered_block_request(

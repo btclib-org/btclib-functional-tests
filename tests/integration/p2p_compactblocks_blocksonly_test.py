@@ -177,8 +177,8 @@ def _blocksonly_ignores_cmpctblock(node: NodeAdapter) -> bool:
     """
     if not isinstance(node, BitcoindAdapter):
         return True
-    version = node.rpc.call("getnetworkinfo")["version"]
-    return bool(version >= _BLOCKSONLY_IGNORES_CMPCTBLOCK_VERSION)
+    version: int = node.rpc.call("getnetworkinfo")["version"]
+    return version >= _BLOCKSONLY_IGNORES_CMPCTBLOCK_VERSION
 
 
 def blocksonly_node_neither_asks_for_nor_takes_compact_blocks(

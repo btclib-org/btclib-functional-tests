@@ -89,7 +89,7 @@ def test_a_zero_timeout_reads_the_log_once(
         log_path.open("a", encoding="utf-8") as log_file,
     ):
         log_file.write("expected line\n")
-    assert sleeps == []
+    assert not sleeps
 
 
 def test_timeout_is_scaled_by_the_global_factor(tmp_path: Path) -> None:
@@ -142,7 +142,7 @@ def test_no_expected_substring_reads_the_log_once(
     monkeypatch.setattr("time.sleep", sleeps.append)
     with assert_debug_log(log_path, [], ["unwanted"], timeout=1000.0):
         pass
-    assert sleeps == []
+    assert not sleeps
 
 
 def test_no_expected_substring_still_fails_on_an_unexpected_one(

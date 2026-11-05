@@ -199,7 +199,7 @@ def test_report_does_nothing_where_nothing_was_open(
 ) -> None:
     """No disagreement and no open issue: nothing to close either."""
     census.report("title", "a" * 40, [], [])
-    assert not any(call[1:3] == ["issue", "close"] for call in fake_gh.calls)
+    assert all(call[1:3] != ["issue", "close"] for call in fake_gh.calls)
 
 
 _PER_TEST = "## The per-test ledger"
@@ -250,7 +250,7 @@ def test_main_end_to_end(
     out = capsys.readouterr().out
     assert "GAINED: signet.py" in out
     assert "BEHIND: `rpc_whitelist.py`: `fa24693819e0` -> `fad441867c9b`" in out
-    assert not any(call[1] == "issue" for call in fake_gh.calls)
+    assert all(call[1] != "issue" for call in fake_gh.calls)
 
     monkeypatch.setattr(sys, "argv", _argv(ledger, dry_run=False))
     assert census.main() == 0
