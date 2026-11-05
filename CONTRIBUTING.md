@@ -427,6 +427,10 @@ uv run --locked --exact --no-default-groups --group docs \
     sphinx-build -n -W -b html docs/source docs/build/html
 ```
 
+The documentation gate also runs the checks of the built pages that
+*Reproducing what CI runs* gives under `docs.yml`, `check_included_links.py`
+among them.
+
 `uv run pytest` above never reaches `tests/integration`'s own bodies:
 `TF2_INTEGRATION` is unset, so each skips itself and `[tool.coverage.run]`'s
 `omit` leaves the ratchet measuring what that run actually executed.
@@ -658,7 +662,7 @@ uv run --locked --only-group lint \
     pre-commit run --all-files --show-diff-on-failure
 ```
 
-`docs.yml`, the `docs` job -- the build, and then a read of the pages it
+`docs.yml`, the `docs` job -- the build, and then reads of the pages it
 wrote. `reusable-docs.yml`'s own command carries no `--exact`, needing
 none: a job's venv is fresh per run, which is what `--exact` reproduces
 locally, added below for that reason and not present in the workflow
@@ -677,6 +681,26 @@ What myst renders for a destination it cannot resolve is an anchor to an
 id no page has. `-W` reports it because `docs/source/conf.py` resolves the
 links the included root files carry and suppresses no myst warning; the
 `grep` is what still finds one the day a suppression goes back in.
+
+Last, the job runs btclib-org/.github's `check_included_links.py`, at the
+commit `docs.yml` pins, over the same pages. It fails on a link to a file
+the docs render that is left at the repository's `/blob/main/` address
+rather than at the file's page here. Section 2 of the standard, *The
+documentation*, is the rule:
+
+```shell
+served=$(mktemp -d)
+git clone --quiet --filter=blob:none --sparse \
+    https://github.com/btclib-org/.github "$served"
+git -C "$served" sparse-checkout set .github/scripts
+git -C "$served" checkout --quiet \
+    "$(sed -n 's/.*reusable-docs\.yml@\([0-9a-f]*\).*/\1/p' .github/workflows/docs.yml)"
+found=0
+uv run --no-project --python 3.15 \
+    "$served"/.github/scripts/check_included_links.py docs/build/html || found=$?
+rm -rf "$served"
+test "$found" -eq 0
+```
 
 `vendored-vectors.yml`, the `vectors` job re-checks every framework pin
 of `TF2.md` already at upstream's tip; the `census` job re-reads
