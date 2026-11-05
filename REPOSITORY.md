@@ -114,6 +114,7 @@ nothing.
 | `bitcoind / Regtest against Bitcoin Core` | `node-integration.yml` |
 | `lint / Dependency review` | `lint.yml`, calling `reusable-lint.yml` |
 | `lint / Sign-off` | `lint.yml`, calling `reusable-lint.yml` |
+| `sourcery / Sourcery` | `sourcery.yml`, calling `reusable-sourcery.yml` |
 
 A merge through the maintainer's bypass waits for none of these checks,
 as `CONTRIBUTING.md`'s *Landing it* says.
@@ -126,6 +127,10 @@ documentation` produces `docs / Build the documentation`, and
 against Bitcoin Core` produces `bitcoind / Regtest against Bitcoin Core`.
 A context is matched by name, not by the workflow that reported it, so
 moving a job is free and renaming one is not.
+
+[Section 10 of the
+standard](https://github.com/btclib-org/.github#the-set-and-its-cadence)
+says when a tree requires `sourcery / Sourcery`.
 
 `node-integration.yml`'s other jobs -- `older-core`, `btclib-node`,
 `core-master` and `btclib-node-main` -- produce no required check: each
@@ -192,22 +197,23 @@ gh api repos/btclib-org/functional-tests/branches/main/protection \
          enforce_admins: .enforce_admins.enabled,
          linear: .required_linear_history.enabled,
          conversation: .required_conversation_resolution.enabled}'
-# (Read on 2026-10-13, after strict was turned off.)
+# (Read on 2026-11-05T07:17:35Z, after sourcery / Sourcery was added.)
 # {"checks":[["test: every job passed",15368],
 #            ["docs / Build the documentation",15368],
 #            ["lint / Lint and type-check",15368],
 #            ["bitcoind / Regtest against Bitcoin Core",15368],
 #            ["lint / Dependency review",15368],
-#            ["lint / Sign-off",15368]],
+#            ["lint / Sign-off",15368],
+#            ["sourcery / Sourcery",15368]],
 #  "conversation":true,"enforce_admins":false,"linear":true,
 #  "reviews":{"dismiss_stale_reviews":true,
 #             "required_approving_review_count":1},"strict":false}
 ```
 
-`bitcoind / Regtest against Bitcoin Core`, `lint / Dependency review` and
-`lint / Sign-off` were added after the `PUT` above. A check added later
-goes through the sub-endpoint alone, the sentence above's reason for never
-repeating the whole `PUT`:
+`bitcoind / Regtest against Bitcoin Core`, `lint / Dependency review`,
+`lint / Sign-off` and `sourcery / Sourcery` were added after the `PUT`
+above. A check added later goes through the sub-endpoint alone, the
+sentence above's reason for never repeating the whole `PUT`:
 
 ```shell
 branch=repos/btclib-org/functional-tests/branches/main
@@ -219,7 +225,8 @@ gh api -X PATCH "$branch"/protection/required_status_checks \
    {"context": "lint / Lint and type-check", "app_id": 15368},
    {"context": "bitcoind / Regtest against Bitcoin Core", "app_id": 15368},
    {"context": "lint / Dependency review", "app_id": 15368},
-   {"context": "lint / Sign-off", "app_id": 15368}]}
+   {"context": "lint / Sign-off", "app_id": 15368},
+   {"context": "sourcery / Sourcery", "app_id": 15368}]}
 JSON
 ```
 
@@ -228,13 +235,14 @@ Read back:
 ```shell
 gh api "$branch"/protection/required_status_checks \
   --jq '{checks: [.checks[] | [.context, .app_id]], strict}'
-# (Read on 2026-10-13, after strict was turned off.)
+# (Read on 2026-11-05T07:17:35Z, after sourcery / Sourcery was added.)
 # {"checks":[["test: every job passed",15368],
 #            ["docs / Build the documentation",15368],
 #            ["lint / Lint and type-check",15368],
 #            ["bitcoind / Regtest against Bitcoin Core",15368],
 #            ["lint / Dependency review",15368],
-#            ["lint / Sign-off",15368]],
+#            ["lint / Sign-off",15368],
+#            ["sourcery / Sourcery",15368]],
 #  "strict":false}
 ```
 

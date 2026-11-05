@@ -128,10 +128,9 @@ class _Conn(Conn):
         super()._handle(message)
         if message.command == "inv":
             items = Inv.parse(message.payload).items
-            wanted = [
+            if wanted := [
                 item for item in items if item.type_code != InventoryType.UNDEFINED
-            ]
-            if wanted:
+            ]:
                 self.send(GetData(wanted))
 
     @override

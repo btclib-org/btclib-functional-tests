@@ -26,18 +26,19 @@ _SOURCES = ("src", "tests", "docs", ".github")
 
 def _docstrings() -> list[tuple[str, str]]:
     """Return each docstring of the tree, beside the file holding it."""
-    found = []
+    found: list[tuple[str, str]] = []
     for source in _SOURCES:
         for path in sorted((_ROOT / source).rglob("*.py")):
             tree = ast.parse(path.read_text(encoding="utf-8"))
-            for node in ast.walk(tree):
+            found.extend(
+                (str(path.relative_to(_ROOT)), docstring)
+                for node in ast.walk(tree)
                 if isinstance(
                     node,
                     ast.Module | ast.ClassDef | ast.FunctionDef | ast.AsyncFunctionDef,
-                ):
-                    docstring = ast.get_docstring(node, clean=False)
-                    if docstring:
-                        found.append((str(path.relative_to(_ROOT)), docstring))
+                )
+                and (docstring := ast.get_docstring(node, clean=False))
+            )
     return found
 
 

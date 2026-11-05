@@ -716,9 +716,11 @@ python .github/scripts/tf2_ledger_census.py \
     "TF2.md per-test rows behind upstream" --dry-run
 ```
 
-`codeql.yml` has no line here, and this repository does not carry it yet:
-none of the workflows this step ships run a tool with no `uv run` of its
-own.
+`codeql.yml` has no line here: this repository does not carry it yet.
+
+`sourcery.yml` has no line here: section 10 of
+[the organization standard](https://github.com/btclib-org/.github#the-set-and-its-cadence)
+says why it is a pull request's check and not a local gate.
 
 `node-integration.yml`, the `bitcoind` job -- btclib-org/.github's
 `reusable-integration-bitcoind.yml` is what runs it, so there is no
@@ -771,11 +773,12 @@ runs' own JUnit reports.
 
 ### What gates a merge, and what only reports
 
-`lint.yml`, `test.yml`, `docs.yml` and `node-integration.yml`'s
-`bitcoind` job produce the required checks, and `REPOSITORY.md` reads the
-rule back from the endpoint rather than restating it. So a diff does not
-reach a review without having passed them or passing them beside it on
-the same sha, which is the reliance `REVIEWING.md` provides for.
+`lint.yml`, `test.yml`, `docs.yml`, `sourcery.yml` and
+`node-integration.yml`'s `bitcoind` job produce the required checks, and
+`REPOSITORY.md` reads the rule back from the endpoint rather than
+restating it. So a diff does not reach a review without having passed
+them or passing them beside it on the same sha, which is the reliance
+`REVIEWING.md` provides for.
 
 `node-integration.yml`'s other jobs -- `older-core`, `btclib-node`,
 `btcd`, `core-master` and `btclib-node-main` -- gate nothing anywhere:
@@ -800,6 +803,7 @@ commit pushed is `verified`; [the standard's *Signatures*][s-sigs] has the rule.
 | `lint`, `docs` | pull request, push | -- |
 | `node-integration` | pull request, push | -- |
 | `claude-review` | pull request, and `@claude` in a comment | -- |
+| `sourcery` | pull request | -- |
 | `links` | weekly | -- |
 | `verified-signatures` | push to `main` | -- |
 | `vendored-vectors` | weekly | the pins in `TF2.md`, and the census |

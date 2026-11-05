@@ -60,7 +60,7 @@ def _untraced(root: Path) -> list[str]:
             for node in ast.walk(tree)
             if isinstance(node, ast.Call)
             and _is_adapter(ast.unparse(node.func), derived)
-            and not any(k.arg == "trace_rpc" for k in node.keywords)
+            and all(k.arg != "trace_rpc" for k in node.keywords)
         )
     return sorted(found)
 

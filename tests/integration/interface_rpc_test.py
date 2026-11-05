@@ -137,9 +137,9 @@ def _format_request(
         request.update(jsonrpc="2.0")
     if not options.notification:
         request.update(id=idx)
-    request.update(fields)
+    request |= fields
     if options.request_fields:
-        request.update(options.request_fields)
+        request |= options.request_fields
     return request
 
 
@@ -163,9 +163,9 @@ def _format_response(
         response.update(jsonrpc="2.0")
     else:
         response.update(result=None, error=None)
-    response.update(fields)
+    response |= fields
     if options.response_fields:
-        response.update(options.response_fields)
+        response |= options.response_fields
     return response
 
 

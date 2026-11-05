@@ -195,8 +195,8 @@ def _reports_vsize_fields(node: NodeAdapter) -> bool:
     """
     if not isinstance(node, BitcoindAdapter):
         return True
-    version = node.rpc.call("getnetworkinfo")["version"]
-    return bool(version >= _VSIZE_FIELDS_VERSION)
+    version: int = node.rpc.call("getnetworkinfo")["version"]
+    return version >= _VSIZE_FIELDS_VERSION
 
 
 class _Mempool:
@@ -474,7 +474,7 @@ def _tiny_and_anchor_spends(mempool: _Mempool, wallet: MiniWallet) -> None:
     # only the non-witness size matters
     non_witness_size = len(tx.serialize(False, check_validity=False))
     assert non_witness_size == 64
-    assert _MIN_STANDARD_TX_NONWITNESS_SIZE - 1 == 64
+    assert _MIN_STANDARD_TX_NONWITNESS_SIZE == 65
     assert len(tx.serialize(True, check_validity=False)) > 64
     mempool.check(mempool.refused(tx, "tx-size-small"), tx, maxfeerate=0)
 

@@ -994,7 +994,8 @@ def _carries(node: NodeAdapter, version: int) -> bool:
     """
     if not isinstance(node, BitcoindAdapter):
         return True
-    return bool(node.rpc.call("getnetworkinfo")["version"] >= version)
+    known: int = node.rpc.call("getnetworkinfo")["version"]
+    return known >= version
 
 
 def _sendcmpct_announcing(octet: int) -> bytes:

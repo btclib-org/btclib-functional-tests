@@ -205,8 +205,7 @@ class RelayConn(Conn):
         elif message.command == "inv":
             items = Inv.parse(message.payload).items
             self.tx_invs += [item.hash for item in items if item.type_code in _TX_TYPES]
-            wanted = [item for item in items if item.type_code]
-            if wanted:
+            if wanted := [item for item in items if item.type_code]:
                 self.send(GetData(wanted))
 
     def wait_for_getdata(self, hashes: list[bytes]) -> None:

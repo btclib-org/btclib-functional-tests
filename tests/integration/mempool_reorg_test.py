@@ -266,10 +266,9 @@ def _sync(peer: Peer, invs: set[bytes]) -> None:
             peer.send(Pong(Ping.parse(message.payload).nonce))
         elif message.command == "inv":
             items = Inv.parse(message.payload).items
-            wanted = [
+            if wanted := [
                 item for item in items if item.type_code != InventoryType.UNDEFINED
-            ]
-            if wanted:
+            ]:
                 peer.send(GetData(wanted))
             tx_types = {InventoryType.MSG_TX, InventoryType.MSG_WTX}
             invs.update(item.hash for item in items if item.type_code in tx_types)
@@ -320,7 +319,7 @@ def disconnected_transactions_are_available_for_relay(
         entry = node.rpc.call("getmempoolentry", [tx_child.id.hex()])
         assert entry["ancestorcount"] == 1
         _sync(peer1, invs)
-        assert len(invs) == 0
+        assert not invs
 
         _trigger_reorg(node, fork)
 
@@ -333,7 +332,7 @@ def disconnected_transactions_are_available_for_relay(
         # no clock has moved to announce any of them, and the two no block
         # has held are too recent to be served
         _sync(peer1, invs)
-        assert len(invs) == 0
+        assert not invs
         too_recent = [
             Inventory(InventoryType.MSG_WTX, tx.hash)
             for tx in (tx_before_reorg, tx_child)
@@ -349,7 +348,7 @@ def disconnected_transactions_are_available_for_relay(
         # served: it came back from a disconnected block
         peer1.send(GetData([Inventory(InventoryType.MSG_WTX, tx_disconnected.hash)]))
         _sync(peer1, invs)
-        assert len(invs) == 0
+        assert not invs
         assert _received_tx(peer1).hash == tx_disconnected.hash
 
         node.set_mock_time(int(time.time()) + _ANNOUNCE_ADVANCE)

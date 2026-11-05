@@ -115,10 +115,14 @@ def _not_downloaded(node: NodeAdapter, block_hash: str) -> bool:
 
 def _chain_tip_status(node: NodeAdapter, block_hash: str) -> str:
     """Return `getchaintips`' status for `block_hash`, `""` where absent."""
-    for tip in node.rpc.call("getchaintips"):
-        if tip["hash"] == block_hash:
-            return str(tip["status"])
-    return ""
+    return next(
+        (
+            str(tip["status"])
+            for tip in node.rpc.call("getchaintips")
+            if tip["hash"] == block_hash
+        ),
+        "",
+    )
 
 
 def _pongs_received(node: NodeAdapter) -> int:

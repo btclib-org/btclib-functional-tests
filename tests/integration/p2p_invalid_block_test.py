@@ -224,15 +224,13 @@ def _send_blocks_and_test(
     """
     block_hash = block.header.hash
     with _expecting(log_path, reject_reason):
-        if force_send:
-            peer.send(_block_payload(block), check_validity=False)
-        else:
+        if not force_send:
             peer.send(Headers([block.header], check_validity=False))
             if not asked:
                 peer.wait_for(
                     "getdata", predicate=_asks_for(block_hash), timeout=timeout
                 )
-            peer.send(_block_payload(block), check_validity=False)
+        peer.send(_block_payload(block), check_validity=False)
         if asked_again:
             peer.wait_for("getdata", predicate=_asks_for(block_hash), timeout=timeout)
         peer.sync_with_ping(timeout=timeout)

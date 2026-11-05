@@ -342,7 +342,8 @@ def _aborts_on_a_lagging_clock(node: NodeAdapter) -> bool:
         return True
     info = node.rpc.call("getnetworkinfo")
     assert isinstance(info, dict)
-    return bool(info["version"] >= _ABORT_VERSION)
+    version: int = info["version"]
+    return version >= _ABORT_VERSION
 
 
 def _peerinfo_includes_headers_presync_height(nodes: Sequence[_Node]) -> None:

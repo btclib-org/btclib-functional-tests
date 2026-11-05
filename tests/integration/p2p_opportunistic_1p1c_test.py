@@ -365,8 +365,8 @@ def _takes_inbound_relay_percent(node: NodeAdapter) -> bool:
     """
     if not isinstance(node, BitcoindAdapter):
         return False
-    version = node.rpc.call("getnetworkinfo")["version"]
-    return bool(version >= _INBOUND_RELAY_PERCENT_VERSION)
+    version: int = node.rpc.call("getnetworkinfo")["version"]
+    return version >= _INBOUND_RELAY_PERCENT_VERSION
 
 
 def _help_says(node: NodeAdapter, rpc: str, text: str) -> bool:

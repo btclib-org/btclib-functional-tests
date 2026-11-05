@@ -612,7 +612,7 @@ class _FakeRpc:
             assert params is not None
             self.on_disk.add(params[0])
             self.loaded.add(params[0])
-        if method == "loadwallet":
+        elif method == "loadwallet":
             assert params is not None
             self.loaded.add(params[0])
         return self._answers.get(method)

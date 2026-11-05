@@ -256,11 +256,10 @@ class _Chain:
         answer = _submit(self.node, block)
         if reject_reason:
             assert answer == reject_reason
-            assert self.node.rpc.call("getbestblockhash") == tip
         else:
             assert answer is None
             tip = block.header.hash.hex()
-            assert self.node.rpc.call("getbestblockhash") == tip
+        assert self.node.rpc.call("getbestblockhash") == tip
 
     def accept_and_invalidate(self, txs: Sequence[Tx]) -> None:
         """Check a block carrying `txs` is accepted, then take it back off."""

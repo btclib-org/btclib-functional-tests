@@ -163,8 +163,7 @@ class _MockTorControlServer:
             buf += data
             while b"\r\n" in buf:
                 line, buf = buf.split(b"\r\n", 1)
-                command = line.decode("utf-8").strip()
-                if command:
+                if command := line.decode("utf-8").strip():
                     self.received_commands.append(command)
                     conn.sendall(self._reply(command).encode("utf-8"))
 

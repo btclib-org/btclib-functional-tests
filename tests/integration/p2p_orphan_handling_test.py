@@ -383,8 +383,8 @@ def _reconsiders_on_block(node: NodeAdapter) -> bool:
     """
     if not isinstance(node, BitcoindAdapter):
         return True
-    version = node.rpc.call("getnetworkinfo")["version"]
-    return bool(version >= _RECONSIDERS_ON_BLOCK_VERSION)
+    version: int = node.rpc.call("getnetworkinfo")["version"]
+    return version >= _RECONSIDERS_ON_BLOCK_VERSION
 
 
 def parents_arriving_during_the_delay_are_not_requested(

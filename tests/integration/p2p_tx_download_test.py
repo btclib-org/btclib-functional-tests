@@ -402,12 +402,10 @@ def _preferred_inv(
             else _TxConn.inbound(stack, node)
         )
         peer.send_and_ping(_inv(InventoryType.MSG_WTX, 0xFF00FF00))
-        if connection_type != "inbound":
-            _serving_wait_until([peer], lambda: peer.tx_getdata_count >= 1, timeout=1)
-        else:
+        if connection_type == "inbound":
             assert peer.tx_getdata_count == 0
             node.set_mock_time(mock_time + _NONPREF_PEER_TX_DELAY)
-            _serving_wait_until([peer], lambda: peer.tx_getdata_count >= 1, timeout=1)
+        _serving_wait_until([peer], lambda: peer.tx_getdata_count >= 1, timeout=1)
 
 
 def an_inbound_peer_is_asked_after_the_delay(
@@ -587,8 +585,8 @@ def _deduplicates_inv(node: NodeAdapter) -> bool:
     """
     if not isinstance(node, BitcoindAdapter):
         return True
-    version = node.rpc.call("getnetworkinfo")["version"]
-    return bool(version >= _DEDUPLICATES_INV_VERSION)
+    version: int = node.rpc.call("getnetworkinfo")["version"]
+    return version >= _DEDUPLICATES_INV_VERSION
 
 
 def duplicate_inv_entries_are_processed_once(

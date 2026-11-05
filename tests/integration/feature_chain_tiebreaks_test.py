@@ -213,7 +213,8 @@ def _keeps_its_tip_across_a_restart(node: NodeAdapter) -> bool:
         return True
     info = node.rpc.call("getnetworkinfo")
     assert isinstance(info, dict)
-    return bool(info["version"] >= _TIP_KEPT_VERSION)
+    version: int = info["version"]
+    return version >= _TIP_KEPT_VERSION
 
 
 def _chain_split_in_memory(node: NodeAdapter) -> None:

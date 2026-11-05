@@ -21,7 +21,7 @@ def test_require_passes_through_a_declared_capability() -> None:
     """A capability the node declares is answered by returning, not skipping."""
     counts = SkipCounts()
     require(Capability.MINE, frozenset({Capability.MINE}), counts)
-    assert list(counts) == []
+    assert not list(counts)
 
 
 def test_require_skips_a_missing_capability() -> None:

@@ -100,8 +100,8 @@ def _own_http_server(adapter: NodeAdapter) -> bool:
     """
     if not isinstance(adapter, BitcoindAdapter):
         return True
-    version = adapter.rpc.call("getnetworkinfo")["version"]
-    return bool(version >= _HTTP_SERVER_VERSION)
+    version: int = adapter.rpc.call("getnetworkinfo")["version"]
+    return version >= _HTTP_SERVER_VERSION
 
 
 class _Connection:
@@ -121,7 +121,7 @@ class _Connection:
         )
         self.conn.connect()
         self.headers = {"Authorization": adapter.rpc.auth_header()}
-        self.headers.update(extra_headers or {})
+        self.headers |= extra_headers or {}
 
     def __enter__(self) -> Self:
         return self

@@ -217,10 +217,9 @@ def _wait_for_broadcast(peer: Peer, wtxids: set[bytes]) -> None:
             peer.send(Pong(Ping.parse(message.payload).nonce))
         elif message.command == "inv":
             items = Inv.parse(message.payload).items
-            wanted = [
+            if wanted := [
                 item for item in items if item.type_code != InventoryType.UNDEFINED
-            ]
-            if wanted:
+            ]:
                 peer.send(GetData(wanted))
             announced |= {item.hash for item in items if item.type_code in _TX_TYPES}
     peer.sync_with_ping()

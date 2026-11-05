@@ -1122,7 +1122,7 @@ def test_command_adds_nothing_where_the_build_lacks_v1transport(
     with patch.object(btclib_node_module, "_accepts_v1transport", return_value=False):
         adapter = BtclibNodeAdapter(sys.executable, tmp_path, 18443, 18444)
         command = adapter._command()
-    assert not any("v1transport" in arg for arg in command)
+    assert all("v1transport" not in arg for arg in command)
 
 
 def test_serves_mempool_entry_reads_the_probe_s_own_return_code() -> None:
