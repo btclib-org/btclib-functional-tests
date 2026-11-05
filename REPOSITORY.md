@@ -89,16 +89,18 @@ gh api repos/btclib-org/functional-tests \
 #  "visibility":"public","wiki":false}
 gh api repos/btclib-org/functional-tests/pages
 # {"message":"Not Found", ...}, gh: Not Found (HTTP 404)
-gh api repos/btclib-org/functional-tests --jq .homepage
-# https://btclib.org/functional-tests/
+diff <(gh api repos/btclib-org/functional-tests --jq .homepage) \
+     <(sed -n '/^\[project.urls\]/,/^\[/p' pyproject.toml \
+       | sed -n 's/^homepage = "\(.*\)"$/\1/p')
+# (empty)
 ```
 
 `has_issues` is what `CONTRIBUTING.md`'s *The issue tracker* rests on,
 and so does `.github/ISSUE_TEMPLATE/`. The Pages call is expected to
 answer `404`: this tree serves no GitHub Pages site, and a recorded `404`
-is what makes a later flip visible. The `.homepage` line was read on
-2026-11-05, for comparison with `pyproject.toml`'s `[project.urls]
-homepage`, which carries the same URL.
+is what makes a later flip visible. The `diff` compares `.homepage` with
+`pyproject.toml`'s `[project.urls] homepage`, and is expected empty; it
+was read on 2026-11-05.
 
 ## Required checks on main
 
