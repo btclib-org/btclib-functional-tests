@@ -150,7 +150,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Setup uv
-        uses: astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e # v10.3.2
+        uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
         with:
           enable-cache: true
       - name: Check out btclib-org/.github's scripts
@@ -203,7 +203,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Setup uv
-        uses: astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e # v10.3.2
+        uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
         with:
           enable-cache: true
       - name: Setup a second interpreter for btclib-node
@@ -301,7 +301,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Setup uv
-        uses: astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e # v10.3.2
+        uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
         with:
           enable-cache: true
       # into the runner's temporary directory, outside the checkout
@@ -372,7 +372,7 @@ jobs:
           persist-credentials: false
           path: bitcoin-core
       - name: Setup uv
-        uses: astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e # v10.3.2
+        uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
         with:
           enable-cache: true
       # build-essential, cmake and python3 are already on the image;
@@ -507,7 +507,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Setup uv
-        uses: astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e # v10.3.2
+        uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
         with:
           enable-cache: true
       - name: Setup a second interpreter for btclib-node
